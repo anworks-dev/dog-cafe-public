@@ -250,30 +250,6 @@ export default function ShopExplorer({
         </div>
       </div>
 
-      {/* Prefecture links (SEO internal links to area pages) */}
-      {prefectures.length > 0 && (
-        <div className="px-4 md:px-10 lg:px-24 xl:px-40 pt-6 md:pt-8">
-          <p
-            className="text-[17px] md:text-[20px] font-bold text-[#3B2F25] mb-3"
-            style={{ fontFamily: "Nunito, sans-serif" }}
-          >
-            都道府県から探す
-          </p>
-          <div className="flex flex-wrap gap-2">
-            {prefectures.map((p) => (
-              <Link
-                key={p.slug}
-                href={`/areas/${p.slug}`}
-                className="px-3 py-1.5 rounded-full text-[12px] font-medium bg-[#EDE6DE] text-[#3B2F25] hover:bg-[#6FAA88] hover:text-white transition-all"
-              >
-                {p.label}
-                <span className="ml-1 opacity-70">{p.count}</span>
-              </Link>
-            ))}
-          </div>
-        </div>
-      )}
-
       {/* Results */}
       <div ref={resultsRef} className="px-4 md:px-10 lg:px-24 xl:px-40 py-6 md:py-10 scroll-mt-16">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-4 md:mb-6">

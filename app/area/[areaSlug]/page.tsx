@@ -87,12 +87,6 @@ export default async function AreaDetailPage({
       {
         "@type": "ListItem",
         position: 2,
-        name: prefecture,
-        item: `${siteUrl()}/areas/${prefectureSlug}`,
-      },
-      {
-        "@type": "ListItem",
-        position: 3,
         name: label,
         item: `${siteUrl()}/area/${areaSlug}`,
       },
@@ -114,12 +108,7 @@ export default async function AreaDetailPage({
               ホーム
             </Link>
             <span>›</span>
-            <Link
-              href={`/areas/${prefectureSlug}`}
-              className="hover:text-[#4A9070] transition-colors"
-            >
-              {prefecture}
-            </Link>
+            <span>{prefecture}</span>
             <span>›</span>
             <span>{label}</span>
           </nav>

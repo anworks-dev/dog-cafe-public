@@ -303,16 +303,10 @@ export default function CafeDetailView({
       {
         "@type": "ListItem",
         position: 2,
-        name: `${shop.prefecture}のカフェ`,
-        item: `${siteUrl()}/areas/${shop.prefecture_slug}`,
-      },
-      {
-        "@type": "ListItem",
-        position: 3,
         name: areaLabel,
         item: `${siteUrl()}/area/${shop.area_slug}`,
       },
-      { "@type": "ListItem", position: 4, name: shop.name, item: url },
+      { "@type": "ListItem", position: 3, name: shop.name, item: url },
     ],
   };
 

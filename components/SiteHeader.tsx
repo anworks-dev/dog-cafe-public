@@ -7,14 +7,12 @@ import SiteLogoMark from "./SiteLogoMark";
 
 const PC_HEADER_NAV = [
   { label: "お店を探す", to: "/" },
-  { label: "エリア一覧", to: "/areas" },
   { label: "このサイトについて", to: "/about" },
   { label: "お問い合わせ", to: "/contact" },
 ] as const;
 
 const SP_MENU_NAV = [
   { label: "店舗を探す", to: "/" },
-  { label: "エリア一覧", to: "/areas" },
   { label: "このサイトについて", to: "/about" },
   { label: "利用規約", to: "/terms" },
   { label: "お問い合わせ", to: "/contact" },

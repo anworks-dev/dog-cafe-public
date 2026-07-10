@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { getAreas, getPrefectures, getPublishedShops } from "@/lib/queries";
+import { getAreas, getPublishedShops } from "@/lib/queries";
 import { siteUrl, shopDetailUrl } from "@/lib/format";
 import type { Shop } from "@/lib/types";
 
@@ -12,25 +12,14 @@ function shopHasDetailPath(shop: Shop): boolean {
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = siteUrl();
-  const [shops, prefectures, areas] = await Promise.all([
-    getPublishedShops(),
-    getPrefectures(),
-    getAreas(),
-  ]);
+  const [shops, areas] = await Promise.all([getPublishedShops(), getAreas()]);
 
   const staticEntries: MetadataRoute.Sitemap = [
     { url: base, changeFrequency: "daily", priority: 1 },
     { url: `${base}/list`, changeFrequency: "daily", priority: 0.8 },
-    { url: `${base}/areas`, changeFrequency: "weekly", priority: 0.6 },
     { url: `${base}/about`, changeFrequency: "monthly", priority: 0.3 },
     { url: `${base}/terms`, changeFrequency: "yearly", priority: 0.2 },
   ];
-
-  const prefectureEntries: MetadataRoute.Sitemap = prefectures.map((pref) => ({
-    url: `${base}/areas/${pref.slug}`,
-    changeFrequency: "weekly",
-    priority: 0.7,
-  }));
 
   const areaEntries: MetadataRoute.Sitemap = areas.map((area) => ({
     url: `${base}/area/${area.slug}`,
@@ -47,5 +36,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     }));
 
-  return [...staticEntries, ...prefectureEntries, ...areaEntries, ...shopEntries];
+  return [...staticEntries, ...areaEntries, ...shopEntries];
 }
