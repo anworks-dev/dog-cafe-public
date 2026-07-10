@@ -62,6 +62,23 @@ export async function getShopBySlug(slug: string): Promise<Shop | null> {
   return data ? normalizeShop(data as Record<string, unknown>) : null;
 }
 
+export async function getShopById(id: number): Promise<Shop | null> {
+  if (!isSupabaseConfigured()) return null;
+
+  const { data, error } = await getSupabase()
+    .from("shops")
+    .select(SHOP_COLUMNS)
+    .eq("id", id)
+    .eq("status", "published")
+    .maybeSingle();
+
+  if (error) {
+    console.error("[getShopById]", error.message);
+    return null;
+  }
+  return data ? normalizeShop(data as Record<string, unknown>) : null;
+}
+
 export async function getShopsByPrefecture(prefectureSlug: string): Promise<Shop[]> {
   if (!isSupabaseConfigured()) return [];
 

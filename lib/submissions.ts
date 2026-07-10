@@ -58,3 +58,30 @@ export async function createListingRequest(input: ListingRequestInput): Promise<
   });
   if (error) throw error;
 }
+
+export type CreateReviewInput = {
+  cafe_id: number;
+  shop_name: string;
+  reviewer_name?: string | null;
+  visited_at?: string | null;
+  dog_size: string;
+  seat_location: string;
+  rating: number;
+  comment: string;
+};
+
+export async function createReview(input: CreateReviewInput): Promise<void> {
+  const { error } = await getSupabase().from("reviews").insert({
+    cafe_id: input.cafe_id,
+    shop_name: input.shop_name,
+    reviewer_name: input.reviewer_name?.trim() || null,
+    visited_at: input.visited_at || null,
+    dog_size: input.dog_size,
+    seat_location: input.seat_location,
+    rating: input.rating,
+    comment: input.comment.trim(),
+    status: "pending",
+    source: "user",
+  });
+  if (error) throw error;
+}

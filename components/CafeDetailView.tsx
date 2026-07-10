@@ -187,6 +187,27 @@ function ShopReferenceLink({ url, variant }: { url: string; variant: "sp" | "pc"
   );
 }
 
+function ListingCorrectionNotice({ variant }: { variant: "sp" | "pc" }) {
+  return (
+    <div className="space-y-1.5">
+      <p className="text-[#9A8878] leading-relaxed text-[12px]">
+        掲載情報に誤りがある場合は、以下よりお知らせください。
+      </p>
+      <Link
+        href="/contact?type=correction"
+        className={`inline-block text-[#B8906A] underline underline-offset-2 hover:text-[#9A7050] transition-colors ${
+          variant === "sp" ? "text-[12px]" : "text-[13px]"
+        }`}
+      >
+        掲載情報の修正依頼をする
+      </Link>
+    </div>
+  );
+}
+
+const REVIEW_BUTTON_CLS =
+  "block w-full py-4 bg-[#6FAA88] text-white rounded-xl text-[15px] font-bold hover:bg-[#5D9876] active:scale-[0.98] transition-all shadow-sm text-center";
+
 function BasicInfoCard({ shop }: { shop: Shop }) {
   const area = areaLabelFromShop(shop);
   const infoRows = [
@@ -225,6 +246,7 @@ function BasicInfoCard({ shop }: { shop: Shop }) {
           ))}
         </div>
       )}
+      <ListingCorrectionNotice variant="pc" />
     </div>
   );
 }
@@ -366,6 +388,12 @@ export default function CafeDetailView({
 
           <DisclaimerBanner variant="sp" />
 
+          <ListingCorrectionNotice variant="sp" />
+
+          <Link href={`/review/${shop.id}`} className={REVIEW_BUTTON_CLS}>
+            口コミを投稿する
+          </Link>
+
           <div className="space-y-3">
             <p
               className="text-[18px] font-bold text-[#3B2F25]"
@@ -478,11 +506,14 @@ export default function CafeDetailView({
 
             <div className="w-[368px] shrink-0 space-y-4 sticky top-24">
               <BasicInfoCard shop={shop} />
+              <Link href={`/review/${shop.id}`} className={REVIEW_BUTTON_CLS}>
+                口コミを投稿する
+              </Link>
               <Link
-                href={`/areas/${shop.prefecture_slug}`}
+                href="/list"
                 className="text-[13px] text-[#6FAA88] flex items-center gap-1 hover:text-[#4A9070] transition-colors"
               >
-                ← {shop.prefecture}のカフェ一覧に戻る
+                ← 一覧に戻る
               </Link>
             </div>
           </div>
