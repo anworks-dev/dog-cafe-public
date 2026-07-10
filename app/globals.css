@@ -1,0 +1,46 @@
+@import "tailwindcss";
+
+/* ── Design tokens ported from dog-cafe-site (src/styles/theme.css) ── */
+:root {
+  --font-size: 16px;
+  --background: #faf8f4;
+  --foreground: #3b2f25;
+  --card: #ffffff;
+  --primary: #6faa88;
+  --primary-foreground: #ffffff;
+  --secondary: #f2e8dc;
+  --muted: #ede6de;
+  --muted-foreground: #9a8878;
+  --accent: #e0784a;
+  --accent-foreground: #ffffff;
+  --border: rgba(59, 47, 37, 0.1);
+  --ring: #6faa88;
+  --latte: #b8906a;
+  --mint-light: #ecf4ef;
+  --yellow-accent: #f2c255;
+  --radius: 0.75rem;
+}
+
+/*
+ * Element resets live in @layer base so Tailwind utilities (utilities layer)
+ * always win. In particular `a { color: inherit }` must NOT override
+ * `text-white` on CTA links — matching how Vite (Tailwind preflight) behaves.
+ * No font-smoothing / text-rendering overrides: dog-cafe-site does not set them.
+ */
+@layer base {
+  html {
+    font-size: var(--font-size);
+  }
+
+  body {
+    margin: 0;
+    background: var(--background);
+    color: var(--foreground);
+    font-family: "DM Sans", sans-serif;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+}
