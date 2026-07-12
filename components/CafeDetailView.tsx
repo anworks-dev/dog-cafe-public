@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { MapPin, Camera, AlertCircle, Globe, Instagram } from "lucide-react";
+import { MapPin, AlertCircle, Globe, Instagram } from "lucide-react";
 import {
   REFERENCE_URL_LABELS,
   areaLabelFromShop,
@@ -15,6 +15,7 @@ import { TAG_CLS } from "@/components/CafeCard";
 import CafeCard from "@/components/CafeCard";
 import GoogleMapEmbed from "@/components/GoogleMapEmbed";
 import GooglePlaceInfoCard from "@/components/GooglePlaceInfoCard";
+import ReviewCountLink from "@/components/ReviewCountLink";
 import type { Review, ReviewPhoto, Shop } from "@/lib/types";
 
 const SHOP_DISCLAIMER =
@@ -210,19 +211,14 @@ function ListingCorrectionNotice({ variant }: { variant: "sp" | "pc" }) {
 const REVIEW_BUTTON_CLS =
   "block w-full py-4 bg-[#6FAA88] text-white rounded-xl text-[15px] font-bold hover:bg-[#5D9876] active:scale-[0.98] transition-all shadow-sm text-center";
 
-function BasicInfoCard({ shop }: { shop: Shop }) {
+function UnlinkedBasicInfoCard({
+  shop,
+  variant,
+}: {
+  shop: Shop;
+  variant: "sp" | "pc";
+}) {
   const area = areaLabelFromShop(shop);
-  const infoRows = [
-    shop.address ? { label: "住所", value: shop.address } : null,
-    shop.access ? { label: "アクセス", value: shop.access } : null,
-    shop.business_hours ? { label: "営業時間", value: shop.business_hours } : null,
-    shop.closed_days ? { label: "定休日", value: shop.closed_days } : null,
-    shop.phone ? { label: "電話番号", value: shop.phone } : null,
-    shop.dog_conditions_notes
-      ? { label: "犬同伴条件", value: shop.dog_conditions_notes }
-      : { label: "エリア", value: area || shop.prefecture },
-  ].filter(Boolean) as { label: string; value: string }[];
-
   const references = [shop.reference_url, shop.instagram_url, shop.google_map_url].filter(
     (u): u is string => Boolean(u),
   );
@@ -235,22 +231,142 @@ function BasicInfoCard({ shop }: { shop: Shop }) {
       >
         基本情報
       </p>
-      {infoRows.map((row) => (
-        <div key={row.label} className="space-y-0.5">
-          <p className="text-[12px] text-[#9A8878]">{row.label}</p>
+      {shop.access && (
+        <div className="space-y-0.5">
+          <p className="text-[12px] text-[#9A8878]">アクセス</p>
           <p className="text-[14px] text-[#3B2F25] font-medium whitespace-pre-wrap">
-            {row.value}
+            {shop.access}
           </p>
         </div>
-      ))}
+      )}
+      {(area || shop.prefecture) && (
+        <div className="space-y-0.5">
+          <p className="text-[12px] text-[#9A8878]">エリア</p>
+          <p className="text-[14px] text-[#3B2F25] font-medium">
+            {area || shop.prefecture}
+          </p>
+        </div>
+      )}
       {references.length > 0 && (
         <div className="flex flex-wrap gap-4 pt-1 border-t border-[rgba(59,47,37,0.06)]">
           {references.map((refUrl) => (
-            <ShopReferenceLink key={refUrl} url={refUrl} variant="pc" />
+            <ShopReferenceLink key={refUrl} url={refUrl} variant={variant} />
           ))}
         </div>
       )}
-      <ListingCorrectionNotice variant="pc" />
+      <ListingCorrectionNotice variant={variant} />
+    </div>
+  );
+}
+
+function ShopHeader({
+  shop,
+  reviews,
+  variant,
+}: {
+  shop: Shop;
+  reviews: Review[];
+  variant: "sp" | "pc";
+}) {
+  const area = areaLabelFromShop(shop);
+  const station = shop.station?.trim();
+
+  return (
+    <div className={variant === "sp" ? "space-y-5" : "space-y-6"}>
+      <div className={variant === "sp" ? "space-y-1" : "space-y-2"}>
+        <h1
+          className={`font-bold text-[#3B2F25] leading-tight ${
+            variant === "sp" ? "text-[20px]" : "text-[28px]"
+          }`}
+          style={{ fontFamily: "Nunito, sans-serif" }}
+        >
+          {shop.name}
+        </h1>
+        <p
+          className={`text-[#9A8878] flex items-center gap-1 ${
+            variant === "sp" ? "text-[13px]" : "text-[14px] gap-1.5"
+          }`}
+        >
+          <MapPin size={variant === "sp" ? 12 : 13} />
+          {area}
+          {station ? ` ・ ${station}` : ""}
+        </p>
+        <ReviewCountLink count={reviews.length} variant={variant} />
+      </div>
+
+      {shop.tags.length > 0 && (
+        <div className="flex flex-wrap gap-2">
+          {shop.tags.map((t) => (
+            <span
+              key={t.label}
+              className={`rounded-full font-semibold border ${TAG_CLS[t.v]} ${
+                variant === "sp"
+                  ? "px-2.5 py-1.5 text-[11px]"
+                  : "px-3 py-1.5 text-[12px]"
+              }`}
+            >
+              {t.label}
+            </span>
+          ))}
+        </div>
+      )}
+
+      {shop.description && (
+        <p
+          className={`text-[#6A5E54] leading-relaxed whitespace-pre-wrap ${
+            variant === "sp" ? "text-[13px]" : "text-[14px]"
+          }`}
+        >
+          {shop.description}
+        </p>
+      )}
+
+      {shop.google_place_id && (
+        <a
+          href="#google-place-info"
+          className={`inline-flex items-center gap-1 text-[#6FAA88] hover:text-[#4A9070] transition-colors ${
+            variant === "sp" ? "text-[13px]" : "text-[14px]"
+          }`}
+        >
+          <MapPin size={variant === "sp" ? 13 : 14} />
+          Googleマップの店舗情報を見る
+        </a>
+      )}
+    </div>
+  );
+}
+
+function ReviewSection({
+  reviews,
+  photosByReview,
+  shopName,
+  variant,
+}: {
+  reviews: Review[];
+  photosByReview: Record<string, ReviewPhoto[]>;
+  shopName: string;
+  variant: "sp" | "pc";
+}) {
+  return (
+    <div
+      {...(variant === "sp" ? { id: "reviews" } : {})}
+      data-reviews-section
+      className={`scroll-mt-24 ${variant === "sp" ? "space-y-3" : "space-y-4"}`}
+    >
+      <p
+        className={`font-bold text-[#3B2F25] ${
+          variant === "sp" ? "text-[18px]" : "text-[20px]"
+        }`}
+        style={{ fontFamily: "Nunito, sans-serif" }}
+      >
+        口コミ ({reviews.length}件)
+      </p>
+      <ReviewList
+        reviews={reviews}
+        photosByReviewId={photosByReview}
+        shopName={shopName}
+        variant={variant}
+      />
     </div>
   );
 }
@@ -269,9 +385,9 @@ export default function CafeDetailView({
   googleMapEmbedUrl?: string | null;
 }) {
   const area = areaLabelFromShop(shop);
-  const station = shop.station?.trim();
   const url = shopDetailUrl(shop);
   const areaLabel = shop.area?.trim() || area;
+  const isGoogleLinked = Boolean(shop.google_place_id);
 
   const localBusiness = {
     "@context": "https://schema.org",
@@ -330,90 +446,33 @@ export default function CafeDetailView({
       {/* SP */}
       <div className="md:hidden">
         <div className="px-4 py-5 space-y-5">
-          <div className="rounded-2xl overflow-hidden bg-[#EDE6DE] relative" style={{ aspectRatio: "4/3" }}>
-            {shop.photo_url ? (
-              <Image
-                src={shop.photo_url}
-                alt={shop.name}
-                fill
-                sizes="100vw"
-                className="object-cover"
-                priority
-              />
-            ) : (
-              <div className="w-full h-full flex flex-col items-center justify-center gap-2">
-                <Camera size={32} className="text-[#9A8878]" />
-                <p className="text-sm text-[#9A8878]">写真募集中</p>
-              </div>
-            )}
-          </div>
-
-          <div className="space-y-1">
-            <h1
-              className="text-[20px] font-bold text-[#3B2F25] leading-tight"
-              style={{ fontFamily: "Nunito, sans-serif" }}
-            >
-              {shop.name}
-            </h1>
-            <p className="text-[13px] text-[#9A8878] flex items-center gap-1">
-              <MapPin size={12} />
-              {area}
-              {station ? ` ・ ${station}` : ""}
-            </p>
-            {reviews.length > 0 && (
-              <p className="text-[12px] text-[#9A8878]">口コミ{reviews.length}件</p>
-            )}
-          </div>
-
-          {shop.tags.length > 0 && (
-            <div className="flex flex-wrap gap-2">
-              {shop.tags.map((t) => (
-                <span
-                  key={t.label}
-                  className={`px-2.5 py-1.5 rounded-full text-[11px] font-semibold border ${TAG_CLS[t.v]}`}
-                >
-                  {t.label}
-                </span>
-              ))}
-            </div>
-          )}
-
-          {shop.description && (
-            <p className="text-[13px] text-[#6A5E54] leading-relaxed whitespace-pre-wrap">
-              {shop.description}
-            </p>
-          )}
-
-          <BasicInfoCard shop={shop} />
+          <ShopHeader shop={shop} reviews={reviews} variant="sp" />
 
           <DisclaimerBanner variant="sp" />
-
-          <ListingCorrectionNotice variant="sp" />
 
           <Link href={`/review/${shop.id}`} className={REVIEW_BUTTON_CLS}>
             口コミを投稿する
           </Link>
 
-          <div className="space-y-3">
-            <p
-              className="text-[18px] font-bold text-[#3B2F25]"
-              style={{ fontFamily: "Nunito, sans-serif" }}
-            >
-              口コミ ({reviews.length}件)
-            </p>
-            <ReviewList
-              reviews={reviews}
-              photosByReviewId={photosByReview}
-              shopName={shop.name}
-              variant="sp"
-            />
-          </div>
+          <ReviewSection
+            reviews={reviews}
+            photosByReview={photosByReview}
+            shopName={shop.name}
+            variant="sp"
+          />
 
-          {shop.google_place_id && (
-            <GooglePlaceInfoCard placeId={shop.google_place_id} />
-          )}
-          {googleMapEmbedUrl && (
-            <GoogleMapEmbed src={googleMapEmbedUrl} shopName={shop.name} />
+          {isGoogleLinked ? (
+            <>
+              <GooglePlaceInfoCard
+                placeId={shop.google_place_id!}
+                areaLabel={area || shop.prefecture}
+              />
+              {googleMapEmbedUrl && (
+                <GoogleMapEmbed src={googleMapEmbedUrl} shopName={shop.name} />
+              )}
+            </>
+          ) : (
+            <UnlinkedBasicInfoCard shop={shop} variant="sp" />
           )}
 
           {nearby.length > 0 && (
@@ -439,85 +498,29 @@ export default function CafeDetailView({
         <div className="px-10 lg:px-24 xl:px-40 py-10">
           <div className="flex gap-8 items-start">
             <div className="flex-1 min-w-0 space-y-6">
-              <div className="w-full h-[400px] rounded-2xl overflow-hidden bg-[#EDE6DE] relative">
-                {shop.photo_url ? (
-                  <Image
-                    src={shop.photo_url}
-                    alt={shop.name}
-                    fill
-                    sizes="(max-width: 1280px) 60vw, 760px"
-                    className="object-cover"
-                    priority
-                  />
-                ) : (
-                  <div className="w-full h-full flex flex-col items-center justify-center gap-2">
-                    <Camera size={40} className="text-[#9A8878]" />
-                    <p className="text-[14px] text-[#9A8878]">写真募集中</p>
-                  </div>
-                )}
-              </div>
-
-              <div className="space-y-2">
-                <h1
-                  className="text-[28px] font-bold text-[#3B2F25] leading-tight"
-                  style={{ fontFamily: "Nunito, sans-serif" }}
-                >
-                  {shop.name}
-                </h1>
-                <p className="text-[14px] text-[#9A8878] flex items-center gap-1.5">
-                  <MapPin size={13} />
-                  {area}
-                  {station ? ` ・ ${station}` : ""}
-                </p>
-                {reviews.length > 0 && (
-                  <p className="text-[13px] text-[#9A8878]">口コミ{reviews.length}件</p>
-                )}
-              </div>
-
-              {shop.tags.length > 0 && (
-                <div className="flex flex-wrap gap-2">
-                  {shop.tags.map((t) => (
-                    <span
-                      key={t.label}
-                      className={`px-3 py-1.5 rounded-full text-[12px] font-semibold border ${TAG_CLS[t.v]}`}
-                    >
-                      {t.label}
-                    </span>
-                  ))}
-                </div>
-              )}
-
-              {shop.description && (
-                <p className="text-[14px] text-[#6A5E54] leading-relaxed whitespace-pre-wrap">
-                  {shop.description}
-                </p>
-              )}
-
+              <ShopHeader shop={shop} reviews={reviews} variant="pc" />
               <DisclaimerBanner variant="pc" />
-
-              <div className="space-y-4">
-                <p
-                  className="text-[20px] font-bold text-[#3B2F25]"
-                  style={{ fontFamily: "Nunito, sans-serif" }}
-                >
-                  口コミ ({reviews.length}件)
-                </p>
-                <ReviewList
-                  reviews={reviews}
-                  photosByReviewId={photosByReview}
-                  shopName={shop.name}
-                  variant="pc"
-                />
-              </div>
+              <ReviewSection
+                reviews={reviews}
+                photosByReview={photosByReview}
+                shopName={shop.name}
+                variant="pc"
+              />
             </div>
 
             <div className="w-[368px] shrink-0 space-y-4 sticky top-24">
-              <BasicInfoCard shop={shop} />
-              {shop.google_place_id && (
-                <GooglePlaceInfoCard placeId={shop.google_place_id} />
-              )}
-              {googleMapEmbedUrl && (
-                <GoogleMapEmbed src={googleMapEmbedUrl} shopName={shop.name} />
+              {isGoogleLinked ? (
+                <>
+                  <GooglePlaceInfoCard
+                    placeId={shop.google_place_id!}
+                    areaLabel={area || shop.prefecture}
+                  />
+                  {googleMapEmbedUrl && (
+                    <GoogleMapEmbed src={googleMapEmbedUrl} shopName={shop.name} />
+                  )}
+                </>
+              ) : (
+                <UnlinkedBasicInfoCard shop={shop} variant="pc" />
               )}
               <Link href={`/review/${shop.id}`} className={REVIEW_BUTTON_CLS}>
                 口コミを投稿する

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { ExternalLink, Loader2, MapPin, Phone, Star } from "lucide-react";
 import {
@@ -9,6 +10,7 @@ import {
 
 type GooglePlaceInfoCardProps = {
   placeId: string;
+  areaLabel: string;
 };
 
 function InfoRow({ label, children }: { label: string; children: React.ReactNode }) {
@@ -20,7 +22,26 @@ function InfoRow({ label, children }: { label: string; children: React.ReactNode
   );
 }
 
-export default function GooglePlaceInfoCard({ placeId }: GooglePlaceInfoCardProps) {
+function ListingCorrectionNotice() {
+  return (
+    <div className="space-y-1.5">
+      <p className="text-[#9A8878] leading-relaxed text-[12px]">
+        掲載情報に誤りがある場合は、以下よりお知らせください。
+      </p>
+      <Link
+        href="/contact?type=correction"
+        className="inline-block text-[#B8906A] underline underline-offset-2 hover:text-[#9A7050] transition-colors text-[13px]"
+      >
+        掲載情報の修正依頼をする
+      </Link>
+    </div>
+  );
+}
+
+export default function GooglePlaceInfoCard({
+  placeId,
+  areaLabel,
+}: GooglePlaceInfoCardProps) {
   const [data, setData] = useState<GooglePlaceDetails | null>(null);
   const [loading, setLoading] = useState(true);
   const [failed, setFailed] = useState(false);
@@ -57,7 +78,10 @@ export default function GooglePlaceInfoCard({ placeId }: GooglePlaceInfoCardProp
 
   if (loading) {
     return (
-      <div className="bg-white rounded-2xl border border-[rgba(59,47,37,0.1)] p-5 flex items-center justify-center gap-2 text-[#9A8878] text-[13px]">
+      <div
+        id="google-place-info"
+        className="bg-white rounded-2xl border border-[rgba(59,47,37,0.1)] p-5 flex items-center justify-center gap-2 text-[#9A8878] text-[13px]"
+      >
         <Loader2 size={16} className="animate-spin shrink-0" />
         Googleマップの情報を取得中…
       </div>
@@ -74,7 +98,10 @@ export default function GooglePlaceInfoCard({ placeId }: GooglePlaceInfoCardProp
   const hours = data.regularOpeningHours?.weekdayDescriptions ?? [];
 
   return (
-    <div className="bg-white rounded-2xl border border-[rgba(59,47,37,0.1)] p-5 space-y-4">
+    <div
+      id="google-place-info"
+      className="bg-white rounded-2xl border border-[rgba(59,47,37,0.1)] p-5 space-y-4 scroll-mt-24"
+    >
       <div className="space-y-1">
         <p
           className="text-[16px] font-bold text-[#3B2F25]"
@@ -141,29 +168,41 @@ export default function GooglePlaceInfoCard({ placeId }: GooglePlaceInfoCardProp
         </InfoRow>
       )}
 
-      <div className="flex flex-wrap gap-4 pt-1 border-t border-[rgba(59,47,37,0.06)]">
-        {data.websiteUri && (
-          <a
-            href={data.websiteUri}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-[13px] text-[#6FAA88] flex items-center gap-1 hover:text-[#4A9070] transition-colors"
-          >
-            <ExternalLink size={12} />
-            公式サイト
-          </a>
-        )}
-        {data.googleMapsUri && (
-          <a
-            href={data.googleMapsUri}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-[13px] text-[#6FAA88] flex items-center gap-1 hover:text-[#4A9070] transition-colors"
-          >
-            <MapPin size={12} />
-            Googleマップで見る
-          </a>
-        )}
+      {(data.websiteUri || data.googleMapsUri) && (
+        <div className="flex flex-wrap gap-4">
+          {data.websiteUri && (
+            <a
+              href={data.websiteUri}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[13px] text-[#6FAA88] flex items-center gap-1 hover:text-[#4A9070] transition-colors"
+            >
+              <ExternalLink size={12} />
+              公式サイト
+            </a>
+          )}
+          {data.googleMapsUri && (
+            <a
+              href={data.googleMapsUri}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[13px] text-[#6FAA88] flex items-center gap-1 hover:text-[#4A9070] transition-colors"
+            >
+              <MapPin size={12} />
+              Googleマップで見る
+            </a>
+          )}
+        </div>
+      )}
+
+      {areaLabel && (
+        <InfoRow label="エリア">
+          <p>{areaLabel}</p>
+        </InfoRow>
+      )}
+
+      <div className="pt-1 border-t border-[rgba(59,47,37,0.06)]">
+        <ListingCorrectionNotice />
       </div>
     </div>
   );
