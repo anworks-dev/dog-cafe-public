@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Menu, X, Plus } from "lucide-react";
 import SiteLogoMark from "./SiteLogoMark";
 
@@ -20,10 +21,18 @@ const SP_MENU_NAV = [
 
 export default function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const isHome = pathname === "/";
 
   return (
     <>
-      <header className="sticky top-0 z-50 bg-white border-b border-[rgba(59,47,37,0.07)] shadow-[0_1px_4px_rgba(59,47,37,0.05)]">
+      <header
+        className={`sticky top-0 z-50 bg-white ${
+          isHome
+            ? ""
+            : "border-b border-[rgba(59,47,37,0.07)] shadow-[0_1px_4px_rgba(59,47,37,0.05)]"
+        }`}
+      >
         {/* SP */}
         <div className="md:hidden flex items-center justify-between px-4 h-14">
           <Link href="/" className="flex items-center gap-2">

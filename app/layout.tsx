@@ -49,7 +49,7 @@ export default function RootLayout({
       </head>
       <body>
         <SiteHeader />
-        <main className="min-h-[60vh]">{children}</main>
+        <main className="min-h-[60vh] w-full overflow-x-clip">{children}</main>
         <SiteFooter />
       </body>
     </html>

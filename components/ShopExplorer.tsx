@@ -5,8 +5,7 @@ import Link from "next/link";
 import { PawPrint, MapPin, ChevronDown, Search } from "lucide-react";
 import type { Shop } from "@/lib/types";
 import CafeCard from "./CafeCard";
-
-const PAW_BG = `url("data:image/svg+xml,%3Csvg width='52' height='52' viewBox='0 0 52 52' xmlns='http://www.w3.org/2000/svg'%3E%3Cellipse cx='26' cy='35' rx='9' ry='8' fill='%236FAA88' opacity='0.1'/%3E%3Cellipse cx='15' cy='24' rx='4.5' ry='5.5' transform='rotate(-15 15 24)' fill='%236FAA88' opacity='0.1'/%3E%3Cellipse cx='37' cy='24' rx='4.5' ry='5.5' transform='rotate(15 37 24)' fill='%236FAA88' opacity='0.1'/%3E%3Cellipse cx='19' cy='16' rx='3.5' ry='4.5' fill='%236FAA88' opacity='0.1'/%3E%3Cellipse cx='33' cy='16' rx='3.5' ry='4.5' fill='%236FAA88' opacity='0.1'/%3E%3C/svg%3E")`;
+import HeroBackgroundPattern from "./HeroBackgroundPattern";
 
 const CONDITION_CHIPS = [
   "店内OK",
@@ -139,13 +138,12 @@ export default function ShopExplorer({
 
   return (
     <>
-      {/* Hero */}
-      <div
-        className="px-4 md:px-10 lg:px-24 xl:px-40 pt-6 pb-5 md:py-10 lg:py-12"
-        style={{ backgroundColor: "#EDF5F1", backgroundImage: PAW_BG, backgroundSize: "52px 52px" }}
-      >
-        <div className="max-w-[920px] mx-auto">
-          <div className="flex flex-col gap-2 md:gap-3 text-center items-center">
+      {/* Hero — viewport full-bleed mint background; content padding on inner layer only */}
+      <div className="relative left-1/2 w-screen -translate-x-1/2 bg-[rgb(237,245,241)]">
+        <HeroBackgroundPattern />
+        <div className="relative px-4 md:px-10 lg:px-24 xl:px-40 pt-6 pb-5 md:py-10 lg:py-12">
+          <div className="max-w-[920px] mx-auto">
+            <div className="flex flex-col gap-2 md:gap-3 text-center items-center">
             <p className="hidden md:flex text-[13px] font-medium text-[#6FAA88] items-center gap-1.5">
               <PawPrint size={12} strokeWidth={2.5} />
               犬と一緒に、おでかけしよう
@@ -248,10 +246,11 @@ export default function ShopExplorer({
             </div>
           </div>
         </div>
+        </div>
       </div>
 
       {/* Results */}
-      <div ref={resultsRef} className="px-4 md:px-10 lg:px-24 xl:px-40 py-6 md:py-10 scroll-mt-16">
+      <div ref={resultsRef} className="px-4 md:px-10 lg:px-24 xl:px-40 pt-6 md:pt-8 pb-6 md:pb-10 scroll-mt-16">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-4 md:mb-6">
           <p
             className="text-[18px] md:text-[20px] font-bold text-[#3B2F25]"
