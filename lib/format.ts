@@ -119,3 +119,37 @@ export function areaLabelFromShop(shop: {
     ""
   );
 }
+
+/** Area/station label for search dropdowns: station_label → station → area. */
+export function areaSearchLabel(shop: {
+  station_label?: string;
+  station?: string;
+  area?: string;
+}): string | null {
+  const label =
+    shop.station_label?.trim() || shop.station?.trim() || shop.area?.trim() || "";
+  return label || null;
+}
+
+/** Match area filter by display label or legacy area_slug URL param. */
+export function shopMatchesAreaFilter(
+  shop: { area_slug: string; station_label?: string; station?: string; area?: string },
+  areaFilter: string,
+): boolean {
+  if (!areaFilter) return true;
+  if (shop.area_slug === areaFilter) return true;
+  return areaSearchLabel(shop) === areaFilter;
+}
+
+export function resolveAreaFilterParam(
+  areaParam: string,
+  shops: { prefecture_slug: string; area_slug: string; station_label?: string; station?: string; area?: string }[],
+  prefectureSlug: string,
+): string {
+  if (!areaParam) return "";
+  const scoped = shops.filter((s) => s.prefecture_slug === prefectureSlug);
+  if (scoped.some((s) => areaSearchLabel(s) === areaParam)) return areaParam;
+  const bySlug = scoped.find((s) => s.area_slug === areaParam);
+  if (bySlug) return areaSearchLabel(bySlug) ?? areaParam;
+  return areaParam;
+}

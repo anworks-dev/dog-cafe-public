@@ -24,13 +24,19 @@ type PatternLayout = {
 
 function measureLayout(el: HTMLElement): PatternLayout {
   const isMd = window.matchMedia("(min-width: 768px)").matches;
-  const spacingX = isMd ? 92 : 60;
-  const spacingY = isMd ? 76 : 60;
+  const spacingX = isMd ? 92 : 78;
+  const spacingY = isMd ? 76 : 74;
   const width = el.clientWidth;
   const height = el.clientHeight;
+  const countCols = isMd
+    ? Math.round(width / spacingX)
+    : Math.floor(width / spacingX);
+  const countRows = isMd
+    ? Math.round(height / spacingY)
+    : Math.floor(height / spacingY);
   return {
-    cols: Math.max(3, Math.round(width / spacingX)),
-    rows: Math.max(2, Math.round(height / spacingY)),
+    cols: Math.max(3, countCols),
+    rows: Math.max(2, countRows),
     width,
     height,
   };
@@ -47,7 +53,7 @@ function iconPosition(
   let topPct = ((row + 0.5) / rows) * 100;
 
   if (row % 2 === 1) {
-    const staggerPx = width >= 768 ? 12 : 8;
+    const staggerPx = width >= 768 ? 12 : 5;
     leftPct += (staggerPx / width) * 100;
   }
 

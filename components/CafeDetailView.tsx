@@ -11,7 +11,7 @@ import {
   shopDetailUrl,
   siteUrl,
 } from "@/lib/format";
-import { TAG_CLS } from "@/components/CafeCard";
+import { TAG_CLS } from "@/lib/shop-tags";
 import CafeCard from "@/components/CafeCard";
 import GoogleMapEmbed from "@/components/GoogleMapEmbed";
 import GooglePlaceInfoCard from "@/components/GooglePlaceInfoCard";

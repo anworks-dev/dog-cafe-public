@@ -3,12 +3,9 @@ import Link from "next/link";
 import { MapPin, PawPrint, Camera } from "lucide-react";
 import type { Shop } from "@/lib/types";
 import { areaLabelFromShop, shopDetailPath } from "@/lib/format";
+import { TAG_CLS } from "@/lib/shop-tags";
 
-export const TAG_CLS = {
-  green: "bg-[#ECF4EF] text-[#4A9070] border-[#C5E0D5]",
-  brown: "bg-[#F2E8DC] text-[#9A6840] border-[#DFD0BC]",
-  orange: "bg-[#FFF3EB] text-[#C05A25] border-[#F5D5C0]",
-} as const;
+export { TAG_CLS };
 
 export default function CafeCard({ shop }: { shop: Shop }) {
   const href = shopDetailPath(shop);
@@ -51,7 +48,7 @@ export default function CafeCard({ shop }: { shop: Shop }) {
           </p>
           {shop.tags.length > 0 && (
             <div className="flex gap-1 flex-wrap">
-              {shop.tags.slice(0, 2).map((t) => (
+              {shop.tags.map((t) => (
                 <span
                   key={t.label}
                   className={`px-2 py-0.5 rounded-[4px] text-[10px] font-semibold border ${TAG_CLS[t.v]}`}

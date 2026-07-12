@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import ShopExplorer from "@/components/ShopExplorer";
 import {
   getApprovedReviewCounts,
@@ -15,10 +16,12 @@ export default async function HomePage() {
   ]);
 
   return (
-    <ShopExplorer
-      shops={shops}
-      prefectures={prefectures}
-      reviewCounts={reviewCounts}
-    />
+    <Suspense fallback={null}>
+      <ShopExplorer
+        shops={shops}
+        prefectures={prefectures}
+        reviewCounts={reviewCounts}
+      />
+    </Suspense>
   );
 }
