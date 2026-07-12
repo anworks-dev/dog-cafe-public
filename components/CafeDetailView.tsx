@@ -13,6 +13,8 @@ import {
 } from "@/lib/format";
 import { TAG_CLS } from "@/components/CafeCard";
 import CafeCard from "@/components/CafeCard";
+import GoogleMapEmbed from "@/components/GoogleMapEmbed";
+import GooglePlaceInfoCard from "@/components/GooglePlaceInfoCard";
 import type { Review, ReviewPhoto, Shop } from "@/lib/types";
 
 const SHOP_DISCLAIMER =
@@ -236,7 +238,9 @@ function BasicInfoCard({ shop }: { shop: Shop }) {
       {infoRows.map((row) => (
         <div key={row.label} className="space-y-0.5">
           <p className="text-[12px] text-[#9A8878]">{row.label}</p>
-          <p className="text-[14px] text-[#3B2F25] font-medium whitespace-pre-wrap">{row.value}</p>
+          <p className="text-[14px] text-[#3B2F25] font-medium whitespace-pre-wrap">
+            {row.value}
+          </p>
         </div>
       ))}
       {references.length > 0 && (
@@ -256,11 +260,13 @@ export default function CafeDetailView({
   reviews,
   photosByReview,
   nearby,
+  googleMapEmbedUrl,
 }: {
   shop: Shop;
   reviews: Review[];
   photosByReview: Record<string, ReviewPhoto[]>;
   nearby: Shop[];
+  googleMapEmbedUrl?: string | null;
 }) {
   const area = areaLabelFromShop(shop);
   const station = shop.station?.trim();
@@ -403,6 +409,13 @@ export default function CafeDetailView({
             />
           </div>
 
+          {shop.google_place_id && (
+            <GooglePlaceInfoCard placeId={shop.google_place_id} />
+          )}
+          {googleMapEmbedUrl && (
+            <GoogleMapEmbed src={googleMapEmbedUrl} shopName={shop.name} />
+          )}
+
           {nearby.length > 0 && (
             <div>
               <p
@@ -500,6 +513,12 @@ export default function CafeDetailView({
 
             <div className="w-[368px] shrink-0 space-y-4 sticky top-24">
               <BasicInfoCard shop={shop} />
+              {shop.google_place_id && (
+                <GooglePlaceInfoCard placeId={shop.google_place_id} />
+              )}
+              {googleMapEmbedUrl && (
+                <GoogleMapEmbed src={googleMapEmbedUrl} shopName={shop.name} />
+              )}
               <Link href={`/review/${shop.id}`} className={REVIEW_BUTTON_CLS}>
                 口コミを投稿する
               </Link>

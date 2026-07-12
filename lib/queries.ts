@@ -10,7 +10,7 @@ import type {
 } from "./types";
 
 const SHOP_COLUMNS =
-  "id, slug, name, prefecture, city, area, station, station_label, address, access, prefecture_slug, area_slug, latitude, longitude, business_hours, closed_days, phone, reference_url, google_map_url, instagram_url, photo_url, description, dog_conditions_notes, tags, status, created_at, updated_at";
+  "id, slug, name, prefecture, city, area, station, station_label, address, access, prefecture_slug, area_slug, latitude, longitude, business_hours, closed_days, phone, reference_url, google_map_url, google_place_id, instagram_url, photo_url, description, dog_conditions_notes, tags, status, created_at, updated_at";
 
 function normalizeTags(value: unknown): ShopTag[] {
   if (!Array.isArray(value)) return [];

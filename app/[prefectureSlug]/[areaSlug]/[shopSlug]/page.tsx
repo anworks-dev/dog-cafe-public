@@ -81,12 +81,19 @@ export default async function ShopDetailPage({
 
   const nearby = prefectureShops.filter((s) => s.id !== shop.id).slice(0, 4);
 
+  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_EMBED_API_KEY?.trim();
+  const googleMapEmbedUrl =
+    apiKey && shop.google_place_id
+      ? `https://www.google.com/maps/embed/v1/place?key=${encodeURIComponent(apiKey)}&q=place_id:${encodeURIComponent(shop.google_place_id)}`
+      : null;
+
   return (
     <CafeDetailView
       shop={shop}
       reviews={reviews}
       photosByReview={photosByReview}
       nearby={nearby}
+      googleMapEmbedUrl={googleMapEmbedUrl}
     />
   );
 }

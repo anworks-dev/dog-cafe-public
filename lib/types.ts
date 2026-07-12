@@ -23,6 +23,7 @@ export type Shop = {
   phone: string | null;
   reference_url: string | null;
   google_map_url: string | null;
+  google_place_id: string | null;
   instagram_url: string | null;
   photo_url: string | null;
   description: string;

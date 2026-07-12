@@ -6,7 +6,11 @@
     "dev": "next dev -p 3000",
     "build": "next build",
     "start": "next start -p 3000",
-    "lint": "next lint"
+    "lint": "next lint",
+    "places:candidates": "tsx scripts/places-candidates.ts",
+    "places:review": "tsx scripts/places-review.ts",
+    "places:update:check": "tsx scripts/places-update-check.ts",
+    "places:update:sql": "tsx scripts/places-update-sql.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.110.0",
@@ -22,6 +26,7 @@
     "@types/react-dom": "^19.0.0",
     "postcss": "^8.5.16",
     "tailwindcss": "^4.1.12",
+    "tsx": "^4.20.3",
     "typescript": "^5.5.0"
   }
 }
