@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { PawPrint } from "lucide-react";
 import AreaExplorer from "@/components/AreaExplorer";
 import {
+  attachShopCardImages,
   getApprovedReviewCounts,
   getAreas,
   getShopsByArea,
@@ -63,12 +64,13 @@ export default async function AreaDetailPage({
   params: Promise<{ areaSlug: string }>;
 }) {
   const { areaSlug } = await params;
-  const [shops, areas, reviewCounts] = await Promise.all([
+  const [shopsRaw, areas, reviewCounts] = await Promise.all([
     getShopsByArea(areaSlug),
     getAreas(),
     getApprovedReviewCounts(),
   ]);
-  if (shops.length === 0) notFound();
+  if (shopsRaw.length === 0) notFound();
+  const shops = await attachShopCardImages(shopsRaw);
 
   const label = shops[0].area?.trim() || areaSlug;
   const prefecture = shops[0].prefecture;

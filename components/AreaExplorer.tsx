@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { Search } from "lucide-react";
-import type { Shop } from "@/lib/types";
+import type { ShopWithCardImage } from "@/lib/types";
 import CafeCard from "./CafeCard";
 
 const CONDITION_CHIPS = [
@@ -29,7 +29,7 @@ export default function AreaExplorer({
   resultLabel,
   reviewCounts = {},
 }: {
-  shops: Shop[];
+  shops: ShopWithCardImage[];
   areaLabel?: string;
   resultLabel?: string;
   reviewCounts?: Record<number, number>;

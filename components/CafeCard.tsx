@@ -1,13 +1,13 @@
-import Image from "next/image";
 import Link from "next/link";
-import { MapPin, PawPrint, Camera } from "lucide-react";
-import type { Shop } from "@/lib/types";
+import { MapPin } from "lucide-react";
+import type { ShopWithCardImage } from "@/lib/types";
 import { areaLabelFromShop, shopDetailPath } from "@/lib/format";
 import { TAG_CLS } from "@/lib/shop-tags";
+import CafeCardImage from "./CafeCardImage";
 
 export { TAG_CLS };
 
-export default function CafeCard({ shop }: { shop: Shop }) {
+export default function CafeCard({ shop }: { shop: ShopWithCardImage }) {
   const href = shopDetailPath(shop);
   const area = shop.area?.trim() || areaLabelFromShop(shop);
   const station = shop.station?.trim();
@@ -19,22 +19,7 @@ export default function CafeCard({ shop }: { shop: Shop }) {
         href={href}
         className="md:hidden bg-white rounded-xl shadow-[0_1px_3px_rgba(59,47,37,0.08)] flex gap-3 p-3 active:scale-[0.99] transition-transform"
       >
-        {shop.photo_url ? (
-          <div className="w-[80px] h-[80px] rounded-lg overflow-hidden shrink-0 bg-[#EDE6DE] relative">
-            <Image
-              src={shop.photo_url}
-              alt={shop.name}
-              fill
-              sizes="80px"
-              className="object-cover"
-            />
-          </div>
-        ) : (
-          <div className="w-[80px] h-[80px] rounded-lg bg-[#F2E8DC] shrink-0 flex flex-col items-center justify-center gap-1">
-            <PawPrint size={20} className="text-[#6FAA88] opacity-60" strokeWidth={1.5} />
-            <p className="text-[9px] text-[#9A8878]">写真募集中</p>
-          </div>
-        )}
+        <CafeCardImage shop={shop} size="sm" variant="sp" />
         <div className="flex-1 min-w-0 flex flex-col gap-1">
           <p
             className="font-bold text-[#3B2F25] text-[14px] leading-snug"
@@ -70,22 +55,7 @@ export default function CafeCard({ shop }: { shop: Shop }) {
         href={href}
         className="hidden md:flex bg-white rounded-xl shadow-[0_1px_4px_rgba(59,47,37,0.1)] gap-4 p-4 hover:shadow-[0_3px_12px_rgba(59,47,37,0.13)] hover:-translate-y-0.5 transition-all duration-200 group"
       >
-        {shop.photo_url ? (
-          <div className="w-[120px] h-[120px] rounded-lg overflow-hidden shrink-0 bg-[#EDE6DE] relative">
-            <Image
-              src={shop.photo_url}
-              alt={shop.name}
-              fill
-              sizes="120px"
-              className="object-cover group-hover:scale-[1.03] transition-transform duration-300"
-            />
-          </div>
-        ) : (
-          <div className="w-[120px] h-[120px] rounded-lg bg-[#F2E8DC] shrink-0 flex flex-col items-center justify-center gap-1.5">
-            <Camera size={22} className="text-[#9A8878]" />
-            <p className="text-[10px] text-[#9A8878]">写真募集中</p>
-          </div>
-        )}
+        <CafeCardImage shop={shop} size="lg" variant="pc" />
         <div className="flex-1 min-w-0 flex flex-col gap-1.5">
           <p
             className="font-bold text-[#3B2F25] text-[16px] leading-snug"

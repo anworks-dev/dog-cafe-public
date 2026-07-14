@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { PawPrint, MapPin, ChevronDown, Search } from "lucide-react";
-import type { Shop } from "@/lib/types";
+import type { ShopWithCardImage } from "@/lib/types";
 import { resolveAreaFilterParam } from "@/lib/format";
 import {
   TOP_DOG_CONDITIONS,
@@ -20,7 +20,14 @@ import { conditionFilterChipClass } from "@/lib/shop-tags";
 import CafeCard from "./CafeCard";
 import HeroBackgroundPattern from "./HeroBackgroundPattern";
 
-const FEATURED_COUNT = 6;
+const FEATURED_COUNT = 9;
+
+function shopUpdatedAtMs(shop: ShopWithCardImage): number | null {
+  const raw = shop.updated_at?.trim();
+  if (!raw) return null;
+  const ms = Date.parse(raw);
+  return Number.isFinite(ms) ? ms : null;
+}
 
 const selectCls =
   "flex-1 flex items-center justify-between bg-[#FAF8F4] border border-[rgba(59,47,37,0.12)] rounded-xl px-3.5 py-2.5 text-[13px] text-[#3B2F25] hover:border-[#6FAA88] transition-colors appearance-none cursor-pointer";
@@ -98,7 +105,7 @@ export default function ShopExplorer({
   prefectures,
   reviewCounts = {},
 }: {
-  shops: Shop[];
+  shops: ShopWithCardImage[];
   prefectures: PrefOption[];
   reviewCounts?: Record<number, number>;
 }) {
@@ -194,7 +201,14 @@ export default function ShopExplorer({
   const sorted = useMemo(() => {
     const list = [...filtered];
     if (shopSort === "newest") {
-      return list.sort((a, b) => b.id - a.id);
+      return list.sort((a, b) => {
+        const aMs = shopUpdatedAtMs(a);
+        const bMs = shopUpdatedAtMs(b);
+        if (aMs != null && bMs != null && aMs !== bMs) return bMs - aMs;
+        if (aMs != null && bMs == null) return -1;
+        if (aMs == null && bMs != null) return 1;
+        return b.id - a.id;
+      });
     }
     return list.sort((a, b) => {
       const diff = (reviewCounts[b.id] ?? 0) - (reviewCounts[a.id] ?? 0);

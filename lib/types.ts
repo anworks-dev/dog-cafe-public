@@ -57,6 +57,12 @@ export type ReviewPhoto = {
   alt: string | null;
   is_visible: boolean;
   sort_order: number;
+  created_at?: string;
+};
+
+/** Card thumbnail: shop.photo_url, else latest visible review photo URL. */
+export type ShopWithCardImage = Shop & {
+  card_image_url?: string | null;
 };
 
 export type PrefectureSummary = {

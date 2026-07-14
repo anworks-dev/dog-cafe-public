@@ -6,6 +6,7 @@ import type {
   ReviewPhoto,
   Shop,
   ShopTag,
+  ShopWithCardImage,
   TagSummary,
 } from "./types";
 
@@ -141,7 +142,7 @@ export async function getVisiblePhotosByReview(
 
   const { data, error } = await getSupabase()
     .from("review_photos")
-    .select("id, review_id, cafe_id, public_url, alt, is_visible, sort_order")
+    .select("id, review_id, cafe_id, public_url, alt, is_visible, sort_order, created_at")
     .eq("cafe_id", cafeId)
     .eq("is_visible", true)
     .order("sort_order", { ascending: true });
@@ -156,6 +157,100 @@ export async function getVisiblePhotosByReview(
     (grouped[photo.review_id] ??= []).push(photo);
   }
   return grouped;
+}
+
+type ReviewPhotoCardRow = {
+  id: string;
+  cafe_id: number;
+  public_url: string;
+  created_at: string | null;
+  is_visible: boolean;
+  reviews: { id: string; status: string; created_at: string | null } | null;
+};
+
+function photoSortKey(row: ReviewPhotoCardRow): [number, number, string] {
+  const photoMs = row.created_at ? Date.parse(row.created_at) : Number.NaN;
+  const reviewMs = row.reviews?.created_at ? Date.parse(row.reviews.created_at) : Number.NaN;
+  return [
+    Number.isFinite(photoMs) ? photoMs : 0,
+    Number.isFinite(reviewMs) ? reviewMs : 0,
+    row.id,
+  ];
+}
+
+function isNewerPhoto(a: ReviewPhotoCardRow, b: ReviewPhotoCardRow): boolean {
+  const ka = photoSortKey(a);
+  const kb = photoSortKey(b);
+  if (ka[0] !== kb[0]) return ka[0] > kb[0];
+  if (ka[1] !== kb[1]) return ka[1] > kb[1];
+  return ka[2] > kb[2];
+}
+
+/**
+ * Batch-load the latest visible review photo URL per cafe
+ * (approved reviews only; for shops missing photo_url).
+ */
+export async function getLatestVisibleReviewPhotoUrlsByCafeIds(
+  cafeIds: number[],
+): Promise<Record<number, string>> {
+  if (!isSupabaseConfigured()) return {};
+
+  const uniqueIds = [...new Set(cafeIds.filter((id) => Number.isFinite(id)))];
+  if (uniqueIds.length === 0) return {};
+
+  const { data, error } = await getSupabase()
+    .from("review_photos")
+    .select("id, cafe_id, public_url, created_at, is_visible, reviews!inner(id, status, created_at)")
+    .in("cafe_id", uniqueIds)
+    .eq("is_visible", true)
+    .eq("reviews.status", "approved");
+
+  if (error) {
+    console.error("[getLatestVisibleReviewPhotoUrlsByCafeIds]", error.message);
+    return {};
+  }
+
+  const bestByCafe = new Map<number, ReviewPhotoCardRow>();
+
+  for (const raw of data ?? []) {
+    const row = raw as unknown as ReviewPhotoCardRow;
+    if (!row.is_visible) continue;
+    if (row.reviews?.status !== "approved") continue;
+    const url = row.public_url?.trim();
+    if (!url) continue;
+    if (!/^https?:\/\//i.test(url)) continue;
+
+    const prev = bestByCafe.get(row.cafe_id);
+    if (!prev || isNewerPhoto(row, prev)) {
+      bestByCafe.set(row.cafe_id, row);
+    }
+  }
+
+  const result: Record<number, string> = {};
+  for (const [cafeId, row] of bestByCafe) {
+    result[cafeId] = row.public_url.trim();
+  }
+  return result;
+}
+
+/** Attach card_image_url: shop.photo_url, else latest visible review photo. */
+export async function attachShopCardImages(shops: Shop[]): Promise<ShopWithCardImage[]> {
+  const needsFallback = shops
+    .filter((shop) => !shop.photo_url?.trim())
+    .map((shop) => shop.id);
+
+  const fallbackUrls =
+    needsFallback.length > 0
+      ? await getLatestVisibleReviewPhotoUrlsByCafeIds(needsFallback)
+      : {};
+
+  return shops.map((shop) => {
+    const shopPhoto = shop.photo_url?.trim() || null;
+    return {
+      ...shop,
+      card_image_url: shopPhoto || fallbackUrls[shop.id] || null,
+    };
+  });
 }
 
 export async function getPrefectures(): Promise<PrefectureSummary[]> {

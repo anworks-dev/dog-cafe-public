@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound, permanentRedirect } from "next/navigation";
 import CafeDetailView from "@/components/CafeDetailView";
 import {
+  attachShopCardImages,
   getApprovedReviews,
   getPublishedShops,
   getShopBySlug,
@@ -79,7 +80,8 @@ export default async function ShopDetailPage({
     getShopsByPrefecture(shop.prefecture_slug),
   ]);
 
-  const nearby = prefectureShops.filter((s) => s.id !== shop.id).slice(0, 4);
+  const nearbyRaw = prefectureShops.filter((s) => s.id !== shop.id).slice(0, 4);
+  const nearby = await attachShopCardImages(nearbyRaw);
 
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_EMBED_API_KEY?.trim();
   const googleMapEmbedUrl =

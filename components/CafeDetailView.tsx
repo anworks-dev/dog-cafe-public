@@ -16,7 +16,7 @@ import CafeCard from "@/components/CafeCard";
 import GoogleMapEmbed from "@/components/GoogleMapEmbed";
 import GooglePlaceInfoCard from "@/components/GooglePlaceInfoCard";
 import ReviewCountLink from "@/components/ReviewCountLink";
-import type { Review, ReviewPhoto, Shop } from "@/lib/types";
+import type { Review, ReviewPhoto, Shop, ShopWithCardImage } from "@/lib/types";
 
 const SHOP_DISCLAIMER =
   "掲載情報はユーザー投稿に基づくものです。営業時間・犬同伴条件は変更される場合があります。来店前に必ず公式サイト・Instagram・Google Map等で最新情報をご確認ください。";
@@ -381,7 +381,7 @@ export default function CafeDetailView({
   shop: Shop;
   reviews: Review[];
   photosByReview: Record<string, ReviewPhoto[]>;
-  nearby: Shop[];
+  nearby: ShopWithCardImage[];
   googleMapEmbedUrl?: string | null;
 }) {
   const area = areaLabelFromShop(shop);

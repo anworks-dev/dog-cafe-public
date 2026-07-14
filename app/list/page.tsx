@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { PawPrint } from "lucide-react";
 import AreaExplorer from "@/components/AreaExplorer";
-import { getApprovedReviewCounts, getPublishedShops } from "@/lib/queries";
+import { getApprovedReviewCounts, getPublishedShops, attachShopCardImages } from "@/lib/queries";
 import { siteUrl } from "@/lib/format";
 
 export const revalidate = 300;
@@ -14,10 +14,11 @@ export const metadata: Metadata = {
 };
 
 export default async function ListPage() {
-  const [shops, reviewCounts] = await Promise.all([
+  const [shopsRaw, reviewCounts] = await Promise.all([
     getPublishedShops(),
     getApprovedReviewCounts(),
   ]);
+  const shops = await attachShopCardImages(shopsRaw);
 
   return (
     <>
