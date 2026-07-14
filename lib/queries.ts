@@ -5,6 +5,7 @@ import type {
   Review,
   ReviewPhoto,
   Shop,
+  ShopCardData,
   ShopTag,
   ShopWithCardImage,
   TagSummary,
@@ -235,20 +236,78 @@ export async function getLatestVisibleReviewPhotoUrlsByCafeIds(
 
 /** Attach card_image_url: shop.photo_url, else latest visible review photo. */
 export async function attachShopCardImages(shops: Shop[]): Promise<ShopWithCardImage[]> {
-  const needsFallback = shops
+  return attachShopCardData(shops);
+}
+
+/**
+ * Latest approved review comment per cafe (batch, no N+1).
+ * Only cafes that need a fallback (empty description) should be passed when possible.
+ */
+export async function getLatestApprovedReviewCommentsByCafeIds(
+  cafeIds: number[],
+): Promise<Record<number, string>> {
+  if (!isSupabaseConfigured() || cafeIds.length === 0) return {};
+
+  const { data, error } = await getSupabase()
+    .from("reviews")
+    .select("cafe_id, comment, created_at, status")
+    .in("cafe_id", cafeIds)
+    .eq("status", "approved")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("[getLatestApprovedReviewCommentsByCafeIds]", error.message);
+    return {};
+  }
+
+  const bestByCafe = new Map<number, string>();
+  for (const row of (data ?? []) as {
+    cafe_id: number | null;
+    comment: string | null;
+    created_at: string | null;
+  }[]) {
+    if (row.cafe_id == null) continue;
+    if (bestByCafe.has(row.cafe_id)) continue;
+    const comment = row.comment?.trim() ?? "";
+    if (!comment) continue;
+    bestByCafe.set(row.cafe_id, comment);
+  }
+
+  return Object.fromEntries(bestByCafe);
+}
+
+/**
+ * Attach card display fields in one place:
+ * - card_image_url from shop photo or latest visible review photo
+ * - card_excerpt from latest approved review when shops.description is empty
+ */
+export async function attachShopCardData(shops: Shop[]): Promise<ShopCardData[]> {
+  if (shops.length === 0) return [];
+
+  const needsImageFallback = shops
     .filter((shop) => !shop.photo_url?.trim())
     .map((shop) => shop.id);
 
-  const fallbackUrls =
-    needsFallback.length > 0
-      ? await getLatestVisibleReviewPhotoUrlsByCafeIds(needsFallback)
-      : {};
+  const needsExcerptFallback = shops
+    .filter((shop) => !shop.description?.trim())
+    .map((shop) => shop.id);
+
+  const [fallbackUrls, reviewComments] = await Promise.all([
+    needsImageFallback.length > 0
+      ? getLatestVisibleReviewPhotoUrlsByCafeIds(needsImageFallback)
+      : Promise.resolve({} as Record<number, string>),
+    needsExcerptFallback.length > 0
+      ? getLatestApprovedReviewCommentsByCafeIds(needsExcerptFallback)
+      : Promise.resolve({} as Record<number, string>),
+  ]);
 
   return shops.map((shop) => {
     const shopPhoto = shop.photo_url?.trim() || null;
+    const hasDescription = Boolean(shop.description?.trim());
     return {
       ...shop,
       card_image_url: shopPhoto || fallbackUrls[shop.id] || null,
+      card_excerpt: hasDescription ? null : reviewComments[shop.id] || null,
     };
   });
 }

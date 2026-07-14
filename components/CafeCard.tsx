@@ -11,6 +11,7 @@ export default function CafeCard({ shop }: { shop: ShopWithCardImage }) {
   const href = shopDetailPath(shop);
   const area = shop.area?.trim() || areaLabelFromShop(shop);
   const station = shop.station?.trim();
+  const cardText = shop.description?.trim() || shop.card_excerpt?.trim() || "";
 
   return (
     <>
@@ -43,8 +44,8 @@ export default function CafeCard({ shop }: { shop: ShopWithCardImage }) {
               ))}
             </div>
           )}
-          {shop.description && (
-            <p className="text-[11px] text-[#6A5E54] line-clamp-2">{shop.description}</p>
+          {cardText && (
+            <p className="text-[11px] text-[#6A5E54] line-clamp-2">{cardText}</p>
           )}
           <p className="text-[11px] text-[#B8906A] font-semibold text-right">詳細を見る ›</p>
         </div>
@@ -80,9 +81,9 @@ export default function CafeCard({ shop }: { shop: ShopWithCardImage }) {
               ))}
             </div>
           )}
-          {shop.description && (
+          {cardText && (
             <p className="text-[12px] text-[#6A5E54] leading-relaxed line-clamp-2">
-              {shop.description}
+              {cardText}
             </p>
           )}
           <p className="text-[12px] text-[#B8906A] font-semibold">詳細を見る ›</p>

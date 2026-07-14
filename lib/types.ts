@@ -60,10 +60,19 @@ export type ReviewPhoto = {
   created_at?: string;
 };
 
-/** Card thumbnail: shop.photo_url, else latest visible review photo URL. */
-export type ShopWithCardImage = Shop & {
+/**
+ * Card display data attached at list/top fetch time.
+ * - card_image_url: shop.photo_url, else latest visible review photo
+ * - card_excerpt: shops.description when present; else latest approved review comment
+ */
+export type ShopCardData = Shop & {
   card_image_url?: string | null;
+  /** Fallback card text from latest approved review when description is empty. */
+  card_excerpt?: string | null;
 };
+
+/** @deprecated Prefer ShopCardData — kept as alias for existing imports. */
+export type ShopWithCardImage = ShopCardData;
 
 export type PrefectureSummary = {
   slug: string;
