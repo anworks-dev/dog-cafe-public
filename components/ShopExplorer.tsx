@@ -20,7 +20,7 @@ import { conditionFilterChipClass } from "@/lib/shop-tags";
 import CafeCard from "./CafeCard";
 import HeroBackgroundPattern from "./HeroBackgroundPattern";
 
-const FEATURED_COUNT = 9;
+const FEATURED_COUNT = 8;
 
 function shopUpdatedAtMs(shop: ShopWithCardImage): number | null {
   const raw = shop.updated_at?.trim();
