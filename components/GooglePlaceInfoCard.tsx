@@ -95,7 +95,6 @@ export default function GooglePlaceInfoCard({
   const address = data.formattedAddress
     ? normalizeGoogleAddress(data.formattedAddress)
     : null;
-  const hours = data.regularOpeningHours?.weekdayDescriptions ?? [];
 
   return (
     <div
@@ -144,16 +143,6 @@ export default function GooglePlaceInfoCard({
         </InfoRow>
       )}
 
-      {hours.length > 0 && (
-        <InfoRow label="通常営業時間">
-          <ul className="space-y-0.5 leading-relaxed font-normal">
-            {hours.map((line) => (
-              <li key={line}>{line}</li>
-            ))}
-          </ul>
-        </InfoRow>
-      )}
-
       {data.rating != null && data.rating > 0 && (
         <InfoRow label="Googleマップの評価">
           <p className="inline-flex items-center gap-1.5">
@@ -196,7 +185,7 @@ export default function GooglePlaceInfoCard({
       )}
 
       {areaLabel && (
-        <InfoRow label="エリア">
+        <InfoRow label="所在地">
           <p>{areaLabel}</p>
         </InfoRow>
       )}

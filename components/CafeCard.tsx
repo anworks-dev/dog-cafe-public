@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { MapPin } from "lucide-react";
 import type { ShopWithCardImage } from "@/lib/types";
-import { areaLabelFromShop, shopDetailPath } from "@/lib/format";
+import { shopDetailPath, shopLocationLabel } from "@/lib/format";
 import { TAG_CLS } from "@/lib/shop-tags";
 import CafeCardImage from "./CafeCardImage";
 
@@ -9,8 +9,7 @@ export { TAG_CLS };
 
 export default function CafeCard({ shop }: { shop: ShopWithCardImage }) {
   const href = shopDetailPath(shop);
-  const area = shop.area?.trim() || areaLabelFromShop(shop);
-  const station = shop.station?.trim();
+  const location = shopLocationLabel(shop);
   const cardText = shop.description?.trim() || shop.card_excerpt?.trim() || "";
 
   return (
@@ -28,10 +27,12 @@ export default function CafeCard({ shop }: { shop: ShopWithCardImage }) {
           >
             {shop.name}
           </p>
-          <p className="text-[11px] text-[#9A8878] flex items-center gap-0.5">
-            <MapPin size={10} />
-            {area}
-          </p>
+          {location && (
+            <p className="text-[11px] text-[#9A8878] flex items-center gap-0.5">
+              <MapPin size={10} />
+              {location}
+            </p>
+          )}
           {shop.tags.length > 0 && (
             <div className="flex gap-1 flex-wrap">
               {shop.tags.map((t) => (
@@ -64,11 +65,12 @@ export default function CafeCard({ shop }: { shop: ShopWithCardImage }) {
           >
             {shop.name}
           </p>
-          <p className="text-[12px] text-[#9A8878] flex items-center gap-1">
-            <MapPin size={11} />
-            {area}
-            {station ? ` ・ ${station}` : ""}
-          </p>
+          {location && (
+            <p className="text-[12px] text-[#9A8878] flex items-center gap-1">
+              <MapPin size={11} />
+              {location}
+            </p>
+          )}
           {shop.tags.length > 0 && (
             <div className="flex gap-1.5 flex-wrap">
               {shop.tags.map((t) => (

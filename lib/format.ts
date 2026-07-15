@@ -120,6 +120,37 @@ export function areaLabelFromShop(shop: {
   );
 }
 
+/** Display nearest station; append 「駅」 only when missing. */
+export function formatNearestStationLabel(shop: {
+  station_label?: string | null;
+  station?: string | null;
+}): string {
+  let raw = shop.station_label?.trim() || "";
+  if (!raw) {
+    raw = (shop.station?.trim() || "").replace(/\s*周辺\s*$/u, "").trim();
+  }
+  if (!raw) return "";
+  if (raw.includes("駅")) return raw;
+  return `${raw}駅`;
+}
+
+/**
+ * Public location line for shop cards / detail headers.
+ * Format: 「都道府県 ・ 最寄駅」 (falls back to whichever side is available).
+ */
+export function shopLocationLabel(shop: {
+  prefecture?: string | null;
+  station_label?: string | null;
+  station?: string | null;
+}): string {
+  const prefecture = shop.prefecture?.trim() || "";
+  const station = formatNearestStationLabel(shop);
+  if (prefecture && station) return `${prefecture} ・ ${station}`;
+  if (prefecture) return prefecture;
+  if (station) return station;
+  return "";
+}
+
 /** Area/station label for search dropdowns: station_label → station → area. */
 export function areaSearchLabel(shop: {
   station_label?: string;

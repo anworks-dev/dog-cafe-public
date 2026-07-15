@@ -9,6 +9,7 @@ import {
   getShopsByPrefecture,
   getVisiblePhotosByReview,
 } from "@/lib/queries";
+import { fetchGooglePlaceOpeningHours } from "@/lib/google-places";
 import { areaLabelFromShop, shopDetailPath, shopDetailUrl } from "@/lib/format";
 
 export const revalidate = 300;
@@ -83,10 +84,31 @@ export default async function ShopDetailPage({
   const nearbyRaw = prefectureShops.filter((s) => s.id !== shop.id).slice(0, 4);
   const nearby = await attachShopCardImages(nearbyRaw);
 
+  const previewPlaceId =
+    process.env.NODE_ENV === "development"
+      ? process.env.GOOGLE_PLACES_PREVIEW_PLACE_ID?.trim()
+      : undefined;
+  const previewSlug =
+    process.env.NODE_ENV === "development"
+      ? process.env.GOOGLE_PLACES_PREVIEW_SHOP_SLUG?.trim()
+      : undefined;
+
+  const effectivePlaceId =
+    shop.google_place_id
+    ?? (previewPlaceId && previewSlug === shop.slug ? previewPlaceId : null);
+
+  // Skip Places API during `next build` (many shops would hit rate limits / hang).
+  // ISR / first request will populate opening hours.
+  const isProductionBuild = process.env.NEXT_PHASE === "phase-production-build";
+  const googlePlaceOpeningHours =
+    effectivePlaceId && !isProductionBuild
+      ? await fetchGooglePlaceOpeningHours(effectivePlaceId)
+      : null;
+
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_EMBED_API_KEY?.trim();
   const googleMapEmbedUrl =
-    apiKey && shop.google_place_id
-      ? `https://www.google.com/maps/embed/v1/place?key=${encodeURIComponent(apiKey)}&q=place_id:${encodeURIComponent(shop.google_place_id)}`
+    apiKey && effectivePlaceId
+      ? `https://www.google.com/maps/embed/v1/place?key=${encodeURIComponent(apiKey)}&q=place_id:${encodeURIComponent(effectivePlaceId)}`
       : null;
 
   return (
@@ -96,6 +118,8 @@ export default async function ShopDetailPage({
       photosByReview={photosByReview}
       nearby={nearby}
       googleMapEmbedUrl={googleMapEmbedUrl}
+      googlePlaceOpeningHours={googlePlaceOpeningHours}
+      showGoogleHours={Boolean(effectivePlaceId)}
     />
   );
 }

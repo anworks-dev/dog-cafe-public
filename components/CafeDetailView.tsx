@@ -9,13 +9,16 @@ import {
   formatReviewPostedAt,
   reviewShowsMetaTags,
   shopDetailUrl,
+  shopLocationLabel,
   siteUrl,
 } from "@/lib/format";
 import { TAG_CLS } from "@/lib/shop-tags";
 import CafeCard from "@/components/CafeCard";
 import GoogleMapEmbed from "@/components/GoogleMapEmbed";
+import GoogleOpeningHoursSection from "@/components/GoogleOpeningHoursSection";
 import GooglePlaceInfoCard from "@/components/GooglePlaceInfoCard";
 import ReviewCountLink from "@/components/ReviewCountLink";
+import type { GooglePlaceOpeningHours } from "@/lib/google-places";
 import type { Review, ReviewPhoto, Shop, ShopWithCardImage } from "@/lib/types";
 
 const SHOP_DISCLAIMER =
@@ -218,7 +221,7 @@ function UnlinkedBasicInfoCard({
   shop: Shop;
   variant: "sp" | "pc";
 }) {
-  const area = areaLabelFromShop(shop);
+  const location = shopLocationLabel(shop);
   const references = [shop.reference_url, shop.instagram_url, shop.google_map_url].filter(
     (u): u is string => Boolean(u),
   );
@@ -239,11 +242,11 @@ function UnlinkedBasicInfoCard({
           </p>
         </div>
       )}
-      {(area || shop.prefecture) && (
+      {location && (
         <div className="space-y-0.5">
-          <p className="text-[12px] text-[#9A8878]">エリア</p>
+          <p className="text-[12px] text-[#9A8878]">所在地</p>
           <p className="text-[14px] text-[#3B2F25] font-medium">
-            {area || shop.prefecture}
+            {location}
           </p>
         </div>
       )}
@@ -268,8 +271,7 @@ function ShopHeader({
   reviews: Review[];
   variant: "sp" | "pc";
 }) {
-  const area = areaLabelFromShop(shop);
-  const station = shop.station?.trim();
+  const location = shopLocationLabel(shop);
 
   return (
     <div className={variant === "sp" ? "space-y-5" : "space-y-6"}>
@@ -282,15 +284,16 @@ function ShopHeader({
         >
           {shop.name}
         </h1>
-        <p
-          className={`text-[#9A8878] flex items-center gap-1 ${
-            variant === "sp" ? "text-[13px]" : "text-[14px] gap-1.5"
-          }`}
-        >
-          <MapPin size={variant === "sp" ? 12 : 13} />
-          {area}
-          {station ? ` ・ ${station}` : ""}
-        </p>
+        {location && (
+          <p
+            className={`text-[#9A8878] flex items-center gap-1 ${
+              variant === "sp" ? "text-[13px]" : "text-[14px] gap-1.5"
+            }`}
+          >
+            <MapPin size={variant === "sp" ? 12 : 13} />
+            {location}
+          </p>
+        )}
         <ReviewCountLink count={reviews.length} variant={variant} />
       </div>
 
@@ -377,17 +380,21 @@ export default function CafeDetailView({
   photosByReview,
   nearby,
   googleMapEmbedUrl,
+  googlePlaceOpeningHours = null,
+  showGoogleHours = false,
 }: {
   shop: Shop;
   reviews: Review[];
   photosByReview: Record<string, ReviewPhoto[]>;
   nearby: ShopWithCardImage[];
   googleMapEmbedUrl?: string | null;
+  googlePlaceOpeningHours?: GooglePlaceOpeningHours | null;
+  showGoogleHours?: boolean;
 }) {
   const area = areaLabelFromShop(shop);
   const url = shopDetailUrl(shop);
   const areaLabel = shop.area?.trim() || area;
-  const isGoogleLinked = Boolean(shop.google_place_id);
+  const isGoogleLinked = Boolean(shop.google_place_id) || showGoogleHours;
 
   const localBusiness = {
     "@context": "https://schema.org",
@@ -463,10 +470,15 @@ export default function CafeDetailView({
 
           {isGoogleLinked ? (
             <>
-              <GooglePlaceInfoCard
-                placeId={shop.google_place_id!}
-                areaLabel={area || shop.prefecture}
-              />
+              {showGoogleHours && (
+                <GoogleOpeningHoursSection details={googlePlaceOpeningHours} />
+              )}
+              {shop.google_place_id && (
+                <GooglePlaceInfoCard
+                  placeId={shop.google_place_id}
+                  areaLabel={shopLocationLabel(shop) || area || shop.prefecture}
+                />
+              )}
               {googleMapEmbedUrl && (
                 <GoogleMapEmbed src={googleMapEmbedUrl} shopName={shop.name} />
               )}
@@ -511,10 +523,15 @@ export default function CafeDetailView({
             <div className="w-[368px] shrink-0 space-y-4 sticky top-24">
               {isGoogleLinked ? (
                 <>
-                  <GooglePlaceInfoCard
-                    placeId={shop.google_place_id!}
-                    areaLabel={area || shop.prefecture}
-                  />
+                  {showGoogleHours && (
+                    <GoogleOpeningHoursSection details={googlePlaceOpeningHours} />
+                  )}
+                  {shop.google_place_id && (
+                    <GooglePlaceInfoCard
+                      placeId={shop.google_place_id}
+                      areaLabel={shopLocationLabel(shop) || area || shop.prefecture}
+                    />
+                  )}
                   {googleMapEmbedUrl && (
                     <GoogleMapEmbed src={googleMapEmbedUrl} shopName={shop.name} />
                   )}
