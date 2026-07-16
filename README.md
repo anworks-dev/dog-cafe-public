@@ -19,11 +19,15 @@
 
 | パス | 内容 |
 | --- | --- |
-| `/` | TOP（エリア・条件・おすすめ店舗） |
-| `/cafes/[slug]` | 店舗詳細（動的 metadata / OGP / canonical / LocalBusiness・BreadcrumbList 構造化データ） |
-| `/areas/[prefecture]` | 都道府県別の店舗一覧 |
+| `/` | TOP（都道府県・エリア・条件での検索、おすすめ店舗） |
+| `/list` | 店舗一覧（canonical は `/list`。旧 `?prefecture=` はクエリなし `/list` へ 301） |
+| `/area/[areaSlug]` | エリア別の店舗一覧 |
+| `/[prefectureSlug]/[areaSlug]/[shopSlug]` | 店舗詳細（動的 metadata / OGP / canonical / LocalBusiness・BreadcrumbList） |
+| `/cafes/[slug]` | 旧店舗詳細 URL（正式パスへ永続リダイレクト） |
 | `/sitemap.xml` | サイトマップ（店舗・エリアを自動生成） |
 | `/robots.txt` | robots |
+
+旧パス `/areas`・`/areas/[prefecture]` は TOP（`/`）へリダイレクトします。
 
 ## セットアップ
 

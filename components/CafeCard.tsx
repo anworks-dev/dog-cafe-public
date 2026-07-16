@@ -11,6 +11,9 @@ export default function CafeCard({ shop }: { shop: ShopWithCardImage }) {
   const href = shopDetailPath(shop);
   const location = shopLocationLabel(shop);
   const cardText = shop.description?.trim() || shop.card_excerpt?.trim() || "";
+  const tags = Array.isArray(shop.tags) ? shop.tags : [];
+  /** SP: keep the traditional 2-tag limit so the horizontal card stays readable. */
+  const spTags = tags.slice(0, 2);
 
   return (
     <>
@@ -33,12 +36,12 @@ export default function CafeCard({ shop }: { shop: ShopWithCardImage }) {
               {location}
             </p>
           )}
-          {shop.tags.length > 0 && (
+          {spTags.length > 0 && (
             <div className="flex gap-1 flex-wrap">
-              {shop.tags.map((t) => (
+              {spTags.map((t) => (
                 <span
                   key={t.label}
-                  className={`px-2 py-0.5 rounded-[4px] text-[10px] font-semibold border ${TAG_CLS[t.v]}`}
+                  className={`px-2 py-0.5 rounded-[4px] text-[10px] font-semibold border ${TAG_CLS[t.v] ?? TAG_CLS.green}`}
                 >
                   {t.label}
                 </span>
@@ -71,12 +74,12 @@ export default function CafeCard({ shop }: { shop: ShopWithCardImage }) {
               {location}
             </p>
           )}
-          {shop.tags.length > 0 && (
+          {tags.length > 0 && (
             <div className="flex gap-1.5 flex-wrap">
-              {shop.tags.map((t) => (
+              {tags.map((t) => (
                 <span
                   key={t.label}
-                  className={`px-2 py-0.5 rounded-[4px] text-[10px] font-semibold border ${TAG_CLS[t.v]}`}
+                  className={`px-2 py-0.5 rounded-[4px] text-[10px] font-semibold border ${TAG_CLS[t.v] ?? TAG_CLS.green}`}
                 >
                   {t.label}
                 </span>

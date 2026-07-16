@@ -40,16 +40,21 @@ export default function AreaExplorer({
   const [page, setPage] = useState(1);
 
   const conditionChips = useMemo(
-    () => CONDITION_CHIPS.filter((chip) => shops.some((s) => s.tags.some((t) => t.label === chip))),
+    () =>
+      CONDITION_CHIPS.filter((chip) =>
+        shops.some((s) => (s.tags ?? []).some((t) => t.label === chip)),
+      ),
     [shops],
   );
 
   const filtered = useMemo(() => {
     const q = keyword.trim().toLowerCase();
     return shops.filter((s) => {
-      if (activeChip && !s.tags.some((t) => t.label === activeChip)) return false;
+      const tags = s.tags ?? [];
+      if (activeChip && !tags.some((t) => t.label === activeChip)) return false;
       if (q) {
-        const hay = `${s.name} ${s.area} ${s.prefecture} ${s.station} ${s.station_label}`.toLowerCase();
+        const hay =
+          `${s.name} ${s.area} ${s.prefecture} ${s.station} ${s.station_label}`.toLowerCase();
         if (!hay.includes(q)) return false;
       }
       return true;
