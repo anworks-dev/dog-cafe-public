@@ -5,11 +5,11 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { PawPrint, MapPin, ChevronDown, Search } from "lucide-react";
 import type { ShopWithCardImage } from "@/lib/types";
-import { resolveAreaFilterParam } from "@/lib/format";
 import {
   TOP_DOG_CONDITIONS,
   parseConditionChipsFromParam,
 } from "@/lib/dog-conditions";
+import { buildLocationSearchPath } from "@/lib/location-paths";
 import {
   buildAreaOptions,
   buildPrefectureOptions,
@@ -44,18 +44,16 @@ type AppliedFilters = ShopSearchFilters;
 function readFiltersFromParams(searchParams: URLSearchParams): AppliedFilters {
   return {
     keyword: searchParams.get("q") ?? "",
-    prefecture: searchParams.get("pref") ?? "",
-    area: searchParams.get("area") ?? "",
+    prefecture: "",
+    area: "",
     conditions: parseConditionChipsFromParam(searchParams.get("tags")),
   };
 }
 
-function buildQueryPath(applied: AppliedFilters): string {
+function buildTopOnlyQueryPath(applied: AppliedFilters): string {
   const p = new URLSearchParams();
   const q = applied.keyword.trim();
   if (q) p.set("q", q);
-  if (applied.prefecture) p.set("pref", applied.prefecture);
-  if (applied.area) p.set("area", applied.area);
   if (applied.conditions.length) p.set("tags", applied.conditions.join(","));
   const qs = p.toString();
   return qs ? `/?${qs}` : "/";
@@ -120,32 +118,21 @@ export default function ShopExplorer({
   const [shopSort, setShopSort] = useState<TopShopSort>("newest");
   const resultsRef = useRef<HTMLDivElement>(null);
 
-  const appliedFromUrl = useMemo<ShopSearchFilters>(() => {
-    const fromUrl = readFiltersFromParams(searchParams);
-    const resolvedArea =
-      fromUrl.prefecture && fromUrl.area
-        ? resolveAreaFilterParam(fromUrl.area, shops, fromUrl.prefecture)
-        : fromUrl.area;
-    return { ...fromUrl, area: resolvedArea };
-  }, [searchParams, shops]);
+  const appliedFromUrl = useMemo<ShopSearchFilters>(
+    () => readFiltersFromParams(searchParams),
+    [searchParams],
+  );
 
   const appliedFilters = pendingSearch ?? appliedFromUrl;
 
   useEffect(() => {
-    const fromUrl = readFiltersFromParams(searchParams);
-    const resolvedArea =
-      fromUrl.prefecture && fromUrl.area
-        ? resolveAreaFilterParam(fromUrl.area, shops, fromUrl.prefecture)
-        : fromUrl.area;
-    const urlFilters = { ...fromUrl, area: resolvedArea };
+    const urlFilters = readFiltersFromParams(searchParams);
     setKeyword(urlFilters.keyword);
-    setPrefecture(urlFilters.prefecture);
-    setArea(urlFilters.area);
     setSelectedConditions(urlFilters.conditions);
     setPendingSearch((pending) =>
       pending && filtersEqual(pending, urlFilters) ? null : pending,
     );
-  }, [searchParams, shops]);
+  }, [searchParams]);
 
   const draftFilters = useMemo<ShopSearchFilters>(
     () => ({
@@ -184,7 +171,7 @@ export default function ShopExplorer({
   useEffect(() => {
     const prefStillValid =
       !prefecture || prefectureOptions.some((opt) => opt.slug === prefecture);
-    const areaStillValid = !area || areaOptions.some((opt) => opt.value === area);
+    const areaStillValid = !area || areaOptions.some((opt) => opt.slug === area);
 
     if (!prefStillValid) {
       setPrefecture("");
@@ -237,7 +224,18 @@ export default function ShopExplorer({
       conditions: selectedConditions,
     };
     setPendingSearch(next);
-    router.replace(buildQueryPath(next), { scroll: false });
+
+    if (prefecture) {
+      router.push(
+        buildLocationSearchPath(prefecture, area, {
+          keyword,
+          conditions: selectedConditions,
+        }),
+      );
+      return;
+    }
+
+    router.replace(buildTopOnlyQueryPath(next), { scroll: false });
     scrollToResults();
   }, [keyword, prefecture, area, selectedConditions, previewCount, router, scrollToResults]);
 
@@ -254,7 +252,6 @@ export default function ShopExplorer({
 
   return (
     <>
-      {/* Hero — viewport full-bleed mint background; content padding on inner layer only */}
       <div className="relative left-1/2 w-screen -translate-x-1/2 bg-[rgb(237,245,241)]">
         <HeroBackgroundPattern />
         <div className="relative px-4 md:px-10 lg:px-24 xl:px-40 pt-6 pb-5 md:py-10 lg:py-12">
@@ -303,7 +300,7 @@ export default function ShopExplorer({
                   </label>
 
                   <label className="relative flex-1 min-w-0">
-                    <span className="sr-only">エリア・駅を選択</span>
+                    <span className="sr-only">エリアを選択</span>
                     <select
                       value={area}
                       onChange={(e) => setArea(e.target.value)}
@@ -311,10 +308,10 @@ export default function ShopExplorer({
                       className={`${selectCls} pr-8 w-full disabled:opacity-50 disabled:cursor-not-allowed`}
                     >
                       <option value="">
-                        {prefecture ? "エリア・駅を選択" : "先に都道府県を選択"}
+                        {prefecture ? "エリアを選択" : "先に都道府県を選択"}
                       </option>
                       {areaOptions.map((opt) => (
-                        <option key={opt.value} value={opt.value}>
+                        <option key={opt.slug} value={opt.slug}>
                           {opt.label}（{opt.count}）
                         </option>
                       ))}
@@ -376,7 +373,6 @@ export default function ShopExplorer({
         </div>
       </div>
 
-      {/* Results */}
       <div
         ref={resultsRef}
         className="px-4 md:px-10 lg:px-24 xl:px-40 pt-6 md:pt-8 pb-6 md:pb-10 scroll-mt-16"
@@ -416,7 +412,6 @@ export default function ShopExplorer({
         )}
       </div>
 
-      {/* Bottom CTA */}
       <div className="flex flex-col items-center px-4 md:px-10 lg:px-24 xl:px-40 pb-10 md:pb-14">
         <Link
           href="/request"

@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
-import { getAreas, getPublishedShops } from "@/lib/queries";
+import { getAreas, getPrefectures, getPublishedShops } from "@/lib/queries";
+import { areaUrl, prefectureUrl } from "@/lib/location-paths";
 import { siteUrl, shopDetailUrl } from "@/lib/format";
 import type { Shop } from "@/lib/types";
 
@@ -12,7 +13,11 @@ function shopHasDetailPath(shop: Shop): boolean {
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = siteUrl();
-  const [shops, areas] = await Promise.all([getPublishedShops(), getAreas()]);
+  const [shops, prefectures, areas] = await Promise.all([
+    getPublishedShops(),
+    getPrefectures(),
+    getAreas(),
+  ]);
 
   const staticEntries: MetadataRoute.Sitemap = [
     { url: base, changeFrequency: "daily", priority: 1 },
@@ -21,8 +26,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${base}/terms`, changeFrequency: "yearly", priority: 0.2 },
   ];
 
+  const prefectureEntries: MetadataRoute.Sitemap = prefectures.map((pref) => ({
+    url: prefectureUrl(pref.slug, base),
+    changeFrequency: "weekly",
+    priority: 0.75,
+  }));
+
   const areaEntries: MetadataRoute.Sitemap = areas.map((area) => ({
-    url: `${base}/area/${area.slug}`,
+    url: areaUrl(area.prefectureSlug, area.slug, base),
     changeFrequency: "weekly",
     priority: 0.7,
   }));
@@ -36,5 +47,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     }));
 
-  return [...staticEntries, ...areaEntries, ...shopEntries];
+  return [...staticEntries, ...prefectureEntries, ...areaEntries, ...shopEntries];
 }

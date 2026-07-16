@@ -20,14 +20,23 @@
 | パス | 内容 |
 | --- | --- |
 | `/` | TOP（都道府県・エリア・条件での検索、おすすめ店舗） |
-| `/list` | 店舗一覧（canonical は `/list`。旧 `?prefecture=` はクエリなし `/list` へ 301） |
-| `/area/[areaSlug]` | エリア別の店舗一覧 |
-| `/[prefectureSlug]/[areaSlug]/[shopSlug]` | 店舗詳細（動的 metadata / OGP / canonical / LocalBusiness・BreadcrumbList） |
+| `/list` | 全国の店舗一覧 |
+| `/{prefectureSlug}` | 都道府県別の店舗一覧 |
+| `/{prefectureSlug}/{areaSlug}` | 都道府県＋エリア別の店舗一覧 |
+| `/{prefectureSlug}/{areaSlug}/{shopSlug}` | 店舗詳細（動的 metadata / OGP / canonical / LocalBusiness・BreadcrumbList） |
 | `/cafes/[slug]` | 旧店舗詳細 URL（正式パスへ永続リダイレクト） |
-| `/sitemap.xml` | サイトマップ（店舗・エリアを自動生成） |
+| `/sitemap.xml` | サイトマップ（都道府県・エリア・店舗を自動生成） |
 | `/robots.txt` | robots |
 
-旧パス `/areas`・`/areas/[prefecture]` は TOP（`/`）へリダイレクトします。
+### 旧URLのリダイレクト（301）
+
+| 旧 | 新 |
+| --- | --- |
+| `/?pref=aichi` | `/aichi` |
+| `/?pref=aichi&area=岡崎` | `/aichi/okazaki` |
+| `/list?prefecture=aichi` | `/aichi` |
+| `/areas/aichi` | `/aichi` |
+| `/area/okazaki` | `/aichi/okazaki` |
 
 ## セットアップ
 

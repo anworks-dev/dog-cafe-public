@@ -1,11 +1,12 @@
 import { shopMatchesAllConditions } from "@/lib/dog-conditions";
-import { areaSearchLabel, shopMatchesAreaFilter } from "@/lib/format";
+import { formalAreaLabel } from "@/lib/location-paths";
 import { sortByPrefectureOrder } from "@/lib/prefecture-order";
 import type { Shop } from "@/lib/types";
 
 export type ShopSearchFilters = {
   keyword: string;
   prefecture: string;
+  /** area_slug (not Japanese label). */
   area: string;
   conditions: string[];
 };
@@ -21,7 +22,7 @@ export function shopMatchesKeyword(shop: Shop, keyword: string): boolean {
 export function filterShops(shops: Shop[], filters: ShopSearchFilters): Shop[] {
   return shops.filter((shop) => {
     if (filters.prefecture && shop.prefecture_slug !== filters.prefecture) return false;
-    if (filters.area && !shopMatchesAreaFilter(shop, filters.area)) return false;
+    if (filters.area && shop.area_slug !== filters.area) return false;
     if (!shopMatchesAllConditions(shop, filters.conditions)) return false;
     if (!shopMatchesKeyword(shop, filters.keyword)) return false;
     return true;
@@ -31,7 +32,13 @@ export function filterShops(shops: Shop[], filters: ShopSearchFilters): Shop[] {
 type PrefectureMeta = { slug: string; label: string };
 
 export type PrefectureOption = PrefectureMeta & { count: number };
-export type AreaOption = { value: string; label: string; count: number };
+export type AreaOption = {
+  /** area_slug used in URLs */
+  slug: string;
+  /** Formal display name */
+  label: string;
+  count: number;
+};
 
 /** Prefecture options filtered by tags + keyword only (not prefecture/area). */
 export function buildPrefectureOptions(
@@ -62,7 +69,7 @@ export function buildPrefectureOptions(
   );
 }
 
-/** Area options filtered by tags + keyword + prefecture. */
+/** Area options by area_slug within a prefecture (label from area field, not station). */
 export function buildAreaOptions(
   shops: Shop[],
   filters: Pick<ShopSearchFilters, "keyword" | "conditions" | "prefecture">,
@@ -74,14 +81,28 @@ export function buildAreaOptions(
     prefecture: filters.prefecture,
     area: "",
   });
-  const counts = new Map<string, number>();
+
+  const bySlug = new Map<string, Shop[]>();
   for (const shop of matched) {
-    const label = areaSearchLabel(shop);
-    if (!label) continue;
-    counts.set(label, (counts.get(label) ?? 0) + 1);
+    if (!shop.area_slug) continue;
+    const list = bySlug.get(shop.area_slug);
+    if (list) list.push(shop);
+    else bySlug.set(shop.area_slug, [shop]);
   }
-  return [...counts.entries()]
-    .filter(([, count]) => count > 0)
-    .map(([label, count]) => ({ value: label, label, count }))
+
+  return [...bySlug.entries()]
+    .map(([slug, group]) => {
+      const preferred = group.find((s) => {
+        const area = s.area?.trim() || "";
+        const pref = s.prefecture?.trim() || "";
+        return Boolean(area && area !== pref);
+      });
+      return {
+        slug,
+        label: formalAreaLabel(preferred ?? group[0]),
+        count: group.length,
+      };
+    })
+    .filter((opt) => opt.count > 0)
     .sort((a, b) => a.label.localeCompare(b.label, "ja"));
 }

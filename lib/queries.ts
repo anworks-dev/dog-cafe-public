@@ -1,4 +1,5 @@
 import { getSupabase, isSupabaseConfigured } from "./supabase";
+import { formalAreaLabelForGroup } from "./location-paths";
 import type {
   AreaSummary,
   PrefectureSummary,
@@ -348,27 +349,50 @@ export async function getShopsByArea(areaSlug: string): Promise<Shop[]> {
   return (data ?? []).map((row) => normalizeShop(row as Record<string, unknown>));
 }
 
+export async function getShopsByPrefectureAndArea(
+  prefectureSlug: string,
+  areaSlug: string,
+): Promise<Shop[]> {
+  if (!isSupabaseConfigured()) return [];
+
+  const { data, error } = await getSupabase()
+    .from("shops")
+    .select(SHOP_COLUMNS)
+    .eq("status", "published")
+    .eq("prefecture_slug", prefectureSlug)
+    .eq("area_slug", areaSlug)
+    .order("updated_at", { ascending: false });
+
+  if (error) {
+    console.error("[getShopsByPrefectureAndArea]", error.message);
+    return [];
+  }
+  return (data ?? []).map((row) => normalizeShop(row as Record<string, unknown>));
+}
+
 export async function getAreas(): Promise<AreaSummary[]> {
   const shops = await getPublishedShops();
-  const map = new Map<string, AreaSummary>();
+  const byKey = new Map<string, Shop[]>();
   for (const shop of shops) {
-    if (!shop.area_slug) continue;
-    const existing = map.get(shop.area_slug);
-    if (existing) {
-      existing.count += 1;
-    } else {
-      map.set(shop.area_slug, {
-        slug: shop.area_slug,
-        label: shop.area || shop.area_slug,
-        prefecture: shop.prefecture,
-        prefectureSlug: shop.prefecture_slug,
-        count: 1,
-      });
-    }
+    if (!shop.area_slug || !shop.prefecture_slug) continue;
+    const key = `${shop.prefecture_slug}::${shop.area_slug}`;
+    const list = byKey.get(key);
+    if (list) list.push(shop);
+    else byKey.set(key, [shop]);
   }
-  return [...map.values()].sort(
-    (a, b) => b.count - a.count || a.label.localeCompare(b.label, "ja"),
-  );
+
+  return [...byKey.values()]
+    .map((group) => {
+      const first = group[0];
+      return {
+        slug: first.area_slug,
+        label: formalAreaLabelForGroup(group),
+        prefecture: first.prefecture,
+        prefectureSlug: first.prefecture_slug,
+        count: group.length,
+      };
+    })
+    .sort((a, b) => b.count - a.count || a.label.localeCompare(b.label, "ja"));
 }
 
 export async function getConditionTags(): Promise<TagSummary[]> {

@@ -12,6 +12,7 @@ import {
   shopLocationLabel,
   siteUrl,
 } from "@/lib/format";
+import { areaPath, formalAreaLabel, prefecturePath } from "@/lib/location-paths";
 import { TAG_CLS } from "@/lib/shop-tags";
 import CafeCard from "@/components/CafeCard";
 import GoogleMapEmbed from "@/components/GoogleMapEmbed";
@@ -393,7 +394,7 @@ export default function CafeDetailView({
 }) {
   const area = areaLabelFromShop(shop);
   const url = shopDetailUrl(shop);
-  const areaLabel = shop.area?.trim() || area;
+  const areaLabel = formalAreaLabel(shop);
   const isGoogleLinked = Boolean(shop.google_place_id) || showGoogleHours;
 
   const localBusiness = {
@@ -432,10 +433,16 @@ export default function CafeDetailView({
       {
         "@type": "ListItem",
         position: 2,
-        name: areaLabel,
-        item: `${siteUrl()}/area/${shop.area_slug}`,
+        name: shop.prefecture,
+        item: `${siteUrl()}${prefecturePath(shop.prefecture_slug)}`,
       },
-      { "@type": "ListItem", position: 3, name: shop.name, item: url },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: areaLabel,
+        item: `${siteUrl()}${areaPath(shop.prefecture_slug, shop.area_slug)}`,
+      },
+      { "@type": "ListItem", position: 4, name: shop.name, item: url },
     ],
   };
 
@@ -543,7 +550,7 @@ export default function CafeDetailView({
                 口コミを投稿する
               </Link>
               <Link
-                href="/list"
+                href={areaPath(shop.prefecture_slug, shop.area_slug)}
                 className="text-[13px] text-[#6FAA88] flex items-center gap-1 hover:text-[#4A9070] transition-colors"
               >
                 ← 一覧に戻る

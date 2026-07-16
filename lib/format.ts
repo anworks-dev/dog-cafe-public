@@ -162,16 +162,18 @@ export function areaSearchLabel(shop: {
   return label || null;
 }
 
-/** Match area filter by display label or legacy area_slug URL param. */
+/** Match area filter by area_slug only (location pages / TOP search). */
 export function shopMatchesAreaFilter(
-  shop: { area_slug: string; station_label?: string; station?: string; area?: string },
+  shop: { area_slug: string },
   areaFilter: string,
 ): boolean {
   if (!areaFilter) return true;
-  if (shop.area_slug === areaFilter) return true;
-  return areaSearchLabel(shop) === areaFilter;
+  return shop.area_slug === areaFilter;
 }
 
+/**
+ * @deprecated Legacy label↔slug helper for old TOP URLs. Prefer area_slug directly.
+ */
 export function resolveAreaFilterParam(
   areaParam: string,
   shops: { prefecture_slug: string; area_slug: string; station_label?: string; station?: string; area?: string }[],
@@ -179,8 +181,7 @@ export function resolveAreaFilterParam(
 ): string {
   if (!areaParam) return "";
   const scoped = shops.filter((s) => s.prefecture_slug === prefectureSlug);
+  if (scoped.some((s) => s.area_slug === areaParam)) return areaParam;
   if (scoped.some((s) => areaSearchLabel(s) === areaParam)) return areaParam;
-  const bySlug = scoped.find((s) => s.area_slug === areaParam);
-  if (bySlug) return areaSearchLabel(bySlug) ?? areaParam;
   return areaParam;
 }
