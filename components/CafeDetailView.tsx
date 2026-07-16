@@ -25,6 +25,71 @@ import type { Review, ReviewPhoto, Shop, ShopWithCardImage } from "@/lib/types";
 const SHOP_DISCLAIMER =
   "掲載情報はユーザー投稿に基づくものです。営業時間・犬同伴条件は変更される場合があります。来店前に必ず公式サイト・Instagram・Google Map等で最新情報をご確認ください。";
 
+const REVIEW_BUTTON_CLS =
+  "block w-full py-4 bg-[#6FAA88] text-white rounded-xl text-[15px] font-bold hover:bg-[#5D9876] active:scale-[0.98] transition-all shadow-sm text-center";
+
+/** Compact orange CTA — smaller than TOP hero CTA. */
+const REQUEST_CTA_CLS =
+  "inline-flex items-center justify-center min-h-[44px] px-6 py-2.5 md:px-7 md:py-3 bg-[#E0784A] text-white rounded-xl text-[14px] md:text-[15px] font-bold hover:bg-[#CC6A3D] active:scale-[0.98] transition-all shadow-sm text-center";
+
+function ShopBreadcrumb({
+  shop,
+  areaLabel,
+}: {
+  shop: Shop;
+  areaLabel: string;
+}) {
+  return (
+    <nav
+      aria-label="パンくずリスト"
+      className="text-[12px] md:text-[13px] text-[#9A8878] flex flex-wrap items-center gap-x-1.5 gap-y-1 mb-3 md:mb-4"
+    >
+      <Link href="/" className="hover:text-[#4A9070] transition-colors shrink-0">
+        TOP
+      </Link>
+      <span className="shrink-0" aria-hidden>
+        ›
+      </span>
+      <Link
+        href={prefecturePath(shop.prefecture_slug)}
+        className="hover:text-[#4A9070] transition-colors shrink-0"
+      >
+        {shop.prefecture}
+      </Link>
+      <span className="shrink-0" aria-hidden>
+        ›
+      </span>
+      <Link
+        href={areaPath(shop.prefecture_slug, shop.area_slug)}
+        className="hover:text-[#4A9070] transition-colors shrink-0 max-w-[40%] truncate sm:max-w-none sm:overflow-visible sm:whitespace-normal"
+        title={areaLabel}
+      >
+        {areaLabel}
+      </Link>
+      <span className="shrink-0" aria-hidden>
+        ›
+      </span>
+      <span
+        className="text-[#6A5E54] min-w-0 basis-full sm:basis-auto sm:max-w-[min(100%,28rem)] break-words line-clamp-2 sm:line-clamp-none"
+        aria-current="page"
+        title={shop.name}
+      >
+        {shop.name}
+      </span>
+    </nav>
+  );
+}
+
+function RequestListingCta() {
+  return (
+    <div className="flex justify-center pt-2 pb-1">
+      <Link href="/request" className={REQUEST_CTA_CLS}>
+        掲載してほしいカフェを知らせる
+      </Link>
+    </div>
+  );
+}
+
 function DisclaimerBanner({ variant }: { variant: "sp" | "pc" }) {
   return (
     <div
@@ -211,9 +276,6 @@ function ListingCorrectionNotice({ variant }: { variant: "sp" | "pc" }) {
     </div>
   );
 }
-
-const REVIEW_BUTTON_CLS =
-  "block w-full py-4 bg-[#6FAA88] text-white rounded-xl text-[15px] font-bold hover:bg-[#5D9876] active:scale-[0.98] transition-all shadow-sm text-center";
 
 function UnlinkedBasicInfoCard({
   shop,
@@ -429,7 +491,7 @@ export default function CafeDetailView({
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "ホーム", item: siteUrl() },
+      { "@type": "ListItem", position: 1, name: "TOP", item: siteUrl() },
       {
         "@type": "ListItem",
         position: 2,
@@ -460,6 +522,7 @@ export default function CafeDetailView({
       {/* SP */}
       <div className="md:hidden">
         <div className="px-4 py-5 space-y-5">
+          <ShopBreadcrumb shop={shop} areaLabel={areaLabel} />
           <ShopHeader shop={shop} reviews={reviews} variant="sp" />
 
           <DisclaimerBanner variant="sp" />
@@ -509,12 +572,15 @@ export default function CafeDetailView({
               </div>
             </div>
           )}
+
+          <RequestListingCta />
         </div>
       </div>
 
       {/* PC */}
       <div className="hidden md:block">
         <div className="px-10 lg:px-24 xl:px-40 py-10">
+          <ShopBreadcrumb shop={shop} areaLabel={areaLabel} />
           <div className="flex gap-8 items-start">
             <div className="flex-1 min-w-0 space-y-6">
               <ShopHeader shop={shop} reviews={reviews} variant="pc" />
@@ -573,6 +639,10 @@ export default function CafeDetailView({
               </div>
             </div>
           )}
+
+          <div className="mt-10">
+            <RequestListingCta />
+          </div>
         </div>
       </div>
     </>

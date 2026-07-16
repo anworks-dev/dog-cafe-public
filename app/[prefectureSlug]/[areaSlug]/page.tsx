@@ -182,19 +182,21 @@ export default async function PrefectureAreaListPage({
         </div>
       )}
 
-      <div className="px-4 md:px-10 lg:px-24 xl:px-40 pb-12 flex justify-center gap-6">
-        <Link
-          href={prefecturePath(prefectureSlug)}
-          className="text-[14px] font-medium text-[#6FAA88] hover:text-[#4A9070] transition-colors"
-        >
-          {prefecture}の店舗一覧を見る
-        </Link>
-        <Link
-          href="/request"
-          className="text-[14px] font-medium text-[#B8906A] underline underline-offset-2 hover:text-[#9A7050] transition-colors"
-        >
-          掲載してほしいカフェを知らせる
-        </Link>
+      <div className="px-4 md:px-10 lg:px-24 xl:px-40 pb-12">
+        <div className="max-w-[1040px] mx-auto flex flex-col items-center gap-5">
+          <Link
+            href={prefecturePath(prefectureSlug)}
+            className="text-[14px] font-medium text-[#6FAA88] hover:text-[#4A9070] transition-colors"
+          >
+            {prefecture}の店舗一覧を見る
+          </Link>
+          <Link
+            href="/request"
+            className="inline-flex items-center justify-center min-h-[44px] px-6 py-2.5 md:px-7 md:py-3 bg-[#E0784A] text-white rounded-xl text-[14px] md:text-[15px] font-bold hover:bg-[#CC6A3D] active:scale-[0.98] transition-all shadow-sm text-center"
+          >
+            掲載してほしいカフェを知らせる
+          </Link>
+        </div>
       </div>
     </>
   );
