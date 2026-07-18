@@ -1,8 +1,10 @@
 import Link from "next/link";
 import { MapPin } from "lucide-react";
 import type { ShopWithCardImage } from "@/lib/types";
+import { selectTagsForCafeCard } from "@/lib/dog-conditions";
 import { shopDetailPath, shopLocationLabel } from "@/lib/format";
 import { TAG_CLS } from "@/lib/shop-tags";
+import { ConditionBadge, ConditionBadgeRow } from "./ConditionBadge";
 import CafeCardImage from "./CafeCardImage";
 
 export { TAG_CLS };
@@ -12,8 +14,9 @@ export default function CafeCard({ shop }: { shop: ShopWithCardImage }) {
   const location = shopLocationLabel(shop);
   const cardText = shop.description?.trim() || shop.card_excerpt?.trim() || "";
   const tags = Array.isArray(shop.tags) ? shop.tags : [];
-  /** SP: keep the traditional 2-tag limit so the horizontal card stays readable. */
-  const spTags = tags.slice(0, 2);
+  /** SP: max 2, but always keep a rule badge when present. PC: all tags. */
+  const spTags = selectTagsForCafeCard(tags, 2);
+  const pcTags = selectTagsForCafeCard(tags);
 
   return (
     <>
@@ -37,16 +40,16 @@ export default function CafeCard({ shop }: { shop: ShopWithCardImage }) {
             </p>
           )}
           {spTags.length > 0 && (
-            <div className="flex gap-1 flex-wrap">
+            <ConditionBadgeRow size="compact">
               {spTags.map((t) => (
-                <span
+                <ConditionBadge
                   key={t.label}
-                  className={`px-2 py-0.5 rounded-[4px] text-[10px] font-semibold border ${TAG_CLS[t.v] ?? TAG_CLS.green}`}
-                >
-                  {t.label}
-                </span>
+                  label={t.label}
+                  fallbackV={t.v}
+                  size="compact"
+                />
               ))}
-            </div>
+            </ConditionBadgeRow>
           )}
           {cardText && (
             <p className="text-[11px] text-[#6A5E54] line-clamp-2">{cardText}</p>
@@ -74,17 +77,12 @@ export default function CafeCard({ shop }: { shop: ShopWithCardImage }) {
               {location}
             </p>
           )}
-          {tags.length > 0 && (
-            <div className="flex gap-1.5 flex-wrap">
-              {tags.map((t) => (
-                <span
-                  key={t.label}
-                  className={`px-2 py-0.5 rounded-[4px] text-[10px] font-semibold border ${TAG_CLS[t.v] ?? TAG_CLS.green}`}
-                >
-                  {t.label}
-                </span>
+          {pcTags.length > 0 && (
+            <ConditionBadgeRow>
+              {pcTags.map((t) => (
+                <ConditionBadge key={t.label} label={t.label} fallbackV={t.v} />
               ))}
-            </div>
+            </ConditionBadgeRow>
           )}
           {cardText && (
             <p className="text-[12px] text-[#6A5E54] leading-relaxed line-clamp-2">

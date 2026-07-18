@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
+import BackToTopButton from "@/components/BackToTopButton";
 import { siteUrl } from "@/lib/format";
 
 export const metadata: Metadata = {
@@ -51,6 +52,7 @@ export default function RootLayout({
         <SiteHeader />
         <main className="min-h-[60vh] w-full overflow-x-clip">{children}</main>
         <SiteFooter />
+        <BackToTopButton />
       </body>
     </html>
   );

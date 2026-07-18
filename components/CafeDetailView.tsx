@@ -13,7 +13,8 @@ import {
   siteUrl,
 } from "@/lib/format";
 import { areaPath, formalAreaLabel, prefecturePath } from "@/lib/location-paths";
-import { TAG_CLS } from "@/lib/shop-tags";
+import { orderTagsForDisplay } from "@/lib/dog-conditions";
+import { ConditionBadge, ConditionBadgeRow } from "@/components/ConditionBadge";
 import CafeCard from "@/components/CafeCard";
 import GoogleMapEmbed from "@/components/GoogleMapEmbed";
 import GoogleOpeningHoursSection from "@/components/GoogleOpeningHoursSection";
@@ -361,20 +362,11 @@ function ShopHeader({
       </div>
 
       {shop.tags.length > 0 && (
-        <div className="flex flex-wrap gap-2">
-          {shop.tags.map((t) => (
-            <span
-              key={t.label}
-              className={`rounded-full font-semibold border ${TAG_CLS[t.v]} ${
-                variant === "sp"
-                  ? "px-2.5 py-1.5 text-[11px]"
-                  : "px-3 py-1.5 text-[12px]"
-              }`}
-            >
-              {t.label}
-            </span>
+        <ConditionBadgeRow>
+          {orderTagsForDisplay(shop.tags).map((t) => (
+            <ConditionBadge key={t.label} label={t.label} fallbackV={t.v} />
           ))}
-        </div>
+        </ConditionBadgeRow>
       )}
 
       {shop.description && (

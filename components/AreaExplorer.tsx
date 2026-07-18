@@ -3,16 +3,9 @@
 import { useMemo, useState } from "react";
 import { Search } from "lucide-react";
 import type { ShopWithCardImage } from "@/lib/types";
+import { POSITIVE_DOG_CONDITIONS, shopHasConditionTag } from "@/lib/dog-conditions";
 import CafeCard from "./CafeCard";
-
-const CONDITION_CHIPS = [
-  "店内OK",
-  "テラスOK",
-  "大型犬OK",
-  "ドッグメニューあり",
-  "駐車場あり",
-  "雨の日OK",
-];
+import { ConditionFilterChip, ConditionBadgeRow } from "./ConditionBadge";
 
 const PAGE_SIZE = 8;
 
@@ -41,17 +34,19 @@ export default function AreaExplorer({
 
   const conditionChips = useMemo(
     () =>
-      CONDITION_CHIPS.filter((chip) =>
-        shops.some((s) => (s.tags ?? []).some((t) => t.label === chip)),
-      ),
+      POSITIVE_DOG_CONDITIONS.filter((c) =>
+        shops.some((s) => shopHasConditionTag(s, c.matchLabels)),
+      ).map((c) => c.chip),
     [shops],
   );
 
   const filtered = useMemo(() => {
     const q = keyword.trim().toLowerCase();
     return shops.filter((s) => {
-      const tags = s.tags ?? [];
-      if (activeChip && !tags.some((t) => t.label === activeChip)) return false;
+      if (activeChip) {
+        const config = POSITIVE_DOG_CONDITIONS.find((c) => c.chip === activeChip);
+        if (config && !shopHasConditionTag(s, config.matchLabels)) return false;
+      }
       if (q) {
         const hay =
           `${s.name} ${s.area} ${s.prefecture} ${s.station} ${s.station_label}`.toLowerCase();
@@ -104,22 +99,16 @@ export default function AreaExplorer({
 
           {conditionChips.length > 0 && (
             <div className="flex flex-wrap items-center justify-between gap-4">
-              <div className="flex flex-wrap gap-2">
+              <ConditionBadgeRow>
                 {conditionChips.map((chip) => (
-                  <button
+                  <ConditionFilterChip
                     key={chip}
-                    type="button"
+                    label={chip}
+                    selected={activeChip === chip}
                     onClick={() => toggleChip(chip)}
-                    className={`px-3 py-1.5 rounded-full text-[11px] font-semibold border transition-all ${
-                      activeChip === chip
-                        ? "bg-[#6FAA88] text-white border-[#6FAA88]"
-                        : "bg-[#ECF4EF] text-[#4A9070] border-[#C5E0D5] hover:bg-[#6FAA88] hover:text-white hover:border-[#6FAA88]"
-                    }`}
-                  >
-                    {chip}
-                  </button>
+                  />
                 ))}
-              </div>
+              </ConditionBadgeRow>
               <div className="flex flex-wrap gap-2">
                 {SORT_TABS.map((tab) => (
                   <button

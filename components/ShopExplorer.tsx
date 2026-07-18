@@ -6,7 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { PawPrint, MapPin, ChevronDown, Search } from "lucide-react";
 import type { ShopWithCardImage } from "@/lib/types";
 import {
-  TOP_DOG_CONDITIONS,
+  POSITIVE_DOG_CONDITIONS,
   parseConditionChipsFromParam,
 } from "@/lib/dog-conditions";
 import { buildLocationSearchPath } from "@/lib/location-paths";
@@ -16,7 +16,7 @@ import {
   filterShops,
   type ShopSearchFilters,
 } from "@/lib/shop-search";
-import { conditionFilterChipClass } from "@/lib/shop-tags";
+import { ConditionFilterChip, ConditionBadgeRow } from "./ConditionBadge";
 import CafeCard from "./CafeCard";
 import HeroBackgroundPattern from "./HeroBackgroundPattern";
 
@@ -323,18 +323,16 @@ export default function ShopExplorer({
                   </label>
                 </div>
 
-                <div className="flex flex-wrap gap-2">
-                  {TOP_DOG_CONDITIONS.map(({ chip, v }) => (
-                    <button
+                <ConditionBadgeRow>
+                  {POSITIVE_DOG_CONDITIONS.map(({ chip }) => (
+                    <ConditionFilterChip
                       key={chip}
-                      type="button"
+                      label={chip}
+                      selected={selectedConditions.includes(chip)}
                       onClick={() => toggleCondition(chip)}
-                      className={conditionFilterChipClass(v, selectedConditions.includes(chip))}
-                    >
-                      {chip}
-                    </button>
+                    />
                   ))}
-                </div>
+                </ConditionBadgeRow>
 
                 <div className="flex items-center gap-2 bg-[#FAF8F4] border border-[rgba(59,47,37,0.12)] rounded-xl px-3 py-2.5 md:px-3.5 md:py-3">
                   <input
