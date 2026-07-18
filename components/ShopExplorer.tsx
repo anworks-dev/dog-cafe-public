@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { PawPrint, MapPin, ChevronDown, Search } from "lucide-react";
+import { MapPin, ChevronDown, Search } from "lucide-react";
 import type { ShopWithCardImage } from "@/lib/types";
 import {
   POSITIVE_DOG_CONDITIONS,
@@ -18,7 +18,9 @@ import {
 } from "@/lib/shop-search";
 import { ConditionFilterChip, ConditionBadgeRow } from "./ConditionBadge";
 import CafeCard from "./CafeCard";
-import HeroBackgroundPattern from "./HeroBackgroundPattern";
+import { CTA_BUTTON_CLS } from "@/lib/cta";
+import FvGinghamBand from "./FvGinghamBand";
+import HeroSpeechBubble from "./HeroSpeechBubble";
 
 const FEATURED_COUNT = 8;
 
@@ -30,7 +32,7 @@ function shopUpdatedAtMs(shop: ShopWithCardImage): number | null {
 }
 
 const selectCls =
-  "flex-1 flex items-center justify-between bg-[#FAF8F4] border border-[rgba(59,47,37,0.12)] rounded-xl px-3.5 py-2.5 text-[13px] text-[#3B2F25] hover:border-[#6FAA88] transition-colors appearance-none cursor-pointer";
+  "flex-1 flex items-center justify-between bg-[#FAF7F2] border border-[rgba(62,43,35,0.14)] rounded-2xl px-3.5 py-2.5 text-[13px] text-[#3E2B23] hover:border-[#759F88] transition-colors appearance-none cursor-pointer";
 
 type TopShopSort = "newest" | "reviews";
 
@@ -83,10 +85,10 @@ function SortTabs({
           key={tab.id}
           type="button"
           onClick={() => onChange(tab.id)}
-          className={`px-3 py-1.5 md:px-3.5 rounded-full text-[12px] md:text-[13px] font-semibold border transition-all ${
+          className={`px-3.5 py-1.5 md:px-4 rounded-full text-[12px] md:text-[13px] font-semibold border transition-all ${
             value === tab.id
-              ? "bg-[#6FAA88] text-white border-[#6FAA88]"
-              : "bg-white text-[#4A9070] border-[#C5E0D5] hover:bg-[#ECF4EF]"
+              ? "bg-[#759F88] text-white border-[#759F88]"
+              : "bg-white text-[#4F856C] border-[#BFD4C8] hover:bg-[#E8F0EB]"
           }`}
         >
           {tab.label}
@@ -252,25 +254,20 @@ export default function ShopExplorer({
 
   return (
     <>
-      <div className="relative left-1/2 w-screen -translate-x-1/2 bg-[rgb(237,245,241)] overflow-visible">
-        <HeroBackgroundPattern />
+      <FvGinghamBand className="relative left-1/2 w-screen -translate-x-1/2 overflow-visible">
         <div className="relative overflow-visible px-4 md:px-10 lg:px-24 xl:px-40 pt-6 pb-5 md:py-10 lg:py-12">
           <div className="max-w-[920px] mx-auto overflow-visible">
             <div className="relative mx-auto flex w-full max-w-[840px] flex-col items-center overflow-visible">
-              <p className="relative z-10 hidden md:flex text-[13px] font-medium text-[#6FAA88] items-center gap-1.5">
-                <PawPrint size={12} strokeWidth={2.5} />
-                犬と一緒に、おでかけしよう
-              </p>
-
               {/* Headline + search card */}
-              <div className="relative w-full overflow-visible">
+              <div className="relative w-full overflow-visible flex flex-col items-center">
+                <HeroSpeechBubble className="mb-2 pb-1.5 md:mb-2.5 md:pb-1.5" />
                 <h1
-                  className="relative z-10 text-[20px] md:text-[32px] font-extrabold text-[#3B2F25] leading-snug md:leading-tight text-center"
+                  className="relative z-10 text-[20px] md:text-[32px] font-extrabold text-[#3E2B23] leading-snug md:leading-tight text-center"
                   style={{ fontFamily: "Nunito, sans-serif" }}
                 >
                   愛犬と行けるカフェ・お店を探す
                 </h1>
-                <p className="relative z-10 mt-2 md:mt-3 text-[13px] md:text-[14px] text-[#6A5E54] leading-[1.7] md:leading-relaxed max-w-[17.5rem] md:max-w-none mx-auto text-center">
+                <p className="relative z-10 mt-2 md:mt-3 text-[13px] md:text-[14px] text-[#6B5A50] leading-[1.7] md:leading-relaxed max-w-[17.5rem] md:max-w-none mx-auto text-center">
                   全国のドッグフレンドリーなお店を
                   <br className="md:hidden" />
                   みんなの口コミで見つけよう。
@@ -312,13 +309,13 @@ export default function ShopExplorer({
                         bottom-[calc(100%-clamp(0.28rem,1.5vw,0.4rem))]"
                     />
 
-                    <div className="relative z-10 w-full bg-white rounded-2xl p-4 md:p-5 shadow-sm space-y-3 md:space-y-4 text-left">
+                    <div className="relative z-10 w-full bg-white rounded-3xl p-4 md:p-5 shadow-[0_2px_10px_rgba(62,43,35,0.06)] border border-[rgba(62,43,35,0.06)] space-y-3 md:space-y-4 text-left">
                 <div className="flex flex-col sm:flex-row gap-2 md:gap-3">
                   <label className="relative flex-1 min-w-0">
                     <span className="sr-only">都道府県を選択</span>
                     <MapPin
                       size={12}
-                      className="absolute left-3 top-1/2 -translate-y-1/2 text-[#6FAA88] pointer-events-none z-10"
+                      className="absolute left-3 top-1/2 -translate-y-1/2 text-[#759F88] pointer-events-none z-10"
                     />
                     <select
                       value={prefecture}
@@ -334,7 +331,7 @@ export default function ShopExplorer({
                     </select>
                     <ChevronDown
                       size={11}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-[#9A8878] pointer-events-none"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-[#9A8578] pointer-events-none"
                     />
                   </label>
 
@@ -357,7 +354,7 @@ export default function ShopExplorer({
                     </select>
                     <ChevronDown
                       size={11}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-[#9A8878] pointer-events-none"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-[#9A8578] pointer-events-none"
                     />
                   </label>
                 </div>
@@ -373,24 +370,24 @@ export default function ShopExplorer({
                   ))}
                 </ConditionBadgeRow>
 
-                <div className="flex items-center gap-2 bg-[#FAF8F4] border border-[rgba(59,47,37,0.12)] rounded-xl px-3 py-2.5 md:px-3.5 md:py-3">
+                <div className="flex items-center gap-2 bg-[#FAF7F2] border border-[rgba(62,43,35,0.14)] rounded-2xl px-3 py-2.5 md:px-3.5 md:py-3">
                   <input
                     value={keyword}
                     onChange={(e) => setKeyword(e.target.value)}
                     onKeyDown={(e) => e.key === "Enter" && previewCount > 0 && handleSearch()}
-                    className="flex-1 text-[13px] md:text-[14px] text-[#3B2F25] bg-transparent outline-none placeholder:text-[#9A8878]"
+                    className="flex-1 text-[13px] md:text-[14px] text-[#3E2B23] bg-transparent outline-none placeholder:text-[#9A8578]"
                     placeholder="カフェ名・エリアで検索"
                   />
-                  <Search size={14} className="text-[#9A8878] shrink-0" />
+                  <Search size={14} className="text-[#9A8578] shrink-0" />
                 </div>
 
-                <p className="text-[13px] md:text-[14px] text-[#6A5E54] text-center md:text-left">
+                <p className="text-[13px] md:text-[14px] text-[#6B5A50] text-center md:text-left">
                   {previewCount === 0 ? (
                     "該当する店舗はありません"
                   ) : (
                     <>
                       該当する店舗は
-                      <span className="font-bold text-[#6FAA88] mx-0.5">{previewCount}</span>
+                      <span className="font-bold text-[#759F88] mx-0.5">{previewCount}</span>
                       件あります
                     </>
                   )}
@@ -400,7 +397,7 @@ export default function ShopExplorer({
                   type="button"
                   onClick={handleSearch}
                   disabled={previewCount === 0}
-                  className="w-full bg-[#6FAA88] text-white rounded-xl font-bold hover:bg-[#5D9876] active:scale-[0.98] transition-all shadow-sm py-3 text-[15px] disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100 disabled:hover:bg-[#6FAA88]"
+                  className={`w-full rounded-2xl py-3 text-[15px] disabled:opacity-50 ${CTA_BUTTON_CLS}`}
                 >
                   この条件で探す
                 </button>
@@ -411,7 +408,7 @@ export default function ShopExplorer({
             </div>
           </div>
         </div>
-      </div>
+      </FvGinghamBand>
 
       <div
         ref={resultsRef}
@@ -419,17 +416,17 @@ export default function ShopExplorer({
       >
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-4 md:mb-6">
           <p
-            className="text-[18px] md:text-[20px] font-bold text-[#3B2F25]"
+            className="text-[18px] md:text-[20px] font-bold text-[#3E2B23]"
             style={{ fontFamily: "Nunito, sans-serif" }}
           >
             {isFiltering ? "検索結果" : "おすすめカフェ"}{" "}
-            <span className="text-[#6FAA88]">{isFiltering ? filtered.length : shops.length}</span>
+            <span className="text-[#759F88]">{isFiltering ? filtered.length : shops.length}</span>
             件
           </p>
           <SortTabs value={shopSort} onChange={setShopSort} />
         </div>
         {displayed.length === 0 ? (
-          <div className="bg-white rounded-xl p-8 text-center text-[#9A8878] text-[14px]">
+          <div className="bg-white rounded-2xl p-8 text-center text-[#9A8578] text-[14px] border border-[rgba(62,43,35,0.06)] shadow-[0_2px_8px_rgba(62,43,35,0.05)]">
             条件に合うお店が見つかりませんでした。
           </div>
         ) : (
@@ -444,7 +441,7 @@ export default function ShopExplorer({
           <div className="text-center mt-6 md:mt-8">
             <Link
               href="/list"
-              className="text-[13px] md:text-[15px] font-medium text-[#B8906A] hover:text-[#9A7050] transition-colors"
+              className="text-[13px] md:text-[15px] font-medium text-[#B88A68] hover:text-[#9A7050] transition-colors"
             >
               店舗一覧を見る ›
             </Link>
@@ -455,7 +452,7 @@ export default function ShopExplorer({
       <div className="flex flex-col items-center px-4 md:px-10 lg:px-24 xl:px-40 pb-10 md:pb-14">
         <Link
           href="/request"
-          className="w-full md:w-auto text-center px-10 py-4 bg-[#E0784A] text-white rounded-xl text-[15px] md:text-[16px] font-bold hover:bg-[#CC6A3D] active:scale-[0.98] transition-all shadow-md"
+          className={`w-full md:w-auto text-center px-10 py-4 rounded-2xl text-[15px] md:text-[16px] ${CTA_BUTTON_CLS}`}
         >
           掲載してほしいカフェを知らせる
         </Link>

@@ -28,7 +28,7 @@ export default function BackToTopButton() {
       aria-label="ページ上部へ戻る"
       tabIndex={visible ? 0 : -1}
       aria-hidden={!visible}
-      className={`fixed z-40 flex items-center justify-center rounded-full border border-[#6FAA88] bg-white text-[#6FAA88] shadow-[0_2px_10px_rgba(59,47,37,0.12)] transition-all duration-300 ease-out hover:bg-[#6FAA88] hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#6FAA88] active:scale-95
+      className={`fixed z-40 flex items-center justify-center rounded-full border border-[#759F88] bg-white text-[#759F88] shadow-[0_2px_10px_rgba(62,43,35,0.1)] transition-all duration-300 ease-out hover:bg-[#759F88] hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#759F88] active:scale-95
         right-4 bottom-[calc(1rem+env(safe-area-inset-bottom,0px))] h-11 w-11
         md:right-6 md:bottom-6 md:h-12 md:w-12
         ${

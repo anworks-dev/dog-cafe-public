@@ -17,7 +17,7 @@ const CORRECTION_INQUIRY_TYPE = "掲載情報の修正依頼";
 
 function FieldLabel({ children, required }: { children: React.ReactNode; required?: boolean }) {
   return (
-    <p className="text-[13px] md:text-[14px] font-semibold text-[#3B2F25]">
+    <p className="text-[13px] md:text-[14px] font-semibold text-[#3E2B23]">
       {children}
       {required && <span className="text-[#E0784A] ml-0.5">*</span>}
     </p>
@@ -41,7 +41,7 @@ function TextInput({
       value={value}
       onChange={(e) => onChange(e.target.value)}
       placeholder={placeholder}
-      className="w-full px-3 py-2.5 md:py-3 text-[13px] md:text-[13px] text-[#3B2F25] bg-[#FAF8F4] border border-[rgba(59,47,37,0.15)] rounded-xl outline-none focus:border-[#6FAA88] focus:ring-2 focus:ring-[#6FAA88]/15 placeholder:text-[#B8AEA8] transition-all"
+      className="w-full px-3 py-2.5 md:py-3 text-[13px] md:text-[13px] text-[#3E2B23] bg-[#FAF7F2] border border-[rgba(62,43,35,0.15)] rounded-xl outline-none focus:border-[#759F88] focus:ring-2 focus:ring-[#759F88]/15 placeholder:text-[#B8AEA8] transition-all"
     />
   );
 }
@@ -90,16 +90,16 @@ export default function ContactForm() {
       <button
         type="button"
         onClick={() => setTypeOpen(!typeOpen)}
-        className="w-full flex items-center justify-between px-3 py-3 text-[13px] bg-[#FAF8F4] border border-[rgba(59,47,37,0.15)] rounded-xl hover:border-[#6FAA88] transition-colors"
+        className="w-full flex items-center justify-between px-3 py-3 text-[13px] bg-[#FAF7F2] border border-[rgba(62,43,35,0.15)] rounded-xl hover:border-[#759F88] transition-colors"
       >
-        <span className={type ? "text-[#3B2F25]" : "text-[#B8AEA8]"}>{type || "選択してください"}</span>
+        <span className={type ? "text-[#3E2B23]" : "text-[#B8AEA8]"}>{type || "選択してください"}</span>
         <ChevronDown
           size={14}
-          className={`text-[#9A8878] transition-transform ${typeOpen ? "rotate-180" : ""}`}
+          className={`text-[#9A8578] transition-transform ${typeOpen ? "rotate-180" : ""}`}
         />
       </button>
       {typeOpen && (
-        <div className="absolute top-full left-0 right-0 z-20 bg-white border border-[rgba(59,47,37,0.12)] rounded-xl shadow-lg mt-1 overflow-hidden">
+        <div className="absolute top-full left-0 right-0 z-20 bg-white border border-[rgba(62,43,35,0.12)] rounded-xl shadow-lg mt-1 overflow-hidden">
           {INQUIRY_TYPES.map((t) => (
             <button
               key={t}
@@ -108,8 +108,8 @@ export default function ContactForm() {
                 setType(t);
                 setTypeOpen(false);
               }}
-              className={`w-full text-left px-3 py-2.5 text-[13px] hover:bg-[#ECF4EF] transition-colors ${
-                type === t ? "text-[#6FAA88] font-semibold bg-[#ECF4EF]" : "text-[#3B2F25]"
+              className={`w-full text-left px-3 py-2.5 text-[13px] hover:bg-[#E8F0EB] transition-colors ${
+                type === t ? "text-[#759F88] font-semibold bg-[#E8F0EB]" : "text-[#3E2B23]"
               }`}
             >
               {t}
@@ -127,12 +127,12 @@ export default function ContactForm() {
         <form onSubmit={handleSubmit} className="px-4 py-5 space-y-5">
           <div>
             <h1
-              className="text-[20px] font-extrabold text-[#3B2F25] mb-1"
+              className="text-[20px] font-extrabold text-[#3E2B23] mb-1"
               style={{ fontFamily: "Nunito, sans-serif" }}
             >
               お問い合わせ
             </h1>
-            <p className="text-[13px] text-[#9A8878] leading-relaxed">
+            <p className="text-[13px] text-[#9A8578] leading-relaxed">
               サイトに関するご質問・ご要望などがございましたら、以下のフォームよりお気軽にご連絡ください。
             </p>
           </div>
@@ -159,12 +159,12 @@ export default function ContactForm() {
               onChange={(e) => setMessage(e.target.value)}
               placeholder="お問い合わせ内容をご記入ください"
               rows={5}
-              className="w-full px-3 py-2.5 text-[13px] text-[#3B2F25] bg-white border border-[rgba(59,47,37,0.15)] rounded-xl outline-none focus:border-[#6FAA88] focus:ring-2 focus:ring-[#6FAA88]/15 placeholder:text-[#B8AEA8] resize-none transition-all"
+              className="w-full px-3 py-2.5 text-[13px] text-[#3E2B23] bg-white border border-[rgba(62,43,35,0.15)] rounded-xl outline-none focus:border-[#759F88] focus:ring-2 focus:ring-[#759F88]/15 placeholder:text-[#B8AEA8] resize-none transition-all"
             />
           </div>
 
-          <div className="px-3 py-2.5 bg-[#FAF8F4] border border-[rgba(59,47,37,0.1)] rounded-xl">
-            <p className="text-[12px] text-[#9A8878] leading-relaxed">
+          <div className="px-3 py-2.5 bg-[#FAF7F2] border border-[rgba(62,43,35,0.1)] rounded-xl">
+            <p className="text-[12px] text-[#9A8578] leading-relaxed">
               送信いただいた内容について、確認のためご返信までお時間をいただく場合がございます。
             </p>
           </div>
@@ -182,7 +182,7 @@ export default function ContactForm() {
           <button
             type="submit"
             disabled={submitting}
-            className="w-full py-3.5 bg-[#6FAA88] text-white rounded-xl text-[15px] font-bold hover:bg-[#5D9876] active:scale-[0.98] transition-all shadow-sm disabled:opacity-60 disabled:cursor-not-allowed"
+            className="w-full py-3.5 rounded-2xl text-[15px] bg-[#E0784A] text-white font-bold hover:bg-[#CC6A3D] cta-elevated disabled:opacity-60 disabled:cursor-not-allowed"
           >
             {submitting ? "送信中..." : "送信する"}
           </button>
@@ -193,16 +193,16 @@ export default function ContactForm() {
       <div className="hidden md:block py-16">
         <form
           onSubmit={handleSubmit}
-          className="max-w-[800px] mx-auto bg-white rounded-2xl shadow-[0_2px_16px_rgba(59,47,37,0.08)] p-10 space-y-6"
+          className="max-w-[800px] mx-auto bg-white rounded-2xl shadow-[0_2px_16px_rgba(62,43,35,0.08)] p-10 space-y-6"
         >
           <div>
             <h1
-              className="text-[24px] font-extrabold text-[#3B2F25] mb-2"
+              className="text-[24px] font-extrabold text-[#3E2B23] mb-2"
               style={{ fontFamily: "Nunito, sans-serif" }}
             >
               お問い合わせ
             </h1>
-            <p className="text-[13px] text-[#9A8878] leading-relaxed">
+            <p className="text-[13px] text-[#9A8578] leading-relaxed">
               サイトに関するご質問・ご要望などがございましたら、以下のフォームよりお気軽にご連絡ください。
             </p>
           </div>
@@ -229,7 +229,7 @@ export default function ContactForm() {
               onChange={(e) => setMessage(e.target.value)}
               placeholder="お問い合わせ内容をご記入ください"
               rows={6}
-              className="w-full px-3 py-3 text-[13px] text-[#3B2F25] bg-[#FAF8F4] border border-[rgba(59,47,37,0.15)] rounded-xl outline-none focus:border-[#6FAA88] focus:ring-2 focus:ring-[#6FAA88]/15 placeholder:text-[#B8AEA8] resize-none transition-all"
+              className="w-full px-3 py-3 text-[13px] text-[#3E2B23] bg-[#FAF7F2] border border-[rgba(62,43,35,0.15)] rounded-xl outline-none focus:border-[#759F88] focus:ring-2 focus:ring-[#759F88]/15 placeholder:text-[#B8AEA8] resize-none transition-all"
             />
           </div>
 
@@ -253,7 +253,7 @@ export default function ContactForm() {
           <button
             type="submit"
             disabled={submitting}
-            className="w-full py-4 bg-[#6FAA88] text-white rounded-xl text-[15px] font-bold hover:bg-[#5D9876] active:scale-[0.98] transition-all shadow-sm disabled:opacity-60 disabled:cursor-not-allowed"
+            className="w-full py-4 rounded-2xl text-[15px] bg-[#E0784A] text-white font-bold hover:bg-[#CC6A3D] cta-elevated disabled:opacity-60 disabled:cursor-not-allowed"
           >
             {submitting ? "送信中..." : "送信する"}
           </button>

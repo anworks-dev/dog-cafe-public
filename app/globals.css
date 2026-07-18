@@ -1,32 +1,63 @@
 @import "tailwindcss";
 
-/* ── Design tokens ported from dog-cafe-site (src/styles/theme.css) ── */
+/* ── Design tokens (TOP-aligned) ── */
 :root {
   --font-size: 16px;
-  --background: #faf8f4;
-  --foreground: #3b2f25;
-  --card: #ffffff;
-  --primary: #6faa88;
+
+  /* Page / surfaces */
+  --background: #faf7f2;
+  --background-subtle: #eef3ef;
+  --surface: #ffffff;
+  --secondary: #f3e6d8;
+  --muted: #ebe0d4;
+
+  /* Text */
+  --foreground: #3e2b23;
+  --text: #3e2b23;
+  --text-muted: #6b5a50;
+  --text-subtle: #9a8578;
+
+  /* Primary = sage green (info / selection / links) */
+  --primary: #759f88;
+  --primary-hover: #638a73;
   --primary-foreground: #ffffff;
-  --secondary: #f2e8dc;
-  --muted: #ede6de;
-  --muted-foreground: #9a8878;
+  --primary-light: #e8f0eb;
+  --primary-ink: #4f856c;
+  --primary-line: #bfd4c8;
+  --ring: #759f88;
+
+  /* Accent = gentle orange (main CTAs) */
   --accent: #e0784a;
+  --accent-hover: #cc6a3d;
   --accent-foreground: #ffffff;
-  --border: rgba(59, 47, 37, 0.1);
-  --ring: #6faa88;
-  --latte: #b8906a;
-  --mint-light: #ecf4ef;
+
+  /* Warning = soft alert orange (not CTA) */
+  --warning: #c56b5c;
+  --warning-light: #fdf0ed;
+  --warning-border: #e8c4bc;
+  --warning-text: #9a6840;
+
+  --border: rgba(62, 43, 35, 0.14);
+  --latte: #b88a68;
+  --mint-light: #e8f0eb;
+  --mint-hero: #eef3ef;
+  --body-muted: #6b5a50;
+  --green-ink: #4f856c;
+  --green-line: #bfd4c8;
   --yellow-accent: #f2c255;
-  --radius: 0.75rem;
+  --card: #ffffff;
+  --radius: 1rem;
+
+  /*
+   * Footer is intentionally separate from page / FV greens.
+   * Dark brown ground + light beige copy (do not reuse --background-subtle).
+   */
+  --footer-bg: #3b2f25;
+  --footer-heading: #ffffff;
+  --footer-muted: #9a8878;
+  --footer-subtle: #6a5e54;
 }
 
-/*
- * Element resets live in @layer base so Tailwind utilities (utilities layer)
- * always win. In particular `a { color: inherit }` must NOT override
- * `text-white` on CTA links — matching how Vite (Tailwind preflight) behaves.
- * No font-smoothing / text-rendering overrides: dog-cafe-site does not set them.
- */
 @layer base {
   html {
     font-size: var(--font-size);
@@ -42,5 +73,67 @@
   a {
     color: inherit;
     text-decoration: none;
+  }
+}
+
+@layer utilities {
+  /*
+   * Shared CTA elevation — soft downward shadow.
+   * Pair with accent orange bg; do not add gradients.
+   */
+  .cta-elevated {
+    box-shadow: 0 4px 14px rgba(62, 43, 35, 0.16);
+    transition:
+      transform 0.15s ease,
+      box-shadow 0.15s ease,
+      background-color 0.15s ease,
+      opacity 0.15s ease;
+  }
+
+  .cta-elevated:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(62, 43, 35, 0.22);
+  }
+
+  .cta-elevated:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(62, 43, 35, 0.12);
+  }
+
+  /*
+   * Shared FV gingham (TOP + list / prefecture / area heroes).
+   */
+  .fv-gingham {
+    background-color: var(--background-subtle);
+    background-image:
+      linear-gradient(
+        90deg,
+        rgba(117, 159, 136, 0.07) 50%,
+        transparent 50%
+      ),
+      linear-gradient(
+        rgba(117, 159, 136, 0.07) 50%,
+        transparent 50%
+      );
+    background-size: 30px 30px;
+    background-position: 0 0;
+  }
+
+  @media (min-width: 768px) {
+    .fv-gingham {
+      background-size: 40px 40px;
+    }
+  }
+
+  /* Detail / dense FV — same mint, no pattern (readability) */
+  /* Kept for optional use; shop detail must NOT use this on the info band. */
+  .fv-hero-solid {
+    background-color: var(--background-subtle);
+  }
+
+  .warning-banner {
+    background-color: var(--warning-light);
+    border: 1px solid var(--warning-border);
+    color: var(--warning-text);
   }
 }

@@ -22,7 +22,7 @@ export default function ReviewCountLink({ count, variant }: ReviewCountLinkProps
     <a
       href="#reviews"
       onClick={handleClick}
-      className={`text-[#9A8878] hover:text-[#6A5E54] hover:underline underline-offset-2 transition-colors ${
+      className={`text-[#9A8578] hover:text-[#6B5A50] hover:underline underline-offset-2 transition-colors ${
         variant === "sp" ? "text-[12px]" : "text-[13px]"
       }`}
     >

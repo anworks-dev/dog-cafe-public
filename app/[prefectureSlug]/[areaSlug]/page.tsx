@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PawPrint } from "lucide-react";
 import AreaExplorer from "@/components/AreaExplorer";
+import FvGinghamBand from "@/components/FvGinghamBand";
 import {
   attachShopCardImages,
   getApprovedReviewCounts,
@@ -122,37 +123,37 @@ export default async function PrefectureAreaListPage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
       />
 
-      <div className="px-4 md:px-10 lg:px-24 xl:px-40 pt-6 pb-5 md:py-10 bg-[#EDF5F1] border-b border-[rgba(59,47,37,0.07)]">
+      <FvGinghamBand className="px-4 md:px-10 lg:px-24 xl:px-40 pt-6 pb-5 md:py-10 border-b border-[rgba(59,47,37,0.07)]">
         <div className="max-w-[1040px] mx-auto">
-          <nav className="text-[12px] md:text-[13px] text-[#9A8878] flex items-center gap-1.5 mb-3 flex-wrap">
-            <Link href="/" className="hover:text-[#4A9070] transition-colors">
+          <nav className="text-[12px] md:text-[13px] text-[#9A8578] flex items-center gap-1.5 mb-3 flex-wrap">
+            <Link href="/" className="hover:text-[#4F856C] transition-colors">
               ホーム
             </Link>
             <span>›</span>
             <Link
               href={prefecturePath(prefectureSlug)}
-              className="hover:text-[#4A9070] transition-colors"
+              className="hover:text-[#4F856C] transition-colors"
             >
               {prefecture}
             </Link>
             <span>›</span>
             <span>{label}</span>
           </nav>
-          <p className="text-[13px] font-medium text-[#6FAA88] flex items-center gap-1.5 mb-1.5">
+          <p className="text-[13px] font-medium text-[#759F88] flex items-center gap-1.5 mb-1.5">
             <PawPrint size={12} strokeWidth={2.5} />
             エリアから探す
           </p>
           <h1
-            className="text-[22px] md:text-[30px] font-extrabold text-[#3B2F25] leading-tight mb-2"
+            className="text-[22px] md:text-[30px] font-extrabold text-[#3E2B23] leading-tight mb-2"
             style={{ fontFamily: "Nunito, sans-serif" }}
           >
             {label}の犬と行けるカフェ・お店
           </h1>
-          <p className="text-[13px] md:text-[14px] text-[#6A5E54] leading-relaxed max-w-3xl">
+          <p className="text-[13px] md:text-[14px] text-[#6B5A50] leading-relaxed max-w-3xl">
             {description}
           </p>
         </div>
-      </div>
+      </FvGinghamBand>
 
       <div className="pt-6 md:pt-8">
         <AreaExplorer shops={shops} areaLabel={label} reviewCounts={reviewCounts} />
@@ -162,7 +163,7 @@ export default async function PrefectureAreaListPage({
         <div className="px-4 md:px-10 lg:px-24 xl:px-40 pb-8">
           <div className="max-w-[1040px] mx-auto">
             <p
-              className="text-[17px] md:text-[18px] font-bold text-[#3B2F25] mb-4"
+              className="text-[17px] md:text-[18px] font-bold text-[#3E2B23] mb-4"
               style={{ fontFamily: "Nunito, sans-serif" }}
             >
               {prefecture}のほかのエリアから探す
@@ -172,7 +173,7 @@ export default async function PrefectureAreaListPage({
                 <Link
                   key={a.slug}
                   href={areaPath(prefectureSlug, a.slug)}
-                  className="text-[14px] font-medium text-[#6FAA88] hover:text-[#4A9070] transition-colors"
+                  className="text-[14px] font-medium text-[#759F88] hover:text-[#4F856C] transition-colors"
                 >
                   {a.label}
                 </Link>
@@ -186,13 +187,13 @@ export default async function PrefectureAreaListPage({
         <div className="max-w-[1040px] mx-auto flex flex-col items-center gap-5">
           <Link
             href={prefecturePath(prefectureSlug)}
-            className="text-[14px] font-medium text-[#6FAA88] hover:text-[#4A9070] transition-colors"
+            className="text-[14px] font-medium text-[#759F88] hover:text-[#4F856C] transition-colors"
           >
             {prefecture}の店舗一覧を見る
           </Link>
           <Link
             href="/request"
-            className="inline-flex items-center justify-center min-h-[44px] px-6 py-2.5 md:px-7 md:py-3 bg-[#E0784A] text-white rounded-xl text-[14px] md:text-[15px] font-bold hover:bg-[#CC6A3D] active:scale-[0.98] transition-all shadow-sm text-center"
+            className="inline-flex items-center justify-center min-h-[44px] px-6 py-2.5 md:px-7 md:py-3 rounded-xl text-[14px] md:text-[15px] text-center bg-[#E0784A] text-white font-bold hover:bg-[#CC6A3D] cta-elevated"
           >
             掲載してほしいカフェを知らせる
           </Link>

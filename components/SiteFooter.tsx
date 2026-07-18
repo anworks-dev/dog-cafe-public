@@ -48,13 +48,22 @@ export default function SiteFooter() {
             犬と一緒に行けるカフェ・お店をみんなで共有できるサービスです。
           </p>
           <div className="flex gap-5 mb-4 flex-wrap">
-            <Link href="/about" className="text-[11px] text-[#9A8878] hover:text-white transition-colors">
+            <Link
+              href="/about"
+              className="text-[11px] text-[#9A8878] hover:text-white transition-colors"
+            >
               このサイトについて
             </Link>
-            <Link href="/contact" className="text-[11px] text-[#9A8878] hover:text-white transition-colors">
+            <Link
+              href="/contact"
+              className="text-[11px] text-[#9A8878] hover:text-white transition-colors"
+            >
               お問い合わせ
             </Link>
-            <Link href="/terms" className="text-[11px] text-[#9A8878] hover:text-white transition-colors">
+            <Link
+              href="/terms"
+              className="text-[11px] text-[#9A8878] hover:text-white transition-colors"
+            >
               利用規約
             </Link>
           </div>

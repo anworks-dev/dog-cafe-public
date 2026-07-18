@@ -34,14 +34,14 @@ export default function GoogleOpeningHoursSection({
       >
         <div className="space-y-1">
           <h2
-            className="text-[16px] font-bold text-[#3B2F25]"
+            className="text-[16px] font-bold text-[#3E2B23]"
             style={{ fontFamily: "Nunito, sans-serif" }}
           >
             営業時間
           </h2>
           <GoogleMapsAttribution />
         </div>
-        <p className="text-[14px] text-[#3B2F25] leading-relaxed">
+        <p className="text-[14px] text-[#3E2B23] leading-relaxed">
           営業時間は店舗へ直接ご確認ください
         </p>
         {mapsUri && (
@@ -49,7 +49,7 @@ export default function GoogleOpeningHoursSection({
             href={mapsUri}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 text-[13px] text-[#6FAA88] hover:text-[#4A9070] transition-colors"
+            className="inline-flex items-center gap-1 text-[13px] text-[#759F88] hover:text-[#4F856C] transition-colors"
           >
             <ExternalLink size={12} />
             Google Mapsで確認
@@ -66,7 +66,7 @@ export default function GoogleOpeningHoursSection({
     >
       <div className="space-y-1">
         <h2
-          className="text-[16px] font-bold text-[#3B2F25]"
+          className="text-[16px] font-bold text-[#3E2B23]"
           style={{ fontFamily: "Nunito, sans-serif" }}
         >
           営業時間
@@ -78,10 +78,10 @@ export default function GoogleOpeningHoursSection({
         <p
           className={`text-[14px] font-semibold ${
             status.startsWith("営業中")
-              ? "text-[#4A9070]"
+              ? "text-[#4F856C]"
               : status === "営業時間外" || status.includes("休")
-                ? "text-[#9A8878]"
-                : "text-[#3B2F25]"
+                ? "text-[#9A8578]"
+                : "text-[#3E2B23]"
           }`}
         >
           {status}
@@ -89,18 +89,18 @@ export default function GoogleOpeningHoursSection({
       )}
 
       {hasHours ? (
-        <ul className="space-y-0.5 text-[14px] text-[#3B2F25] leading-relaxed">
+        <ul className="space-y-0.5 text-[14px] text-[#3E2B23] leading-relaxed">
           {lines.map((line) => (
             <li key={line}>{line}</li>
           ))}
         </ul>
       ) : (
-        <p className="text-[14px] text-[#3B2F25] leading-relaxed">
+        <p className="text-[14px] text-[#3E2B23] leading-relaxed">
           営業時間は店舗へ直接ご確認ください
         </p>
       )}
 
-      <p className="text-[12px] text-[#9A8878] leading-relaxed">
+      <p className="text-[12px] text-[#9A8578] leading-relaxed">
         営業時間・営業状況は変更される場合があります。
         {mapsUri ? "Google Mapsで最新情報を確認" : "最新情報は店舗へご確認ください"}
       </p>
@@ -110,7 +110,7 @@ export default function GoogleOpeningHoursSection({
           href={mapsUri}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1 text-[13px] text-[#6FAA88] hover:text-[#4A9070] transition-colors"
+          className="inline-flex items-center gap-1 text-[13px] text-[#759F88] hover:text-[#4F856C] transition-colors"
         >
           <ExternalLink size={12} />
           Google Mapsで確認

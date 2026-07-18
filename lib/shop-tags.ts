@@ -3,25 +3,23 @@ import { displayVariantForTagLabel } from "./dog-conditions";
 
 /**
  * Shared condition-badge tones (pill shape applied via CONDITION_BADGE_BASE).
- * - green: positive / filterable
- * - orange: rules / attention
- * - brown: other
+ * Soft sage / warm beige / coral — aligned with pug illustration.
  */
 export const TAG_CLS = {
-  green: "bg-[#ECF4EF] text-[#4A9070] border-[#C5E0D5]",
-  brown: "bg-[#F2E8DC] text-[#9A6840] border-[#DFD0BC]",
-  orange: "bg-[#FBEDEA] text-[#A84B3C] border-[#E5B8AE]",
+  green: "bg-[#E8F0EB] text-[#4F856C] border-[#BFD4C8]",
+  brown: "bg-[#F3E6D8] text-[#9A6840] border-[#E0D0BC]",
+  orange: "bg-[#FDF0ED] text-[#C56B5C] border-[#E8C4BC]",
 } as const;
 
 /** Pill shell — size variants share shape/colors; only padding/type scale differ. */
 export const CONDITION_BADGE_SHELL =
   "inline-flex items-center whitespace-nowrap w-max max-w-full rounded-full font-semibold border";
 
-/** Default size: FV / list filters / detail / PC cards. */
-export const CONDITION_BADGE_SIZE_DEFAULT = "px-3 py-1.5 text-[11px]";
+/** Default size: FV / list filters / detail / PC cards — slightly puffier padding. */
+export const CONDITION_BADGE_SIZE_DEFAULT = "px-3.5 py-1.5 text-[11px]";
 
 /** Compact size: SP cafe cards only (info display, not tap targets). */
-export const CONDITION_BADGE_SIZE_COMPACT = "px-2 py-0.5 text-[9px]";
+export const CONDITION_BADGE_SIZE_COMPACT = "px-2.5 py-1 text-[9px]";
 
 /** @deprecated Prefer CONDITION_BADGE_SHELL + size token. */
 export const CONDITION_BADGE_BASE = `${CONDITION_BADGE_SHELL} ${CONDITION_BADGE_SIZE_DEFAULT}`;
@@ -29,7 +27,7 @@ export const CONDITION_BADGE_BASE = `${CONDITION_BADGE_SHELL} ${CONDITION_BADGE_
 export const CONDITION_BADGE_GAP = "gap-2";
 export const CONDITION_BADGE_GAP_COMPACT = "gap-1.5";
 
-const SELECTED_CLS = "bg-[#6FAA88] text-white border-[#6FAA88]";
+const SELECTED_CLS = "bg-[#759F88] text-white border-[#759F88]";
 
 export function tagClassForLabel(label: string, fallbackV?: ShopTag["v"]): string {
   const v = displayVariantForTagLabel(label);

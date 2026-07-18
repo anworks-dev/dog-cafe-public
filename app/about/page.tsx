@@ -42,7 +42,7 @@ export default function AboutPage() {
       {/* SP */}
       <div className="md:hidden px-4 py-5 space-y-5">
         <h1
-          className="text-[20px] font-extrabold text-[#3B2F25]"
+          className="text-[20px] font-extrabold text-[#3E2B23]"
           style={{ fontFamily: "Nunito, sans-serif" }}
         >
           このサイトについて
@@ -51,21 +51,21 @@ export default function AboutPage() {
         {SECTIONS.map((s) => (
           <div
             key={s.title}
-            className="bg-white rounded-2xl p-4 shadow-[0_1px_4px_rgba(59,47,37,0.07)] space-y-2"
+            className="bg-white rounded-2xl p-4 shadow-[0_1px_4px_rgba(62,43,35,0.07)] space-y-2"
           >
             <p
-              className="text-[15px] font-bold text-[#3B2F25]"
+              className="text-[15px] font-bold text-[#3E2B23]"
               style={{ fontFamily: "Nunito, sans-serif" }}
             >
               {s.title}
             </p>
-            <p className="text-[13px] text-[#9A8878] leading-relaxed">{s.body}</p>
+            <p className="text-[13px] text-[#9A8578] leading-relaxed">{s.body}</p>
           </div>
         ))}
 
         <div className="space-y-3">
           <p
-            className="text-[15px] font-bold text-[#3B2F25]"
+            className="text-[15px] font-bold text-[#3E2B23]"
             style={{ fontFamily: "Nunito, sans-serif" }}
           >
             使い方
@@ -74,13 +74,13 @@ export default function AboutPage() {
             {STEPS.map((step) => (
               <div
                 key={step.num}
-                className="bg-white rounded-2xl p-4 shadow-[0_1px_4px_rgba(59,47,37,0.07)] flex flex-col items-center gap-2 text-center"
+                className="bg-white rounded-2xl p-4 shadow-[0_1px_4px_rgba(62,43,35,0.07)] flex flex-col items-center gap-2 text-center"
               >
-                <div className="w-8 h-8 bg-[#6FAA88] rounded-full flex items-center justify-center text-white font-bold text-[14px]">
+                <div className="w-8 h-8 bg-[#759F88] rounded-full flex items-center justify-center text-white font-bold text-[14px]">
                   {step.num}
                 </div>
-                <p className="text-[13px] font-semibold text-[#3B2F25]">{step.label}</p>
-                <p className="text-[11px] text-[#9A8878] leading-snug">{step.desc}</p>
+                <p className="text-[13px] font-semibold text-[#3E2B23]">{step.label}</p>
+                <p className="text-[11px] text-[#9A8578] leading-snug">{step.desc}</p>
               </div>
             ))}
           </div>
@@ -88,13 +88,13 @@ export default function AboutPage() {
 
         <Link
           href="/request"
-          className="block w-full py-3.5 bg-[#E0784A] text-white rounded-xl text-[15px] font-bold text-center hover:bg-[#CC6A3D] active:scale-[0.98] transition-all shadow-sm"
+          className="block w-full py-3.5 rounded-2xl text-[15px] text-center bg-[#E0784A] text-white font-bold hover:bg-[#CC6A3D] cta-elevated"
         >
           掲載リクエストを送る
         </Link>
         <Link
           href="/contact"
-          className="block w-full py-3.5 text-center bg-white text-[#6FAA88] border border-[#6FAA88] rounded-xl text-[15px] font-bold hover:bg-[#ECF4EF] transition-colors"
+          className="block w-full py-3.5 text-center bg-white text-[#759F88] border border-[#759F88] rounded-xl text-[15px] font-bold hover:bg-[#E8F0EB] transition-colors"
         >
           お問い合わせはこちら
         </Link>
@@ -104,7 +104,7 @@ export default function AboutPage() {
       <div className="hidden md:block">
         <div className="max-w-[840px] mx-auto px-10 py-12 space-y-10">
           <h1
-            className="text-[28px] font-extrabold text-[#3B2F25]"
+            className="text-[28px] font-extrabold text-[#3E2B23]"
             style={{ fontFamily: "Nunito, sans-serif" }}
           >
             犬と行けるカフェについて
@@ -114,22 +114,22 @@ export default function AboutPage() {
             {SECTIONS.map((s) => (
               <div
                 key={s.title}
-                className="space-y-2 pb-8 border-b border-[rgba(59,47,37,0.07)] last:border-0 last:pb-0"
+                className="space-y-2 pb-8 border-b border-[rgba(62,43,35,0.07)] last:border-0 last:pb-0"
               >
                 <p
-                  className="text-[18px] font-bold text-[#3B2F25]"
+                  className="text-[18px] font-bold text-[#3E2B23]"
                   style={{ fontFamily: "Nunito, sans-serif" }}
                 >
                   {s.title}
                 </p>
-                <p className="text-[14px] text-[#9A8878] leading-relaxed">{s.body}</p>
+                <p className="text-[14px] text-[#9A8578] leading-relaxed">{s.body}</p>
               </div>
             ))}
           </div>
 
           <div className="space-y-5">
             <p
-              className="text-[18px] font-bold text-[#3B2F25]"
+              className="text-[18px] font-bold text-[#3E2B23]"
               style={{ fontFamily: "Nunito, sans-serif" }}
             >
               使い方
@@ -137,32 +137,32 @@ export default function AboutPage() {
             <div className="flex gap-4 items-stretch">
               {STEPS.map((step, i) => (
                 <div key={step.num} className="flex items-center gap-4 flex-1 min-w-0">
-                  <div className="flex-1 min-w-0 bg-white rounded-2xl shadow-[0_1px_6px_rgba(59,47,37,0.08)] px-4 py-6 flex flex-col items-center gap-3 text-center">
-                    <div className="w-8 h-8 bg-[#6FAA88] rounded-full flex items-center justify-center text-white font-bold text-[14px]">
+                  <div className="flex-1 min-w-0 bg-white rounded-2xl shadow-[0_1px_6px_rgba(62,43,35,0.08)] px-4 py-6 flex flex-col items-center gap-3 text-center">
+                    <div className="w-8 h-8 bg-[#759F88] rounded-full flex items-center justify-center text-white font-bold text-[14px]">
                       {step.num}
                     </div>
-                    <div className="text-[#6FAA88]">{step.icon}</div>
-                    <p className="text-[14px] font-bold text-[#3B2F25]">{step.label}</p>
-                    <p className="text-[12px] text-[#9A8878] leading-snug">{step.desc}</p>
+                    <div className="text-[#759F88]">{step.icon}</div>
+                    <p className="text-[14px] font-bold text-[#3E2B23]">{step.label}</p>
+                    <p className="text-[12px] text-[#9A8578] leading-snug">{step.desc}</p>
                   </div>
                   {i < STEPS.length - 1 && (
-                    <ArrowRight size={18} className="text-[#C5E0D5] shrink-0" />
+                    <ArrowRight size={18} className="text-[#BFD4C8] shrink-0" />
                   )}
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="flex flex-col items-center gap-4 pt-4 border-t border-[rgba(59,47,37,0.07)]">
+          <div className="flex flex-col items-center gap-4 pt-4 border-t border-[rgba(62,43,35,0.07)]">
             <Link
               href="/request"
-              className="px-8 py-4 bg-[#E0784A] text-white rounded-xl text-[16px] font-bold hover:bg-[#CC6A3D] active:scale-[0.98] transition-all shadow-md"
+              className="px-8 py-4 rounded-2xl text-[16px] bg-[#E0784A] text-white font-bold hover:bg-[#CC6A3D] cta-elevated"
             >
               掲載リクエストを送る
             </Link>
             <Link
               href="/contact"
-              className="text-[13px] font-medium text-[#6FAA88] hover:text-[#4A9070] transition-colors"
+              className="text-[13px] font-medium text-[#759F88] hover:text-[#4F856C] transition-colors"
             >
               お問い合わせはこちら
             </Link>

@@ -10,7 +10,7 @@ import type { Shop } from "@/lib/types";
 
 function FieldLabel({ children, required }: { children: React.ReactNode; required?: boolean }) {
   return (
-    <p className="text-[13px] font-bold text-[#3B2F25]">
+    <p className="text-[13px] font-bold text-[#3E2B23]">
       {children}
       {required && <span className="text-[#E0784A] ml-0.5">*</span>}
     </p>
@@ -31,7 +31,7 @@ function TextInput({
       value={value}
       onChange={(e) => onChange(e.target.value)}
       placeholder={placeholder}
-      className="w-full px-3 py-2.5 text-[13px] md:text-[14px] text-[#3B2F25] bg-white border border-[rgba(59,47,37,0.15)] rounded-xl outline-none focus:border-[#6FAA88] focus:ring-2 focus:ring-[#6FAA88]/15 placeholder:text-[#B8AEA8] transition-all"
+      className="w-full px-3 py-2.5 text-[13px] md:text-[14px] text-[#3E2B23] bg-white border border-[rgba(62,43,35,0.15)] rounded-xl outline-none focus:border-[#759F88] focus:ring-2 focus:ring-[#759F88]/15 placeholder:text-[#B8AEA8] transition-all"
     />
   );
 }
@@ -51,7 +51,7 @@ function DateInput({
       value={value}
       max={max}
       onChange={(e) => onChange(e.target.value)}
-      className="w-full px-3 py-2.5 text-[13px] md:text-[14px] text-[#3B2F25] bg-white border border-[rgba(59,47,37,0.15)] rounded-xl outline-none focus:border-[#6FAA88] focus:ring-2 focus:ring-[#6FAA88]/15 transition-all [color-scheme:light]"
+      className="w-full px-3 py-2.5 text-[13px] md:text-[14px] text-[#3E2B23] bg-white border border-[rgba(62,43,35,0.15)] rounded-xl outline-none focus:border-[#759F88] focus:ring-2 focus:ring-[#759F88]/15 transition-all [color-scheme:light]"
     />
   );
 }
@@ -73,13 +73,13 @@ function RadioGroup({
             onClick={() => onChange(opt)}
             className={`w-[18px] h-[18px] rounded-full border-2 flex items-center justify-center transition-all ${
               value === opt
-                ? "border-[#6FAA88] bg-[#6FAA88]"
-                : "border-[rgba(59,47,37,0.25)] bg-white group-hover:border-[#6FAA88]"
+                ? "border-[#759F88] bg-[#759F88]"
+                : "border-[rgba(62,43,35,0.25)] bg-white group-hover:border-[#759F88]"
             }`}
           >
             {value === opt && <div className="w-2 h-2 rounded-full bg-white" />}
           </div>
-          <span className="text-[13px] md:text-[14px] text-[#3B2F25] font-medium">{opt}</span>
+          <span className="text-[13px] md:text-[14px] text-[#3E2B23] font-medium">{opt}</span>
         </label>
       ))}
     </div>
@@ -89,7 +89,7 @@ function RadioGroup({
 function StarRating({ value, onChange }: { value: number; onChange: (v: number) => void }) {
   const [hover, setHover] = useState(0);
   return (
-    <div className="flex gap-1 items-center px-3 py-2 bg-white border border-[rgba(59,47,37,0.15)] rounded-xl w-fit">
+    <div className="flex gap-1 items-center px-3 py-2 bg-white border border-[rgba(62,43,35,0.15)] rounded-xl w-fit">
       {[1, 2, 3, 4, 5].map((i) => (
         <button
           key={i}
@@ -108,7 +108,7 @@ function StarRating({ value, onChange }: { value: number; onChange: (v: number) 
         </button>
       ))}
       {value > 0 && (
-        <span className="text-[13px] font-medium text-[#9A8878] ml-1">
+        <span className="text-[13px] font-medium text-[#9A8578] ml-1">
           {["", "もう少し", "普通", "良い", "とても良い", "最高！"][value]}
         </span>
       )}
@@ -173,7 +173,7 @@ export default function ReviewForm({ shop }: { shop: Shop }) {
       <div className="md:hidden">
         <form onSubmit={handleSubmit} className="px-4 py-5 space-y-5">
           <h1
-            className="text-[20px] font-extrabold text-[#3B2F25]"
+            className="text-[20px] font-extrabold text-[#3E2B23]"
             style={{ fontFamily: "Nunito, sans-serif" }}
           >
             口コミを投稿する
@@ -181,7 +181,7 @@ export default function ReviewForm({ shop }: { shop: Shop }) {
 
           <div className="space-y-1.5">
             <FieldLabel>対象店舗</FieldLabel>
-            <div className="px-3 py-2.5 bg-[#EDE6DE] rounded-xl text-[13px] font-bold text-[#3B2F25]">
+            <div className="px-3 py-2.5 bg-[#F3E6D8] rounded-xl text-[13px] font-bold text-[#3E2B23]">
               {shop.name}
             </div>
           </div>
@@ -233,7 +233,7 @@ export default function ReviewForm({ shop }: { shop: Shop }) {
               onChange={(e) => setComment(e.target.value)}
               placeholder="カフェの雰囲気や愛犬との過ごし方など、感じたことをご記入ください"
               rows={4}
-              className="w-full px-3 py-2.5 text-[13px] text-[#3B2F25] bg-white border border-[rgba(59,47,37,0.15)] rounded-xl outline-none focus:border-[#6FAA88] focus:ring-2 focus:ring-[#6FAA88]/15 placeholder:text-[#B8AEA8] resize-none transition-all"
+              className="w-full px-3 py-2.5 text-[13px] text-[#3E2B23] bg-white border border-[rgba(62,43,35,0.15)] rounded-xl outline-none focus:border-[#759F88] focus:ring-2 focus:ring-[#759F88]/15 placeholder:text-[#B8AEA8] resize-none transition-all"
             />
           </div>
 
@@ -241,7 +241,7 @@ export default function ReviewForm({ shop }: { shop: Shop }) {
             <FieldLabel>写真（任意）</FieldLabel>
             <button
               type="button"
-              className="w-full h-[60px] bg-white border border-dashed border-[rgba(59,47,37,0.2)] rounded-xl flex items-center justify-center gap-2 text-[13px] text-[#9A8878] hover:border-[#6FAA88] hover:text-[#6FAA88] transition-colors"
+              className="w-full h-[60px] bg-white border border-dashed border-[rgba(62,43,35,0.2)] rounded-xl flex items-center justify-center gap-2 text-[13px] text-[#9A8578] hover:border-[#759F88] hover:text-[#759F88] transition-colors"
             >
               <Camera size={16} />
               写真を追加（任意）
@@ -261,14 +261,14 @@ export default function ReviewForm({ shop }: { shop: Shop }) {
           <button
             type="submit"
             disabled={submitting}
-            className="w-full py-3.5 bg-[#6FAA88] text-white rounded-xl text-[15px] font-bold hover:bg-[#5D9876] active:scale-[0.98] transition-all shadow-sm disabled:opacity-60 disabled:cursor-not-allowed"
+            className="w-full py-3.5 rounded-2xl text-[15px] bg-[#E0784A] text-white font-bold hover:bg-[#CC6A3D] cta-elevated disabled:opacity-60 disabled:cursor-not-allowed"
           >
             {submitting ? "送信中..." : "口コミを投稿する"}
           </button>
 
           <Link
             href={shopPath}
-            className="block text-center text-[13px] text-[#6FAA88] hover:text-[#4A9070] transition-colors"
+            className="block text-center text-[13px] text-[#759F88] hover:text-[#4F856C] transition-colors"
           >
             ← 店舗ページに戻る
           </Link>
@@ -278,10 +278,10 @@ export default function ReviewForm({ shop }: { shop: Shop }) {
       <div className="hidden md:block py-16">
         <form
           onSubmit={handleSubmit}
-          className="max-w-[720px] mx-auto bg-white rounded-2xl shadow-[0_2px_16px_rgba(59,47,37,0.08)] p-10 space-y-6"
+          className="max-w-[720px] mx-auto bg-white rounded-2xl shadow-[0_2px_16px_rgba(62,43,35,0.08)] p-10 space-y-6"
         >
           <h1
-            className="text-[24px] font-extrabold text-[#3B2F25]"
+            className="text-[24px] font-extrabold text-[#3E2B23]"
             style={{ fontFamily: "Nunito, sans-serif" }}
           >
             口コミを投稿する
@@ -289,7 +289,7 @@ export default function ReviewForm({ shop }: { shop: Shop }) {
 
           <div className="space-y-1.5">
             <FieldLabel>対象店舗</FieldLabel>
-            <div className="px-3 py-3 bg-[#EDE6DE] rounded-xl text-[14px] font-bold text-[#3B2F25]">
+            <div className="px-3 py-3 bg-[#F3E6D8] rounded-xl text-[14px] font-bold text-[#3E2B23]">
               {shop.name}
             </div>
           </div>
@@ -341,7 +341,7 @@ export default function ReviewForm({ shop }: { shop: Shop }) {
               onChange={(e) => setComment(e.target.value)}
               placeholder="カフェの雰囲気や愛犬との過ごし方など、感じたことをご記入ください"
               rows={5}
-              className="w-full px-3 py-3 text-[14px] text-[#3B2F25] bg-white border border-[rgba(59,47,37,0.15)] rounded-xl outline-none focus:border-[#6FAA88] focus:ring-2 focus:ring-[#6FAA88]/15 placeholder:text-[#B8AEA8] resize-none transition-all"
+              className="w-full px-3 py-3 text-[14px] text-[#3E2B23] bg-white border border-[rgba(62,43,35,0.15)] rounded-xl outline-none focus:border-[#759F88] focus:ring-2 focus:ring-[#759F88]/15 placeholder:text-[#B8AEA8] resize-none transition-all"
             />
           </div>
 
@@ -349,7 +349,7 @@ export default function ReviewForm({ shop }: { shop: Shop }) {
             <FieldLabel>写真（任意）</FieldLabel>
             <button
               type="button"
-              className="w-full h-[70px] bg-white border border-dashed border-[rgba(59,47,37,0.2)] rounded-xl flex items-center justify-center gap-2 text-[14px] text-[#9A8878] hover:border-[#6FAA88] hover:text-[#6FAA88] transition-colors"
+              className="w-full h-[70px] bg-white border border-dashed border-[rgba(62,43,35,0.2)] rounded-xl flex items-center justify-center gap-2 text-[14px] text-[#9A8578] hover:border-[#759F88] hover:text-[#759F88] transition-colors"
             >
               <Camera size={18} />
               写真を追加（任意）
@@ -369,7 +369,7 @@ export default function ReviewForm({ shop }: { shop: Shop }) {
           <button
             type="submit"
             disabled={submitting}
-            className="w-full py-4 bg-[#6FAA88] text-white rounded-xl text-[15px] font-bold hover:bg-[#5D9876] active:scale-[0.98] transition-all shadow-sm disabled:opacity-60 disabled:cursor-not-allowed"
+            className="w-full py-4 rounded-2xl text-[15px] bg-[#E0784A] text-white font-bold hover:bg-[#CC6A3D] cta-elevated disabled:opacity-60 disabled:cursor-not-allowed"
           >
             {submitting ? "送信中..." : "口コミを投稿する"}
           </button>
@@ -377,7 +377,7 @@ export default function ReviewForm({ shop }: { shop: Shop }) {
           <div className="text-center">
             <Link
               href={shopPath}
-              className="text-[13px] text-[#6FAA88] hover:text-[#4A9070] transition-colors"
+              className="text-[13px] text-[#759F88] hover:text-[#4F856C] transition-colors"
             >
               ← 店舗ページに戻る
             </Link>

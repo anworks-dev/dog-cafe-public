@@ -23,18 +23,18 @@ export default function CafeCard({ shop }: { shop: ShopWithCardImage }) {
       {/* SP card (80px thumb, horizontal) */}
       <Link
         href={href}
-        className="md:hidden bg-white rounded-xl shadow-[0_1px_3px_rgba(59,47,37,0.08)] flex gap-3 p-3 active:scale-[0.99] transition-transform"
+        className="md:hidden bg-white rounded-2xl shadow-[0_2px_8px_rgba(62,43,35,0.07)] border border-[rgba(62,43,35,0.05)] flex gap-3 p-3 active:scale-[0.99] transition-transform"
       >
         <CafeCardImage shop={shop} size="sm" variant="sp" />
         <div className="flex-1 min-w-0 flex flex-col gap-1">
           <p
-            className="font-bold text-[#3B2F25] text-[14px] leading-snug"
+            className="font-bold text-[#3E2B23] text-[14px] leading-snug"
             style={{ fontFamily: "Nunito, sans-serif" }}
           >
             {shop.name}
           </p>
           {location && (
-            <p className="text-[11px] text-[#9A8878] flex items-center gap-0.5">
+            <p className="text-[11px] text-[#9A8578] flex items-center gap-0.5">
               <MapPin size={10} />
               {location}
             </p>
@@ -52,27 +52,27 @@ export default function CafeCard({ shop }: { shop: ShopWithCardImage }) {
             </ConditionBadgeRow>
           )}
           {cardText && (
-            <p className="text-[11px] text-[#6A5E54] line-clamp-2">{cardText}</p>
+            <p className="text-[11px] text-[#6B5A50] line-clamp-2">{cardText}</p>
           )}
-          <p className="text-[11px] text-[#B8906A] font-semibold text-right">詳細を見る ›</p>
+          <p className="text-[11px] text-[#B88A68] font-semibold text-right">詳細を見る ›</p>
         </div>
       </Link>
 
       {/* PC card (120px thumb, horizontal) */}
       <Link
         href={href}
-        className="hidden md:flex bg-white rounded-xl shadow-[0_1px_4px_rgba(59,47,37,0.1)] gap-4 p-4 hover:shadow-[0_3px_12px_rgba(59,47,37,0.13)] hover:-translate-y-0.5 transition-all duration-200 group"
+        className="hidden md:flex bg-white rounded-2xl shadow-[0_2px_10px_rgba(62,43,35,0.07)] border border-[rgba(62,43,35,0.05)] gap-4 p-4 hover:shadow-[0_4px_16px_rgba(62,43,35,0.1)] hover:-translate-y-0.5 transition-all duration-200 group"
       >
         <CafeCardImage shop={shop} size="lg" variant="pc" />
         <div className="flex-1 min-w-0 flex flex-col gap-1.5">
           <p
-            className="font-bold text-[#3B2F25] text-[16px] leading-snug"
+            className="font-bold text-[#3E2B23] text-[16px] leading-snug"
             style={{ fontFamily: "Nunito, sans-serif" }}
           >
             {shop.name}
           </p>
           {location && (
-            <p className="text-[12px] text-[#9A8878] flex items-center gap-1">
+            <p className="text-[12px] text-[#9A8578] flex items-center gap-1">
               <MapPin size={11} />
               {location}
             </p>
@@ -85,11 +85,11 @@ export default function CafeCard({ shop }: { shop: ShopWithCardImage }) {
             </ConditionBadgeRow>
           )}
           {cardText && (
-            <p className="text-[12px] text-[#6A5E54] leading-relaxed line-clamp-2">
+            <p className="text-[12px] text-[#6B5A50] leading-relaxed line-clamp-2">
               {cardText}
             </p>
           )}
-          <p className="text-[12px] text-[#B8906A] font-semibold">詳細を見る ›</p>
+          <p className="text-[12px] text-[#B88A68] font-semibold">詳細を見る ›</p>
         </div>
       </Link>
     </>

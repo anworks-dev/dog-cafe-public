@@ -16,8 +16,8 @@ type GooglePlaceInfoCardProps = {
 function InfoRow({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div className="space-y-0.5">
-      <p className="text-[12px] text-[#9A8878]">{label}</p>
-      <div className="text-[14px] text-[#3B2F25] font-medium">{children}</div>
+      <p className="text-[12px] text-[#9A8578]">{label}</p>
+      <div className="text-[14px] text-[#3E2B23] font-medium">{children}</div>
     </div>
   );
 }
@@ -25,7 +25,7 @@ function InfoRow({ label, children }: { label: string; children: React.ReactNode
 function ListingCorrectionNotice() {
   return (
     <div className="space-y-1.5">
-      <p className="text-[#9A8878] leading-relaxed text-[12px]">
+      <p className="text-[#9A8578] leading-relaxed text-[12px]">
         掲載情報に誤りがある場合は、以下よりお知らせください。
       </p>
       <Link
@@ -80,7 +80,7 @@ export default function GooglePlaceInfoCard({
     return (
       <div
         id="google-place-info"
-        className="bg-white rounded-2xl border border-[rgba(59,47,37,0.1)] p-5 flex items-center justify-center gap-2 text-[#9A8878] text-[13px]"
+        className="bg-white rounded-2xl border border-[rgba(59,47,37,0.1)] p-5 flex items-center justify-center gap-2 text-[#9A8578] text-[13px]"
       >
         <Loader2 size={16} className="animate-spin shrink-0" />
         Googleマップの情報を取得中…
@@ -103,7 +103,7 @@ export default function GooglePlaceInfoCard({
     >
       <div className="space-y-1">
         <p
-          className="text-[16px] font-bold text-[#3B2F25]"
+          className="text-[16px] font-bold text-[#3E2B23]"
           style={{ fontFamily: "Nunito, sans-serif" }}
         >
           Googleマップの店舗情報
@@ -116,8 +116,8 @@ export default function GooglePlaceInfoCard({
           <span
             className={
               openNow
-                ? "inline-flex items-center px-2.5 py-1 rounded-full text-[12px] font-semibold bg-[#ECF4EF] text-[#4A9070] border border-[#C5E0D5]"
-                : "inline-flex items-center px-2.5 py-1 rounded-full text-[12px] font-semibold bg-[#F5F0EB] text-[#9A8878] border border-[rgba(59,47,37,0.1)]"
+                ? "inline-flex items-center px-2.5 py-1 rounded-full text-[12px] font-semibold bg-[#E8F0EB] text-[#4F856C] border border-[#BFD4C8]"
+                : "inline-flex items-center px-2.5 py-1 rounded-full text-[12px] font-semibold bg-[#F5F0EB] text-[#9A8578] border border-[rgba(59,47,37,0.1)]"
             }
           >
             {openNow ? "現在営業中" : "営業時間外"}
@@ -135,7 +135,7 @@ export default function GooglePlaceInfoCard({
         <InfoRow label="電話番号">
           <a
             href={`tel:${data.nationalPhoneNumber.replace(/[^\d+]/g, "")}`}
-            className="inline-flex items-center gap-1 text-[#6FAA88] hover:text-[#4A9070] transition-colors"
+            className="inline-flex items-center gap-1 text-[#759F88] hover:text-[#4F856C] transition-colors"
           >
             <Phone size={13} />
             {data.nationalPhoneNumber}
@@ -149,7 +149,7 @@ export default function GooglePlaceInfoCard({
             <Star size={14} className="text-[#F2C255] fill-[#F2C255]" />
             <span>{data.rating.toFixed(1)}</span>
             {data.userRatingCount != null && data.userRatingCount > 0 && (
-              <span className="text-[#9A8878] font-normal text-[13px]">
+              <span className="text-[#9A8578] font-normal text-[13px]">
                 （{data.userRatingCount.toLocaleString("ja-JP")}件）
               </span>
             )}
@@ -164,7 +164,7 @@ export default function GooglePlaceInfoCard({
               href={data.websiteUri}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[13px] text-[#6FAA88] flex items-center gap-1 hover:text-[#4A9070] transition-colors"
+              className="text-[13px] text-[#759F88] flex items-center gap-1 hover:text-[#4F856C] transition-colors"
             >
               <ExternalLink size={12} />
               公式サイト
@@ -175,7 +175,7 @@ export default function GooglePlaceInfoCard({
               href={data.googleMapsUri}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[13px] text-[#6FAA88] flex items-center gap-1 hover:text-[#4A9070] transition-colors"
+              className="text-[13px] text-[#759F88] flex items-center gap-1 hover:text-[#4F856C] transition-colors"
             >
               <MapPin size={12} />
               Googleマップで見る

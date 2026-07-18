@@ -83,18 +83,18 @@ export default function AreaExplorer({
     <>
       {/* Filter */}
       <div className="px-4 md:px-10 lg:px-24 xl:px-40 pb-6">
-        <div className="max-w-[1040px] mx-auto bg-white rounded-2xl shadow-[0_1px_4px_rgba(59,47,37,0.08)] p-4 md:p-5 space-y-4">
-          <div className="flex items-center gap-2 bg-[#FAF8F4] border border-[rgba(59,47,37,0.12)] rounded-xl px-3.5 py-2.5 md:py-3">
+        <div className="max-w-[1040px] mx-auto bg-white rounded-3xl shadow-[0_2px_10px_rgba(62,43,35,0.06)] border border-[rgba(62,43,35,0.06)] p-4 md:p-5 space-y-4">
+          <div className="flex items-center gap-2 bg-[#FAF7F2] border border-[rgba(62,43,35,0.14)] rounded-2xl px-3.5 py-2.5 md:py-3">
             <input
               value={keyword}
               onChange={(e) => {
                 setKeyword(e.target.value);
                 setPage(1);
               }}
-              className="flex-1 text-[14px] text-[#3B2F25] bg-transparent outline-none placeholder:text-[#9A8878]"
+              className="flex-1 text-[14px] text-[#3E2B23] bg-transparent outline-none placeholder:text-[#9A8578]"
               placeholder="キーワードで絞り込む"
             />
-            <Search size={14} className="text-[#9A8878] shrink-0" />
+            <Search size={14} className="text-[#9A8578] shrink-0" />
           </div>
 
           {conditionChips.length > 0 && (
@@ -117,8 +117,8 @@ export default function AreaExplorer({
                     onClick={() => setShopSort(tab.id)}
                     className={`px-3 py-1.5 rounded-full text-[12px] font-semibold border transition-all ${
                       shopSort === tab.id
-                        ? "bg-[#6FAA88] text-white border-[#6FAA88]"
-                        : "bg-white text-[#4A9070] border-[#C5E0D5] hover:bg-[#ECF4EF]"
+                        ? "bg-[#759F88] text-white border-[#759F88]"
+                        : "bg-white text-[#4F856C] border-[#BFD4C8] hover:bg-[#E8F0EB]"
                     }`}
                   >
                     {tab.label}
@@ -134,15 +134,15 @@ export default function AreaExplorer({
       <div className="px-4 md:px-10 lg:px-24 xl:px-40 pb-8">
         <div className="max-w-[1040px] mx-auto">
           <p
-            className="text-[18px] md:text-[20px] font-bold text-[#3B2F25] mb-4 md:mb-6"
+            className="text-[18px] md:text-[20px] font-bold text-[#3E2B23] mb-4 md:mb-6"
             style={{ fontFamily: "Nunito, sans-serif" }}
           >
             {resultLabel ?? `${areaLabel ?? ""}のカフェ`}{" "}
-            <span className="text-[#6FAA88]">{filtered.length}</span>件
+            <span className="text-[#759F88]">{filtered.length}</span>件
           </p>
 
           {pageShops.length === 0 ? (
-            <div className="bg-white rounded-xl p-8 text-center text-[#9A8878] text-[14px]">
+            <div className="bg-white rounded-xl p-8 text-center text-[#9A8578] text-[14px]">
               条件に合うお店が見つかりませんでした。
             </div>
           ) : (
@@ -158,7 +158,7 @@ export default function AreaExplorer({
                   <button
                     type="button"
                     onClick={() => changePage(currentPage - 1)}
-                    className="px-3 py-2 md:px-4 md:py-2.5 rounded-lg text-[13px] md:text-[14px] font-medium bg-[#EDE6DE] text-[#3B2F25] hover:bg-[#6FAA88] hover:text-white transition-colors"
+                    className="px-3 py-2 md:px-4 md:py-2.5 rounded-lg text-[13px] md:text-[14px] font-medium bg-[#F3E6D8] text-[#3E2B23] hover:bg-[#759F88] hover:text-white transition-colors"
                   >
                     前へ
                   </button>
@@ -169,8 +169,8 @@ export default function AreaExplorer({
                       onClick={() => changePage(p)}
                       className={`px-3 py-2 md:px-4 md:py-2.5 rounded-lg text-[13px] md:text-[14px] font-medium transition-colors ${
                         currentPage === p
-                          ? "bg-[#6FAA88] text-white"
-                          : "bg-[#EDE6DE] text-[#3B2F25] hover:bg-[#6FAA88] hover:text-white"
+                          ? "bg-[#759F88] text-white"
+                          : "bg-[#F3E6D8] text-[#3E2B23] hover:bg-[#759F88] hover:text-white"
                       }`}
                     >
                       {p}
@@ -179,7 +179,7 @@ export default function AreaExplorer({
                   <button
                     type="button"
                     onClick={() => changePage(currentPage + 1)}
-                    className="px-3 py-2 md:px-4 md:py-2.5 rounded-lg text-[13px] md:text-[14px] font-medium bg-[#EDE6DE] text-[#3B2F25] hover:bg-[#6FAA88] hover:text-white transition-colors"
+                    className="px-3 py-2 md:px-4 md:py-2.5 rounded-lg text-[13px] md:text-[14px] font-medium bg-[#F3E6D8] text-[#3E2B23] hover:bg-[#759F88] hover:text-white transition-colors"
                   >
                     次へ
                   </button>

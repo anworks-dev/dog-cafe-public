@@ -63,7 +63,7 @@ export default function TermsPage() {
       {/* SP */}
       <div className="md:hidden px-4 py-5 space-y-5">
         <h1
-          className="text-[20px] font-extrabold text-[#3B2F25]"
+          className="text-[20px] font-extrabold text-[#3E2B23]"
           style={{ fontFamily: "Nunito, sans-serif" }}
         >
           利用規約
@@ -72,19 +72,19 @@ export default function TermsPage() {
         {TERMS.map((t) => (
           <div
             key={t.title}
-            className="bg-white rounded-2xl p-4 shadow-[0_1px_4px_rgba(59,47,37,0.07)] space-y-2"
+            className="bg-white rounded-2xl p-4 shadow-[0_1px_4px_rgba(62,43,35,0.07)] space-y-2"
           >
             <p
-              className="text-[15px] font-bold text-[#3B2F25]"
+              className="text-[15px] font-bold text-[#3E2B23]"
               style={{ fontFamily: "Nunito, sans-serif" }}
             >
               {t.title}
             </p>
-            <p className="text-[13px] text-[#9A8878] leading-relaxed">{t.body}</p>
+            <p className="text-[13px] text-[#9A8578] leading-relaxed">{t.body}</p>
             {t.list && (
               <ul className="space-y-1 mt-1">
                 {t.list.map((item) => (
-                  <li key={item} className="text-[13px] text-[#9A8878] flex gap-1.5">
+                  <li key={item} className="text-[13px] text-[#9A8578] flex gap-1.5">
                     <span className="shrink-0">・</span>
                     {item}
                   </li>
@@ -96,7 +96,7 @@ export default function TermsPage() {
 
         <Link
           href="/contact"
-          className="block w-full py-3.5 text-center text-[15px] font-bold text-[#6FAA88] bg-white border-2 border-[#6FAA88] rounded-xl hover:bg-[#ECF4EF] transition-colors"
+          className="block w-full py-3.5 text-center text-[15px] font-bold text-[#759F88] bg-white border-2 border-[#759F88] rounded-xl hover:bg-[#E8F0EB] transition-colors"
         >
           お問い合わせフォームへ
         </Link>
@@ -106,7 +106,7 @@ export default function TermsPage() {
       <div className="hidden md:block">
         <div className="max-w-[960px] mx-auto px-10 py-12 space-y-10">
           <h1
-            className="text-[28px] font-extrabold text-[#3B2F25]"
+            className="text-[28px] font-extrabold text-[#3E2B23]"
             style={{ fontFamily: "Nunito, sans-serif" }}
           >
             利用規約
@@ -116,19 +116,19 @@ export default function TermsPage() {
             {TERMS.map((t) => (
               <div
                 key={t.title}
-                className="space-y-2 pb-8 border-b border-[rgba(59,47,37,0.07)] last:border-0 last:pb-0"
+                className="space-y-2 pb-8 border-b border-[rgba(62,43,35,0.07)] last:border-0 last:pb-0"
               >
                 <p
-                  className="text-[18px] font-bold text-[#3B2F25]"
+                  className="text-[18px] font-bold text-[#3E2B23]"
                   style={{ fontFamily: "Nunito, sans-serif" }}
                 >
                   {t.title}
                 </p>
-                <p className="text-[14px] text-[#9A8878] leading-relaxed">{t.body}</p>
+                <p className="text-[14px] text-[#9A8578] leading-relaxed">{t.body}</p>
                 {t.list && (
                   <ul className="space-y-1 mt-2">
                     {t.list.map((item) => (
-                      <li key={item} className="text-[14px] text-[#9A8878] flex gap-2">
+                      <li key={item} className="text-[14px] text-[#9A8578] flex gap-2">
                         <span className="shrink-0">・</span>
                         {item}
                       </li>
@@ -141,7 +141,7 @@ export default function TermsPage() {
 
           <Link
             href="/contact"
-            className="inline-flex items-center justify-center px-8 py-4 text-[16px] font-bold text-[#6FAA88] bg-white border-2 border-[#6FAA88] rounded-xl hover:bg-[#ECF4EF] transition-colors"
+            className="inline-flex items-center justify-center px-8 py-4 text-[16px] font-bold text-[#759F88] bg-white border-2 border-[#759F88] rounded-xl hover:bg-[#E8F0EB] transition-colors"
           >
             お問い合わせフォームへ
           </Link>

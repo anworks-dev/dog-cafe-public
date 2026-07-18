@@ -20,18 +20,17 @@ import GoogleMapEmbed from "@/components/GoogleMapEmbed";
 import GoogleOpeningHoursSection from "@/components/GoogleOpeningHoursSection";
 import GooglePlaceInfoCard from "@/components/GooglePlaceInfoCard";
 import ReviewCountLink from "@/components/ReviewCountLink";
+import { CTA_BUTTON_CLS, CTA_BUTTON_COMPACT_CLS } from "@/lib/cta";
 import type { GooglePlaceOpeningHours } from "@/lib/google-places";
 import type { Review, ReviewPhoto, Shop, ShopWithCardImage } from "@/lib/types";
 
 const SHOP_DISCLAIMER =
   "掲載情報はユーザー投稿に基づくものです。営業時間・犬同伴条件は変更される場合があります。来店前に必ず公式サイト・Instagram・Google Map等で最新情報をご確認ください。";
 
-const REVIEW_BUTTON_CLS =
-  "block w-full py-4 bg-[#6FAA88] text-white rounded-xl text-[15px] font-bold hover:bg-[#5D9876] active:scale-[0.98] transition-all shadow-sm text-center";
+const REVIEW_BUTTON_CLS = `block w-full py-4 rounded-2xl text-[15px] text-center ${CTA_BUTTON_CLS}`;
 
 /** Compact orange CTA — smaller than TOP hero CTA. */
-const REQUEST_CTA_CLS =
-  "inline-flex items-center justify-center min-h-[44px] px-6 py-2.5 md:px-7 md:py-3 bg-[#E0784A] text-white rounded-xl text-[14px] md:text-[15px] font-bold hover:bg-[#CC6A3D] active:scale-[0.98] transition-all shadow-sm text-center";
+const REQUEST_CTA_CLS = CTA_BUTTON_COMPACT_CLS;
 
 function ShopBreadcrumb({
   shop,
@@ -43,9 +42,9 @@ function ShopBreadcrumb({
   return (
     <nav
       aria-label="パンくずリスト"
-      className="text-[12px] md:text-[13px] text-[#9A8878] flex flex-wrap items-center gap-x-1.5 gap-y-1 mb-3 md:mb-4"
+      className="text-[12px] md:text-[13px] text-[#9A8578] flex flex-wrap items-center gap-x-1.5 gap-y-1 mb-3 md:mb-4"
     >
-      <Link href="/" className="hover:text-[#4A9070] transition-colors shrink-0">
+      <Link href="/" className="hover:text-[#4F856C] transition-colors shrink-0">
         TOP
       </Link>
       <span className="shrink-0" aria-hidden>
@@ -53,7 +52,7 @@ function ShopBreadcrumb({
       </span>
       <Link
         href={prefecturePath(shop.prefecture_slug)}
-        className="hover:text-[#4A9070] transition-colors shrink-0"
+        className="hover:text-[#4F856C] transition-colors shrink-0"
       >
         {shop.prefecture}
       </Link>
@@ -62,7 +61,7 @@ function ShopBreadcrumb({
       </span>
       <Link
         href={areaPath(shop.prefecture_slug, shop.area_slug)}
-        className="hover:text-[#4A9070] transition-colors shrink-0 max-w-[40%] truncate sm:max-w-none sm:overflow-visible sm:whitespace-normal"
+        className="hover:text-[#4F856C] transition-colors shrink-0 max-w-[40%] truncate sm:max-w-none sm:overflow-visible sm:whitespace-normal"
         title={areaLabel}
       >
         {areaLabel}
@@ -71,7 +70,7 @@ function ShopBreadcrumb({
         ›
       </span>
       <span
-        className="text-[#6A5E54] min-w-0 basis-full sm:basis-auto sm:max-w-[min(100%,28rem)] break-words line-clamp-2 sm:line-clamp-none"
+        className="text-[#6B5A50] min-w-0 basis-full sm:basis-auto sm:max-w-[min(100%,28rem)] break-words line-clamp-2 sm:line-clamp-none"
         aria-current="page"
         title={shop.name}
       >
@@ -94,16 +93,16 @@ function RequestListingCta() {
 function DisclaimerBanner({ variant }: { variant: "sp" | "pc" }) {
   return (
     <div
-      className={`flex gap-3 bg-[#FFF3EB] rounded-xl border border-[#F5D5C0] ${
+      className={`warning-banner flex gap-3 rounded-2xl ${
         variant === "sp" ? "p-3.5" : "p-5"
       }`}
     >
       <AlertCircle
         size={variant === "sp" ? 16 : 18}
-        className="text-[#E0784A] shrink-0 mt-0.5"
+        className="text-[var(--warning)] shrink-0 mt-0.5"
       />
       <p
-        className={`text-[#9A6840] leading-relaxed ${
+        className={`leading-relaxed ${
           variant === "sp" ? "text-[12px]" : "text-[13px]"
         }`}
       >
@@ -124,7 +123,7 @@ function ReviewPostedAt({
   if (!label) return null;
   return (
     <p
-      className={`text-[#9A8878] shrink-0 text-right leading-snug ${
+      className={`text-[#9A8578] shrink-0 text-right leading-snug ${
         variant === "sp" ? "text-[10px] max-w-[52%]" : "text-[12px]"
       }`}
     >
@@ -185,8 +184,8 @@ function ReviewList({
 
   const cardCls =
     variant === "sp"
-      ? "bg-white rounded-xl p-4 shadow-[0_1px_3px_rgba(59,47,37,0.07)] space-y-2"
-      : "bg-white rounded-xl p-5 shadow-[0_1px_4px_rgba(59,47,37,0.08)] space-y-3";
+      ? "bg-white rounded-2xl p-4 shadow-[0_2px_8px_rgba(62,43,35,0.06)] border border-[rgba(62,43,35,0.05)] space-y-2"
+      : "bg-white rounded-2xl p-5 shadow-[0_2px_10px_rgba(62,43,35,0.06)] border border-[rgba(62,43,35,0.05)] space-y-3";
 
   return (
     <>
@@ -194,7 +193,7 @@ function ReviewList({
         <div key={review.id} className={cardCls}>
           <div className="flex items-start justify-between gap-2">
             <p
-              className={`font-bold text-[#3B2F25] ${
+              className={`font-bold text-[#3E2B23] ${
                 variant === "sp" ? "text-[13px]" : "text-[14px]"
               }`}
             >
@@ -205,12 +204,12 @@ function ReviewList({
           {reviewShowsMetaTags(review) && (
             <div className={variant === "sp" ? "flex gap-1.5" : "flex gap-2"}>
               {review.dog_size && review.dog_size !== "—" && (
-                <span className="px-2.5 py-1 rounded-full text-[11px] font-semibold border bg-[#ECF4EF] text-[#4A9070] border-[#C5E0D5]">
+                <span className="px-2.5 py-1 rounded-full text-[11px] font-semibold border bg-[#E8F0EB] text-[#4F856C] border-[#BFD4C8]">
                   {review.dog_size}
                 </span>
               )}
               {review.seat_location && review.seat_location !== "—" && (
-                <span className="px-2.5 py-1 rounded-full text-[11px] font-semibold border bg-[#ECF4EF] text-[#4A9070] border-[#C5E0D5]">
+                <span className="px-2.5 py-1 rounded-full text-[11px] font-semibold border bg-[#E8F0EB] text-[#4F856C] border-[#BFD4C8]">
                   {review.seat_location}
                 </span>
               )}
@@ -227,7 +226,7 @@ function ReviewList({
             </p>
           )}
           <p
-            className={`text-[#6A5E54] leading-relaxed whitespace-pre-wrap ${
+            className={`text-[#6B5A50] leading-relaxed whitespace-pre-wrap ${
               variant === "sp" ? "text-[12px]" : "text-[13px]"
             }`}
           >
@@ -250,8 +249,8 @@ function ShopReferenceLink({ url, variant }: { url: string; variant: "sp" | "pc"
   const Icon = kind === "instagram" ? Instagram : kind === "google-map" ? MapPin : Globe;
   const className =
     variant === "sp"
-      ? "inline-flex items-center gap-1 text-[12px] text-[#6FAA88] hover:text-[#4A9070] transition-colors"
-      : "text-[13px] text-[#6FAA88] flex items-center gap-1 hover:text-[#4A9070] transition-colors";
+      ? "inline-flex items-center gap-1 text-[12px] text-[#759F88] hover:text-[#4F856C] transition-colors"
+      : "text-[13px] text-[#759F88] flex items-center gap-1 hover:text-[#4F856C] transition-colors";
   return (
     <a href={url} target="_blank" rel="noopener noreferrer" className={className}>
       <Icon size={12} />
@@ -263,7 +262,7 @@ function ShopReferenceLink({ url, variant }: { url: string; variant: "sp" | "pc"
 function ListingCorrectionNotice({ variant }: { variant: "sp" | "pc" }) {
   return (
     <div className="space-y-1.5">
-      <p className="text-[#9A8878] leading-relaxed text-[12px]">
+      <p className="text-[#9A8578] leading-relaxed text-[12px]">
         掲載情報に誤りがある場合は、以下よりお知らせください。
       </p>
       <Link
@@ -291,31 +290,31 @@ function UnlinkedBasicInfoCard({
   );
 
   return (
-    <div className="bg-white rounded-2xl border border-[rgba(59,47,37,0.1)] p-5 space-y-4">
+    <div className="bg-white rounded-2xl border border-[rgba(62,43,35,0.08)] p-5 space-y-4">
       <p
-        className="text-[16px] font-bold text-[#3B2F25]"
+        className="text-[16px] font-bold text-[#3E2B23]"
         style={{ fontFamily: "Nunito, sans-serif" }}
       >
         基本情報
       </p>
       {shop.access && (
         <div className="space-y-0.5">
-          <p className="text-[12px] text-[#9A8878]">アクセス</p>
-          <p className="text-[14px] text-[#3B2F25] font-medium whitespace-pre-wrap">
+          <p className="text-[12px] text-[#9A8578]">アクセス</p>
+          <p className="text-[14px] text-[#3E2B23] font-medium whitespace-pre-wrap">
             {shop.access}
           </p>
         </div>
       )}
       {location && (
         <div className="space-y-0.5">
-          <p className="text-[12px] text-[#9A8878]">所在地</p>
-          <p className="text-[14px] text-[#3B2F25] font-medium">
+          <p className="text-[12px] text-[#9A8578]">所在地</p>
+          <p className="text-[14px] text-[#3E2B23] font-medium">
             {location}
           </p>
         </div>
       )}
       {references.length > 0 && (
-        <div className="flex flex-wrap gap-4 pt-1 border-t border-[rgba(59,47,37,0.06)]">
+        <div className="flex flex-wrap gap-4 pt-1 border-t border-[rgba(62,43,35,0.06)]">
           {references.map((refUrl) => (
             <ShopReferenceLink key={refUrl} url={refUrl} variant={variant} />
           ))}
@@ -341,7 +340,7 @@ function ShopHeader({
     <div className={variant === "sp" ? "space-y-5" : "space-y-6"}>
       <div className={variant === "sp" ? "space-y-1" : "space-y-2"}>
         <h1
-          className={`font-bold text-[#3B2F25] leading-tight ${
+          className={`font-bold text-[#3E2B23] leading-tight ${
             variant === "sp" ? "text-[20px]" : "text-[28px]"
           }`}
           style={{ fontFamily: "Nunito, sans-serif" }}
@@ -350,7 +349,7 @@ function ShopHeader({
         </h1>
         {location && (
           <p
-            className={`text-[#9A8878] flex items-center gap-1 ${
+            className={`text-[#9A8578] flex items-center gap-1 ${
               variant === "sp" ? "text-[13px]" : "text-[14px] gap-1.5"
             }`}
           >
@@ -371,7 +370,7 @@ function ShopHeader({
 
       {shop.description && (
         <p
-          className={`text-[#6A5E54] leading-relaxed whitespace-pre-wrap ${
+          className={`text-[#6B5A50] leading-relaxed whitespace-pre-wrap ${
             variant === "sp" ? "text-[13px]" : "text-[14px]"
           }`}
         >
@@ -382,7 +381,7 @@ function ShopHeader({
       {shop.google_place_id && (
         <a
           href="#google-place-info"
-          className={`inline-flex items-center gap-1 text-[#6FAA88] hover:text-[#4A9070] transition-colors ${
+          className={`inline-flex items-center gap-1 text-[#759F88] hover:text-[#4F856C] transition-colors ${
             variant === "sp" ? "text-[13px]" : "text-[14px]"
           }`}
         >
@@ -412,7 +411,7 @@ function ReviewSection({
       className={`scroll-mt-24 ${variant === "sp" ? "space-y-3" : "space-y-4"}`}
     >
       <p
-        className={`font-bold text-[#3B2F25] ${
+        className={`font-bold text-[#3E2B23] ${
           variant === "sp" ? "text-[18px]" : "text-[20px]"
         }`}
         style={{ fontFamily: "Nunito, sans-serif" }}
@@ -552,7 +551,7 @@ export default function CafeDetailView({
           {nearby.length > 0 && (
             <div>
               <p
-                className="text-[18px] font-bold text-[#3B2F25] mb-4"
+                className="text-[18px] font-bold text-[#3E2B23] mb-4"
                 style={{ fontFamily: "Nunito, sans-serif" }}
               >
                 近くのカフェ
@@ -609,7 +608,7 @@ export default function CafeDetailView({
               </Link>
               <Link
                 href={areaPath(shop.prefecture_slug, shop.area_slug)}
-                className="text-[13px] text-[#6FAA88] flex items-center gap-1 hover:text-[#4A9070] transition-colors"
+                className="text-[13px] text-[#759F88] flex items-center gap-1 hover:text-[#4F856C] transition-colors"
               >
                 ← 一覧に戻る
               </Link>
@@ -619,7 +618,7 @@ export default function CafeDetailView({
           {nearby.length > 0 && (
             <div className="mt-10">
               <p
-                className="text-[20px] font-bold text-[#3B2F25] mb-4"
+                className="text-[20px] font-bold text-[#3E2B23] mb-4"
                 style={{ fontFamily: "Nunito, sans-serif" }}
               >
                 近くのカフェ

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X, Plus } from "lucide-react";
 import SiteLogoMark from "./SiteLogoMark";
+import { CTA_BUTTON_CLS } from "@/lib/cta";
 
 const PC_HEADER_NAV = [
   { label: "お店を探す", to: "/" },
@@ -30,7 +31,7 @@ export default function SiteHeader() {
         className={`sticky top-0 z-50 bg-white ${
           isHome
             ? ""
-            : "border-b border-[rgba(59,47,37,0.07)] shadow-[0_1px_4px_rgba(59,47,37,0.05)]"
+            : "border-b border-[rgba(62,43,35,0.07)] shadow-[0_1px_4px_rgba(62,43,35,0.05)]"
         }`}
       >
         {/* SP */}
@@ -38,7 +39,7 @@ export default function SiteHeader() {
           <Link href="/" className="flex items-center gap-2">
             <SiteLogoMark size="md" />
             <span
-              className="font-extrabold text-[17px] text-[#3B2F25] tracking-tight"
+              className="font-extrabold text-[17px] text-[#3E2B23] tracking-tight"
               style={{ fontFamily: "Nunito, sans-serif" }}
             >
               犬と行けるカフェ
@@ -46,13 +47,13 @@ export default function SiteHeader() {
           </Link>
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="w-9 h-9 flex items-center justify-center rounded-xl hover:bg-[#FAF8F4] transition-colors"
+            className="w-9 h-9 flex items-center justify-center rounded-2xl hover:bg-[#FAF7F2] transition-colors"
             aria-label={menuOpen ? "メニューを閉じる" : "メニューを開く"}
           >
             {menuOpen ? (
-              <X size={18} className="text-[#3B2F25]" />
+              <X size={18} className="text-[#3E2B23]" />
             ) : (
-              <Menu size={20} className="text-[#3B2F25]" />
+              <Menu size={20} className="text-[#3E2B23]" />
             )}
           </button>
         </div>
@@ -62,7 +63,7 @@ export default function SiteHeader() {
           <Link href="/" className="flex items-center gap-2.5">
             <SiteLogoMark size="lg" />
             <span
-              className="font-extrabold text-[18px] text-[#3B2F25] tracking-tight"
+              className="font-extrabold text-[18px] text-[#3E2B23] tracking-tight"
               style={{ fontFamily: "Nunito, sans-serif" }}
             >
               犬と行けるカフェ
@@ -74,7 +75,7 @@ export default function SiteHeader() {
                 <Link
                   key={`${item.label}-${i}`}
                   href={item.to}
-                  className="text-[14px] text-[#3B2F25] font-medium hover:text-[#6FAA88] transition-colors whitespace-nowrap"
+                  className="text-[14px] text-[#3E2B23] font-medium hover:text-[#759F88] transition-colors whitespace-nowrap"
                 >
                   {item.label}
                 </Link>
@@ -82,7 +83,7 @@ export default function SiteHeader() {
             </nav>
             <Link
               href="/request"
-              className="flex items-center gap-1.5 px-5 py-2.5 bg-[#E0784A] text-white rounded-lg text-[14px] font-bold hover:bg-[#CC6A3D] active:scale-95 transition-all shadow-sm whitespace-nowrap"
+              className={`flex items-center gap-1.5 px-5 py-2.5 rounded-2xl text-[14px] whitespace-nowrap ${CTA_BUTTON_CLS}`}
             >
               <Plus size={14} strokeWidth={3} />
               掲載リクエスト
@@ -93,22 +94,22 @@ export default function SiteHeader() {
 
       {/* SP drawer */}
       {menuOpen && (
-        <div className="md:hidden fixed top-14 left-0 right-0 z-40 bg-white border-b border-[rgba(59,47,37,0.07)] shadow-lg px-4 py-4 space-y-1">
+        <div className="md:hidden fixed top-14 left-0 right-0 z-40 bg-white border-b border-[rgba(62,43,35,0.07)] shadow-lg px-4 py-4 space-y-1">
           {SP_MENU_NAV.map((item, i) => (
             <Link
               key={`${item.label}-${i}`}
               href={item.to}
               onClick={() => setMenuOpen(false)}
-              className="block px-3 py-2.5 rounded-xl text-sm text-[#3B2F25] hover:bg-[#ECF4EF] hover:text-[#4A9070] font-medium transition-colors"
+              className="block px-3 py-2.5 rounded-2xl text-sm text-[#3E2B23] hover:bg-[#E8F0EB] hover:text-[#4F856C] font-medium transition-colors"
             >
               {item.label}
             </Link>
           ))}
-          <div className="pt-2 border-t border-[rgba(59,47,37,0.07)]">
+          <div className="pt-2 border-t border-[rgba(62,43,35,0.07)]">
             <Link
               href="/request"
               onClick={() => setMenuOpen(false)}
-              className="w-full flex items-center justify-center gap-2 py-2.5 bg-[#E0784A] text-white rounded-full text-sm font-bold"
+              className={`w-full flex items-center justify-center gap-2 py-2.5 rounded-full text-sm ${CTA_BUTTON_CLS}`}
             >
               <Plus size={13} strokeWidth={3} />
               掲載リクエスト

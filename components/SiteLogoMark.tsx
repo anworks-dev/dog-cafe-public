@@ -14,7 +14,7 @@ export default function SiteLogoMark({ size = "md", className = "" }: Props) {
 
   return (
     <div
-      className={`${config.box} bg-[#6FAA88] rounded-lg flex items-center justify-center text-white shadow-sm ${className}`}
+      className={`${config.box} bg-[#759F88] rounded-xl flex items-center justify-center text-white shadow-[0_1px_3px_rgba(62,43,35,0.08)] ${className}`}
     >
       <PawPrint size={config.icon} strokeWidth={2.5} />
     </div>
