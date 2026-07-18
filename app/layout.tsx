@@ -3,6 +3,7 @@ import "./globals.css";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import BackToTopButton from "@/components/BackToTopButton";
+import { FloatingDockProvider } from "@/components/FloatingDockContext";
 import { siteUrl } from "@/lib/format";
 
 export const metadata: Metadata = {
@@ -49,10 +50,12 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <SiteHeader />
-        <main className="min-h-[60vh] w-full overflow-x-clip">{children}</main>
-        <SiteFooter />
-        <BackToTopButton />
+        <FloatingDockProvider>
+          <SiteHeader />
+          <main className="min-h-[60vh] w-full overflow-x-clip">{children}</main>
+          <SiteFooter />
+          <BackToTopButton />
+        </FloatingDockProvider>
       </body>
     </html>
   );

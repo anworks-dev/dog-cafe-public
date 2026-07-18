@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { PawPrint } from "lucide-react";
 import AreaExplorer from "@/components/AreaExplorer";
+import CafePugAction from "@/components/CafePugAction";
+import FloatingActions from "@/components/FloatingActions";
 import FvGinghamBand from "@/components/FvGinghamBand";
 import { getApprovedReviewCounts, getPublishedShops, attachShopCardImages } from "@/lib/queries";
 import { siteUrl } from "@/lib/format";
@@ -41,6 +43,10 @@ export default async function ListPage() {
       <div className="pt-6 md:pt-8">
         <AreaExplorer shops={shops} resultLabel="検索結果" reviewCounts={reviewCounts} />
       </div>
+
+      <FloatingActions>
+        <CafePugAction label="掲載リクエスト" href="/request" ariaLabel="掲載リクエストへ進む" />
+      </FloatingActions>
     </>
   );
 }

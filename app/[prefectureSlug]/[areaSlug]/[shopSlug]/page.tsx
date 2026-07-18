@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { notFound, permanentRedirect } from "next/navigation";
 import CafeDetailView from "@/components/CafeDetailView";
+import CafePugAction from "@/components/CafePugAction";
+import FloatingActions from "@/components/FloatingActions";
 import {
   attachShopCardImages,
   getApprovedReviews,
@@ -112,14 +114,23 @@ export default async function ShopDetailPage({
       : null;
 
   return (
-    <CafeDetailView
-      shop={shop}
-      reviews={reviews}
-      photosByReview={photosByReview}
-      nearby={nearby}
-      googleMapEmbedUrl={googleMapEmbedUrl}
-      googlePlaceOpeningHours={googlePlaceOpeningHours}
-      showGoogleHours={Boolean(effectivePlaceId)}
-    />
+    <>
+      <CafeDetailView
+        shop={shop}
+        reviews={reviews}
+        photosByReview={photosByReview}
+        nearby={nearby}
+        googleMapEmbedUrl={googleMapEmbedUrl}
+        googlePlaceOpeningHours={googlePlaceOpeningHours}
+        showGoogleHours={Boolean(effectivePlaceId)}
+      />
+      <FloatingActions>
+        <CafePugAction
+          label="口コミを投稿する"
+          href={`/review/${shop.id}`}
+          ariaLabel={`${shop.name}の口コミを投稿する`}
+        />
+      </FloatingActions>
+    </>
   );
 }

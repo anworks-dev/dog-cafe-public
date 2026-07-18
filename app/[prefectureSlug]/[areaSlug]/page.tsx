@@ -3,6 +3,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PawPrint } from "lucide-react";
 import AreaExplorer from "@/components/AreaExplorer";
+import CafePugAction from "@/components/CafePugAction";
+import FloatingActions from "@/components/FloatingActions";
 import FvGinghamBand from "@/components/FvGinghamBand";
 import {
   attachShopCardImages,
@@ -199,6 +201,10 @@ export default async function PrefectureAreaListPage({
           </Link>
         </div>
       </div>
+
+      <FloatingActions>
+        <CafePugAction label="掲載リクエスト" href="/request" ariaLabel="掲載リクエストへ進む" />
+      </FloatingActions>
     </>
   );
 }
