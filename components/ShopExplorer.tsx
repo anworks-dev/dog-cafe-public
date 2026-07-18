@@ -252,28 +252,67 @@ export default function ShopExplorer({
 
   return (
     <>
-      <div className="relative left-1/2 w-screen -translate-x-1/2 bg-[rgb(237,245,241)]">
+      <div className="relative left-1/2 w-screen -translate-x-1/2 bg-[rgb(237,245,241)] overflow-visible">
         <HeroBackgroundPattern />
-        <div className="relative px-4 md:px-10 lg:px-24 xl:px-40 pt-6 pb-5 md:py-10 lg:py-12">
-          <div className="max-w-[920px] mx-auto">
-            <div className="flex flex-col gap-2 md:gap-3 text-center items-center">
-              <p className="hidden md:flex text-[13px] font-medium text-[#6FAA88] items-center gap-1.5">
+        <div className="relative overflow-visible px-4 md:px-10 lg:px-24 xl:px-40 pt-6 pb-5 md:py-10 lg:py-12">
+          <div className="max-w-[920px] mx-auto overflow-visible">
+            <div className="relative mx-auto flex w-full max-w-[840px] flex-col items-center overflow-visible">
+              <p className="relative z-10 hidden md:flex text-[13px] font-medium text-[#6FAA88] items-center gap-1.5">
                 <PawPrint size={12} strokeWidth={2.5} />
                 犬と一緒に、おでかけしよう
               </p>
-              <h1
-                className="text-[20px] md:text-[32px] font-extrabold text-[#3B2F25] leading-snug md:leading-tight"
-                style={{ fontFamily: "Nunito, sans-serif" }}
-              >
-                愛犬と行けるカフェ・お店を探す
-              </h1>
-              <p className="text-[13px] md:text-[14px] text-[#6A5E54] leading-[1.7] md:leading-relaxed max-w-[17.5rem] md:max-w-none mx-auto md:mx-0">
-                全国のドッグフレンドリーなお店を
-                <br className="md:hidden" />
-                みんなの口コミで見つけよう。
-              </p>
 
-              <div className="w-full max-w-[840px] bg-white rounded-2xl p-4 md:p-5 shadow-sm space-y-3 md:space-y-4 mt-2 text-left">
+              {/* Headline + search card */}
+              <div className="relative w-full overflow-visible">
+                <h1
+                  className="relative z-10 text-[20px] md:text-[32px] font-extrabold text-[#3B2F25] leading-snug md:leading-tight text-center"
+                  style={{ fontFamily: "Nunito, sans-serif" }}
+                >
+                  愛犬と行けるカフェ・お店を探す
+                </h1>
+                <p className="relative z-10 mt-2 md:mt-3 text-[13px] md:text-[14px] text-[#6A5E54] leading-[1.7] md:leading-relaxed max-w-[17.5rem] md:max-w-none mx-auto text-center">
+                  全国のドッグフレンドリーなお店を
+                  <br className="md:hidden" />
+                  みんなの口コミで見つけよう。
+                </p>
+
+                {/*
+                  Outer padding reserves peek space; absolute containing block is
+                  the inner relative (card height only) so paws stay on the card.
+                  On PC, padding is shorter than the pug so the face nests into
+                  the headline’s bottom-left.
+                */}
+                <div className="w-full overflow-visible mt-5 pt-[clamp(2.1rem,6.5vw,2.85rem)] md:mt-2 md:pt-[clamp(2rem,2.8vw,2.5rem)]">
+                  <div className="relative w-full overflow-visible">
+                    {/* PC: peek from card left; clear of title/description */}
+                    <img
+                      src="/images/hero-pug.png"
+                      alt=""
+                      aria-hidden="true"
+                      width={120}
+                      height={93}
+                      draggable={false}
+                      className="pointer-events-none absolute z-20 hidden select-none h-auto md:block
+                        w-[clamp(5.1rem,9vw,6.25rem)]
+                        left-[clamp(3.75rem,calc(12%-1.5rem),5.75rem)]
+                        bottom-[calc(100%-0.7rem)]"
+                    />
+
+                    {/* SP: centered on search card; paws mid-line on card top */}
+                    <img
+                      src="/images/hero-pug.png"
+                      alt=""
+                      aria-hidden="true"
+                      width={120}
+                      height={93}
+                      draggable={false}
+                      className="pointer-events-none absolute z-20 select-none h-auto md:hidden
+                        w-[clamp(3.7rem,17vw,4.35rem)]
+                        left-1/2 -translate-x-1/2
+                        bottom-[calc(100%-clamp(0.28rem,1.5vw,0.4rem))]"
+                    />
+
+                    <div className="relative z-10 w-full bg-white rounded-2xl p-4 md:p-5 shadow-sm space-y-3 md:space-y-4 text-left">
                 <div className="flex flex-col sm:flex-row gap-2 md:gap-3">
                   <label className="relative flex-1 min-w-0">
                     <span className="sr-only">都道府県を選択</span>
@@ -365,6 +404,9 @@ export default function ShopExplorer({
                 >
                   この条件で探す
                 </button>
+                  </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
