@@ -50,9 +50,25 @@ function stripLocationParams(searchParams: URLSearchParams): string {
  * - /?pref=aichi&area=岡崎 → /aichi/okazaki (unique)
  * - /?pref=kanagawa&area=馬車道 → /kanagawa (ambiguous)
  * - /area/okazaki → /aichi/okazaki
+ * - /岡山/shop03 → /okayama/kurashiki/cafe-003
  */
 export async function middleware(request: NextRequest) {
   const { pathname, searchParams } = request.nextUrl;
+
+  // Legacy Japanese shop URL (unicode or percent-encoded)
+  let decodedPath = pathname;
+  try {
+    decodedPath = decodeURIComponent(pathname);
+  } catch {
+    /* keep raw pathname */
+  }
+  if (decodedPath === "/岡山/shop03" || pathname === "/岡山/shop03") {
+    const suffix = searchParams.toString() ? `?${searchParams.toString()}` : "";
+    return NextResponse.redirect(
+      new URL(`/okayama/kurashiki/cafe-003${suffix}`, request.url),
+      301,
+    );
+  }
 
   if (pathname === "/list" && searchParams.has("prefecture")) {
     const pref = (searchParams.get("prefecture") ?? "").trim();
@@ -120,5 +136,13 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/", "/list", "/area/:areaSlug*", "/areas", "/areas/:prefecture*"],
+  matcher: [
+    "/",
+    "/list",
+    "/area/:areaSlug*",
+    "/areas",
+    "/areas/:prefecture*",
+    // Legacy shop path (unicode / percent-encoded / any first segment + shop03)
+    "/:prefecture/shop03",
+  ],
 };
